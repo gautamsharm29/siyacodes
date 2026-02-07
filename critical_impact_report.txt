@@ -1,0 +1,1060 @@
+
+==================== Critical Analysis: ./base/classes9.dex ====================
+
+--- Potential Negative Value / Overflow Logic ---
+Potential UNVALIDATED money op: //the amount to blur, i.e. how far off center to sample from
+  > vec4 sum = vec4(0.0);
+  >
+  > //our original texcoord for this fragment
+  > vec2 tc = vTextureCoord;
+  >
+  > //the amount to blur, i.e. how far off center to sample from
+  > //1.0 -> blur by one pixel
+  > //2.0 -> blur by two pixels, etc.
+  > float blur = radius/resolution;
+  >
+--------------------
+Potential UNVALIDATED money op: balance
+  > badgeNum
+  > badgeSet
+  > badgeStyle
+  > badgeTextColor
+  > badgenumber
+  > balance
+  > balancedConcat
+  > banner
+  > banner_adapter_null_error
+  > banner_auto_loop
+--------------------
+Potential UNVALIDATED money op: balancedConcat
+  > badgeSet
+  > badgeStyle
+  > badgeTextColor
+  > badgenumber
+  > balance
+  > balancedConcat
+  > banner
+  > banner_adapter_null_error
+  > banner_auto_loop
+  > banner_data_key
+--------------------
+Potential UNVALIDATED money op: costCoin
+  > cornerSizeTopLeft
+  > cornerSizeTopRight
+  > correctBits
+  > correctErrors
+  > correctTopRight
+  > costCoin
+  > couldHostRetry
+  > couldRegionRetry
+  > couldReloadInfo
+  > couldReloadSource
+--------------------
+Potential UNVALIDATED money op: price
+  > previousColumn
+  > previousIndex
+  > previousIp
+  > previousLine
+  > previousUploadBytes
+  > price
+  > priceCurrency
+  > priceIncrement
+  > primary
+  > primaryColor
+--------------------
+Potential UNVALIDATED money op: priceCurrency
+  > previousIndex
+  > previousIp
+  > previousLine
+  > previousUploadBytes
+  > price
+  > priceCurrency
+  > priceIncrement
+  > primary
+  > primaryColor
+  > primary_dark_material_dark
+--------------------
+Potential UNVALIDATED money op: priceIncrement
+  > previousIp
+  > previousLine
+  > previousUploadBytes
+  > price
+  > priceCurrency
+  > priceIncrement
+  > primary
+  > primaryColor
+  > primary_dark_material_dark
+  > primary_dark_material_light
+--------------------
+Potential UNVALIDATED money op: 'qmui_bottom_sheet_background_dim_amount
+  > qmui_border_width
+  > qmui_bottomDividerColor
+  > qmui_bottomDividerHeight
+  > qmui_bottomDividerInsetLeft
+  > qmui_bottomDividerInsetRight
+  > 'qmui_bottom_sheet_background_dim_amount
+  > qmui_bottom_sheet_cancel
+  > #qmui_bottom_sheet_cancel_btn_height
+  > qmui_bottom_sheet_cancel_style
+  > qmui_bottom_sheet_dialog
+--------------------
+Potential UNVALIDATED money op: !qmui_dialog_background_dim_amount
+  > "qmui_dialog_action_container_style
+  > qmui_dialog_action_height
+  > qmui_dialog_action_icon_space
+  > qmui_dialog_action_space
+  > qmui_dialog_action_style
+  > !qmui_dialog_background_dim_amount
+  > qmui_dialog_content_id
+  > #qmui_dialog_edit_bottom_line_height
+  > qmui_dialog_edit_content_style
+  > qmui_dialog_edit_input
+--------------------
+Potential UNVALIDATED money op: rebalance
+  > realmeUI
+  > realtimeBackoffMetadataLock
+  > #realtime_backoff_end_time_in_millis
+  > reason
+  > reason_
+  > rebalance
+  > reboundAnimator
+  > recalculate
+  > recallBy
+  > recallMessage
+--------------------
+
+--- Server Impact Indicators (Admin/Backdoor) ---
+Risk: root
+Risk: rootBv
+Risk: <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+Risk: android:name="android.app.device_admin"
+Risk: android:resource="@xml/device_admin_config" />
+Risk: AppRootTheme
+Risk: BIND_DEVICE_ADMIN
+Risk: BindDeviceAdminPermission.java
+Risk: DecorRootView
+Risk: &EXTRA_UCROP_ROOT_VIEW_BACKGROUND_COLOR
+Risk: 3Error locator degree does not match number of roots
+Risk: GROUP_ADD_ADMIN
+Risk: GROUP_REMOVE_ADMIN
+Risk: 'Landroid/app/admin/DeviceAdminReceiver;
+Risk: 'Landroid/app/admin/DevicePolicyManager;
+Risk: DLcom/hjq/permissions/permission/special/BindDeviceAdminPermission$1;
+Risk: BLcom/hjq/permissions/permission/special/BindDeviceAdminPermission;
+Risk: ;Lcom/qmuiteam/qmui/widget/dialog/QMUIBottomSheetRootLayout;
+Risk: TLcom/qmuiteam/qmui/widget/dialog/QMUIDialogRootLayout$OverlayOccurInMeasureCallback;
+Risk: 6Lcom/qmuiteam/qmui/widget/dialog/QMUIDialogRootLayout;
+Risk: =Lcom/qmuiteam/qmui/widget/popup/QMUIFullScreenPopup$RootView;
+Risk: @Lcom/qmuiteam/qmui/widget/popup/QMUINormalPopup$DecorRootView$1;
+Risk: >Lcom/qmuiteam/qmui/widget/popup/QMUINormalPopup$DecorRootView;
+Risk: QMUIBottomSheetRootLayout.java
+Risk: QMUIDialogRootLayout.java
+Risk: ROOT
+Risk: ROOT_FIELD_NUMBER
+Risk: Root
+Risk: RootView
+Risk: SET_OR_RM_ADMIN
+Risk: USER_MUTED_BY_ADMIN
+Risk: VMOS_ROOT_DIR
+Risk: C[Lcom/hjq/permissions/permission/special/BindDeviceAdminPermission;
+Risk: action_bar_root
+Risk: addChatRoomAdmin
+Risk: addChatroomAdmin
+Risk: addGroupAdmin
+Risk: admin
+Risk: anchorRootLocation
+Risk: #android.app.action.ADD_DEVICE_ADMIN
+Risk: 'android.app.action.DEVICE_ADMIN_ENABLED
+Risk: android.app.device_admin
+Risk: android.app.extra.DEVICE_ADMIN
+Risk: $android.permission.BIND_DEVICE_ADMIN
+Risk: "android.permission.BLUETOOTH_ADMIN
+Risk: asyncAddChatRoomAdmin
+Risk: asyncAddGroupAdmin
+Risk: asyncRemoveChatRoomAdmin
+Risk: asyncRemoveGroupAdmin
+Risk: checkRootFragment
+Risk: clearRoot
+Risk: /com.yalantis.ucrop.UcropRootViewBackgroundColor
+Risk: configRootLayout
+Risk: cvRoot
+Risk: fl_root
+Risk: getActivityRoot
+Risk: getAdminList
+Risk: getAdministratorList
+Risk: getBindDeviceAdminPermission
+Risk: getDeviceAdminReceiverClassName
+Risk: getReadMindfulnessPermission
+Risk: getRoot
+Risk: getRootBytes
+Risk: getRootDir
+Risk: getRootDirFile
+Risk: getRootDirectory
+Risk: getRootUrl
+Risk: getRootView
+Risk: getRootWindowInsets
+Risk: initiateRootViews
+Risk: isAdminActive
+Risk: mDeviceAdminReceiverClassName
+Risk: mRootView
+Risk: mRootViewBackgroundColor
+Risk: nativeAddChatroomAdmin
+Risk: nativeAddGroupAdmin
+Risk: nativeGetAdminList
+Risk: nativeGetAdministratorList
+Risk: nativeRemoveChatroomAdmin
+Risk: nativeRemoveGroupAdmin
+Risk: onAddAdmin
+Risk: onAddAdminFromGroup
+Risk: onAdminAdded
+Risk: onAdminRemoved
+Risk: onRemoveAdmin
+Risk: onRemoveAdminFromGroup
+Risk: qmui_dialog_root_layout
+Risk: removeChatRoomAdmin
+Risk: removeGroupAdmin
+Risk: root
+Risk: rootDir
+Risk: rootPath
+Risk: rootView
+Risk: rootViewBg
+Risk: root_
+Risk: setRoot
+Risk: setRootBytes
+Risk: setRootViewBackgroundColor
+Risk: setRootViewKeyListener
+Risk: 2this as java.lang.String).toLowerCase(Locale.ROOT)
+Risk: val$activityRoot
+Risk: val$admin
+Risk: val$flRoot
+Risk: Ayour root view is null, init call timing is after onCreateView()!
+Risk: Root
+
+--- Credential Leaks (100% Impact) ---
+Leak Candidate: API_KEY_HEADER
+Leak Candidate: com.vivo.push.api_key
+
+==================== Critical Analysis: ./base/classes.dex ====================
+
+--- Potential Negative Value / Overflow Logic ---
+Potential UNVALIDATED money op: SFailed to copy the given amount of bytes from the inputstream to the output stream.
+  > lFailed to call Handler.hasCallbacks(), but there is no safe failure mode for this method. Raising exception.
+  > #Failed to call Surface.setFrameRate
+  > Failed to call observer method
+  > "Failed to close file output stream
+  > )Failed to copy original file to temp file
+  > SFailed to copy the given amount of bytes from the inputstream to the output stream.
+  > Failed to create EGL context: 0x
+  > Failed to create UID file:
+  > Failed to create cache UID:
+  > "Failed to create cache directory:
+--------------------
+Potential UNVALIDATED money op: ai_balanced
+  > aiCommon param:
+  > aiSse onCompleted
+  > aiSse onFailure:
+  > aiSse onSseLine:
+  > ai_aggressive
+  > ai_balanced
+  > aidl-1
+  > airplane_mode_on
+  > ak-twi
+  > akbps
+--------------------
+Potential UNVALIDATED money op: balance
+  > backwardPass
+  > backwardTransition
+  > backwards
+  > bad character encoding
+  > bad rsv RSV1:
+  > balance
+  > balancedConcat
+  > bandwidth
+  > bandwidthBytes
+  > bandwidthEstimate
+--------------------
+Potential UNVALIDATED money op: balancedConcat
+  > backwardTransition
+  > backwards
+  > bad character encoding
+  > bad rsv RSV1:
+  > balance
+  > balancedConcat
+  > bandwidth
+  > bandwidthBytes
+  > bandwidthEstimate
+  > bandwidthEstimator
+--------------------
+
+--- Server Impact Indicators (Admin/Backdoor) ---
+Risk: mRootHints=
+Risk: mRootId=
+Risk: 2BROWSER_ROOT_HINTS_KEY_CUSTOM_BROWSER_ACTION_LIMIT
+Risk: ,BROWSER_ROOT_HINTS_KEY_MEDIA_ART_SIZE_PIXELS
+Risk: *BROWSER_ROOT_HINTS_KEY_ROOT_CHILDREN_LIMIT
+Risk: 4BROWSER_ROOT_HINTS_KEY_ROOT_CHILDREN_SUPPORTED_FLAGS
+Risk: :BROWSER_SERVICE_EXTRAS_KEY_CUSTOM_BROWSER_ACTION_ROOT_LIST
+Risk: BrowserRoot
+Risk: DATA_ROOT_HINTS
+Risk: DEFAULT_ROOT_SIZE
+Risk: DEVICE_ROOT
+Risk: -Failed to find configured root that contains
+Risk: Failed to get visible insets. getViewRootImpl() returned null from the provided view. This means that the view is either not attached or the method has been overridden
+Risk: 'Landroid/app/admin/DevicePolicyManager;
+Risk: 7Landroid/service/media/MediaBrowserService$BrowserRoot;
+Risk: 6Landroidx/media/MediaBrowserServiceCompat$BrowserRoot;
+Risk: No root for client
+Risk: ROOT
+Risk: ROOT_FIELD_NUMBER
+Risk: +Resolved path jumped beyond configured root
+Risk: Root:
+Risk: TAG_ROOT_PATH
+Risk: KThe root id in BrowserRoot cannot be null. Use null for BrowserRoot instead
+Risk: jThis should be called inside of onGetRoot, onLoadChildren, onLoadItem, onSearch, or onCustomAction methods
+Risk: #Unable to find configured root for
+Risk: action_bar_root
+Risk: addRoot
+Risk: android.view.ViewRootImpl
+Risk: Vandroidx.media.BrowserRoot.Extras.APPLICATION_PREFERENCES_USING_CAR_APP_LIBRARY_INTENT
+Risk: 6androidx.media.BrowserRoot.Extras.FAVORITES_MEDIA_ITEM
+Risk: @androidx.media.MediaBrowserCompat.Extras.KEY_ROOT_CHILDREN_LIMIT
+Risk: Jandroidx.media.MediaBrowserCompat.Extras.KEY_ROOT_CHILDREN_SUPPORTED_FLAGS
+Risk: ;androidx.media.utils.extras.CUSTOM_BROWSER_ACTION_ROOT_LIST
+Risk: belongsToRoot
+Risk: clearRoot
+Risk: copyRootViewBounds
+Risk: data_root_hints
+Risk: getAppRootView
+Risk: getBrowserRootHints
+Risk: getFlRoot
+Risk: getRoot
+Risk: +getRoot() called while not connected(state=
+Risk: getRootAsMetadataItem
+Risk: getRootAsMetadataList
+Risk: getRootBytes
+Risk: getRootConstraintContainer
+Risk: getRootId
+Risk: getRootMeanSquare
+Risk: getRootMenu
+Risk: getRootNode
+Risk: getRootStableInsets
+Risk: getRootView
+Risk: getRootWindowInsets
+Risk: getRootX
+Risk: getRootY
+Risk: getViewRootImpl
+Risk: invalidateRoot
+Risk: isRoot
+Risk: mFlRoot
+Risk: mRootExtrasList
+Risk: mRootHints
+Risk: mRootId
+Risk: mRootNode
+Risk: mRootViewVisibleInsets
+Risk: mRootWindowInsets
+Risk: mRoots
+Risk: makeRootDirectory
+Risk: onGetRoot
+Risk: root
+Risk: root-path
+Risk: rootHints
+Risk: rootIterator
+Risk: root_
+Risk: sGetViewRootImplMethod
+Risk: setRoot
+Risk: setRootBytes
+Risk: setRootViewData
+Risk: setRootWindowInsets
+Risk: 2this as java.lang.String).toUpperCase(Locale.ROOT)
+Risk: val$rootHints
+
+--- Credential Leaks (100% Impact) ---
+Leak Candidate: API_KEY_HEADER_KEY
+Leak Candidate: DEFAULT_API_KEY
+
+==================== Critical Analysis: ./split_config.arm64_v8a/lib/arm64-v8a/libmo-im-core.so ====================
+
+--- Potential Negative Value / Overflow Logic ---
+
+--- Server Impact Indicators (Admin/Backdoor) ---
+Risk: root ca not trusted
+Risk: setct-BatchAdminReqData
+Risk: setct-BatchAdminResData
+Risk: set-policy-root
+Risk: setct-BatchAdminResTBE
+Risk: trustRoot
+Risk: setCext-hashedRoot
+Risk: Trust Root
+Risk: setct-BatchAdminReqTBE
+Risk: set-rootKeyThumb
+
+--- Credential Leaks (100% Impact) ---
+Leak Candidate: derive_secret_key_and_iv
+
+==================== Critical Analysis: ./split_config.arm64_v8a/lib/arm64-v8a/libsud.so ====================
+
+--- Potential Negative Value / Overflow Logic ---
+Potential UNVALIDATED money op: parser_ablation_amount
+  > slow_debug_code
+  > enable compiler dispatcher (experimental)
+  > cpu_profiler_sampling_interval
+  > truncate strings to this length in the heap snapshot
+  > enable_preparser_ablation
+  > parser_ablation_amount
+  > abort_on_far_code_range
+  > recognize regexps with 'l' flag, run them on experimental engine
+  > float-flag
+  > testing_string_flag
+--------------------
+Potential UNVALIDATED money op: bytecode_compiler_ablation_amount
+  > allow invoking the function constructor without security checks
+  > trace javascript function calls
+  > trace the optimization status of functions during tiering events
+  > trace_serializer
+  > mega_dom_ic
+  > bytecode_compiler_ablation_amount
+  > trace_regexp_assembler
+  > target_is_simulator
+  > multi_mapped_mock_allocator
+  > enable possessive quantifier syntax for testing
+--------------------
+Potential UNVALIDATED money op: evacuate.rebalance
+  > native context map
+  > start_object_size
+  > allocated
+  > nodes_died_in_new
+  > clear.weak_references_non_trivial
+  > evacuate.rebalance
+  > incremental_steps_count
+  > *bucket_index < (num_buckets())
+  > ../../src/heap/heap.cc
+  > TURBOSHAFT_FLOAT64_TYPE_TYPE
+--------------------
+Potential UNVALIDATED money op: amount_of_external_allocated_memory
+  > isMutex
+  > Circular extension dependency
+  > Read-only strings cannot be externalized.
+  > map_space_bytes_used
+  > number_string_cache_double_probes
+  > amount_of_external_allocated_memory
+  > generator_next_internal
+  > float32_array_fun
+  > rab_gsab_float16_array_map
+  > intl_collator_function
+--------------------
+Potential UNVALIDATED money op: preparser_ablation_amount
+  > enable deserializing code caches on background
+  > expose cputracemark extension under the specified name
+  > enable testing the function context size overflow path by making the maximum size smaller
+  > When logging, try to use coloured output.
+  > Write a heap snapshot to disk on last-resort GCs
+  > preparser_ablation_amount
+  > rehash_snapshot
+  > better_code_range_allocation
+  > Trace the snapshot deserialization.
+  > trace_regexp_graph
+--------------------
+Potential UNVALIDATED money op: use membalancer, a new heap limit balancing algorithm
+  > allocation_buffer_parking
+  > Perform compaction on full GCs based on V8's default heuristics
+  > Shortcut Strings during GC with stack
+  > flush of bytecode when it has not been executed recently
+  > gc_experiment_less_compaction
+  > use membalancer, a new heap limit balancing algorithm
+  > lazy
+  > log_maps
+  > trace RAIL mode
+  > print exception object and stack trace on each thrown exception
+--------------------
+Potential UNVALIDATED money op: ../../src/heap/memory-balancer.cc
+  > Starting major concurrent marking task %d
+  > CanBeStarted()
+  > [IncrementalMarking] (MinorMS) Start marking
+  > local_weak_objects()->next_ephemerons_local.IsLocalEmpty()
+  > UseBackgroundThreads
+  > ../../src/heap/memory-balancer.cc
+  > Memory reducer: finished GC #%d (%s)
+  > V8.GC_MINOR_MS_CLEAR_WEAK_GLOBAL_HANDLES
+  > V8.GC_MINOR_MS_FINISH_ENSURE_CAPACITY
+  > IsAligned(pos, kRegularPageSize)
+--------------------
+Potential UNVALIDATED money op: report a tick only when allocated zone memory changes by this amount
+  > optimize control flow in TurboFan
+  > inline Wasm code into JS functions via Turboshaft (instead of via TurboFan). Only the Wasm code is inlined in Turboshaft, the JS-to-Wasm wrappers are still inlined in TurboFan. For controlling whether to inline at all, see --turbo-inline-js-wasm-calls. (experimental)
+  > cppgc_random_gc_interval
+  > report fragmentation for old space
+  > parallel_weak_ref_clearing
+  > report a tick only when allocated zone memory changes by this amount
+  > flush_bytecode
+  > number of gcs before we flush code
+  > memory_pool
+  > force scavenge at random points between 0 and X (inclusive) percent of the new space capacity
+--------------------
+Potential UNVALIDATED money op: c value for membalancer. A special constant to balance between memory and space tradeoff. The smaller the more memory it uses.
+  > flush_bytecode
+  > number of gcs before we flush code
+  > memory_pool
+  > force scavenge at random points between 0 and X (inclusive) percent of the new space capacity
+  > disable_abortjs
+  > c value for membalancer. A special constant to balance between memory and space tradeoff. The smaller the more memory it uses.
+  > enable_32dregs
+  > script_streaming
+  > lazy_streaming
+  > trace_opt
+--------------------
+Potential UNVALIDATED money op: print memory balancer behavior.
+  > track object counts and memory usage
+  > track_detached_contexts
+  > move_object_start
+  > external_memory_max_growing_factor
+  > trace_context_disposal
+  > print memory balancer behavior.
+  > enable parsing on background
+  > switch_table_min_cases
+  > trace optimized compilation statistics
+  > async_stack_traces
+--------------------
+Potential UNVALIDATED money op: trace_memory_balancer
+  > trace stress marking progress
+  > use memory reducer
+  > specifies heap growing factor as (1 + heap_growing_percent/100)
+  > trace bytecode flushing
+  > concurrent_marking_high_priority_threads
+  > trace_memory_balancer
+  > code_comments
+  > enable mitigation for Intel JCC erratum on affected CPUs
+  > enable_source_at_csa_bind
+  > expose_cputracemark_as
+--------------------
+Potential UNVALIDATED money op: memory_balancer
+  > use tasks for incremental marking
+  > use parallel compaction
+  > Maximum number of memory reducer GCs scheduled
+  > flush of baseline code when it has not been executed recently
+  > discard the memory pool before invoking the GC on memory pressure or last resort GCs
+  > memory_balancer
+  > enable use of AVX2 instructions if available
+  > intel_jcc_erratum_mitigation
+  > merge_background_deserialized_script_with_compilation_cache
+  > expose_trigger_failure
+--------------------
+Potential UNVALIDATED money op: static_cast<int64_t>(amount_before) >= -delta
+  > JS_OBJECT_BOILERPLATE_TYPE
+  > MAP_DEPRECATED_TYPE
+  > MAP_DICTIONARY_TYPE
+  > MAP_STABLE_TYPE
+  > , performing young gen GC
+  > static_cast<int64_t>(amount_before) >= -delta
+  > Failed to allocate code range close to the .text section
+  > contains(address, size)
+  > v8_flags.incremental_marking_task
+  > V8.GCMinorIncrementalMarkingStart
+--------------------
+Potential UNVALIDATED money op: memory_balancer_c_value
+  > memory_reducer_gc_count
+  > Flush code when tab goes into the background.
+  > stress_incremental_marking
+  > idle_gc_on_context_disposal
+  > trace context disposal
+  > memory_balancer_c_value
+  > enable_sahf
+  > enable use of AVX-VNNI-INT8 instructions if available
+  > stack_trace_limit
+  > trace_opt_verbose
+--------------------
+
+--- Server Impact Indicators (Admin/Backdoor) ---
+Risk: _ZN2v88internal15CustomArgumentsINS_20PropertyCallbackInfoINS_5ValueEEEE15IterateInstanceEPNS0_11RootVisitorE
+Risk: _ZN2v88internal15CustomArgumentsINS_20FunctionCallbackInfoINS_5ValueEEEE15IterateInstanceEPNS0_11RootVisitorE
+Risk: _ZN2v88internal11Relocatable15IterateInstanceEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal3Map24GetPrototypeChainRootMapEPNS0_7IsolateE
+Risk: _ZN2v88internal7Isolate9SymbolForENS0_9RootIndexENS0_6HandleINS0_6StringEEEb
+Risk: _ZN2v87Isolate23SetEmbedderRootsHandlerEPNS_20EmbedderRootsHandlerE
+Risk: _ZN2v88internal4Heap23SetEmbedderRootsHandlerEPNS_20EmbedderRootsHandlerE
+Risk: _ZNK2v810CpuProfile14GetTopDownRootEv
+Risk: _ZNK2v812HeapSnapshot7GetRootEv
+Risk: _ZN2v88internal22HandleScopeImplementer11IterateThisEPNS0_11RootVisitorE
+Risk: _ZN2v88internal22HandleScopeImplementer7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal22HandleScopeImplementer7IterateEPNS0_11RootVisitorEPc
+Risk: _ZN2v88internal28CompilationCacheEvalOrScript7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal22CompilationCacheRegExp7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal16CompilationCache7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal23StrongRootAllocatorBase13allocate_implEm
+Risk: _ZN2v88internal23StrongRootAllocatorBase15deallocate_implEPmm
+Risk: _ZNK2v88internal17ExternalReference25offset_from_root_registerEv
+Risk: _ZN2v88internal17ExternalReference12isolate_rootEPNS0_7IsolateE
+Risk: _ZN2v88internal18MacroAssemblerBase28RootRegisterOffsetForBuiltinENS0_7BuiltinE
+Risk: _ZN2v88internal18MacroAssemblerBase32IsAddressableThroughRootRegisterEPNS0_7IsolateERKNS0_17ExternalReferenceE
+Risk: _ZN2v88internal18MacroAssemblerBase38RootRegisterOffsetForExternalReferenceEPNS0_7IsolateERKNS0_17ExternalReferenceE
+Risk: _ZN2v88internal18MacroAssemblerBase48RootRegisterOffsetForExternalReferenceTableEntryEPNS0_7IsolateERKNS0_17ExternalReferenceE
+Risk: _ZN2v88internal18MacroAssemblerBase30RootRegisterOffsetForRootIndexENS0_9RootIndexE
+Risk: _ZN2v88internal18MacroAssemblerBase15ReadOnlyRootPtrENS0_9RootIndexEPNS0_7IsolateE
+Risk: _ZN2v88internal18MacroAssemblerBase15ReadOnlyRootPtrENS0_9RootIndexE
+Risk: _ZN2v88internal5Debug7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal5Debug7IterateEPNS0_11RootVisitorEPNS1_11ThreadLocalE
+Risk: _ZN2v88internal5Debug7IterateEPNS0_11RootVisitorEPc
+Risk: _ZNK2v88internal23TypedFrameWithJSLinkage7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal11CommonFrame18IterateExpressionsEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal10StackFrame9IteratePcEPNS0_11RootVisitorEPmNS0_6TaggedINS0_10GcSafeCodeEEE
+Risk: _ZNK2v88internal14ConstructFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal9ExitFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal10TypedFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal11MaglevFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal11CommonFrame31IterateTurbofanJSOptimizedFrameEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal28TurbofanStubWithContextFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal15TurbofanJSFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal10EntryFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal15JavaScriptFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal13InternalFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal11NativeFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZNK2v88internal13IrregexpFrame7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal7Isolate7IterateEPNS0_11RootVisitorEPc
+Risk: _ZN2v88internal7Isolate7IterateEPNS0_11RootVisitorEPNS0_14ThreadLocalTopE
+Risk: _ZN2v88internal7Isolate7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal7Isolate17VerifyStaticRootsEv
+Risk: _ZN2v88internal11RootVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZN2v88internal11RootVisitor17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES5_
+Risk: _ZN2v88internal11RootVisitor16VisitRunningCodeENS0_14FullObjectSlotES2_
+Risk: _ZNK2v88internal11RootVisitor9collectorEv
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES7_
+Risk: _ZN2v88internal9HashTableINS0_14NameDictionaryENS0_19NameDictionaryShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_16GlobalDictionaryENS0_21GlobalDictionaryShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_20SimpleNameDictionaryENS0_25SimpleNameDictionaryShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_20NameToIndexHashTableENS0_16NameToIndexShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal14MicrotaskQueue17IterateMicrotasksEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13ThreadManager7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal11Relocatable7IterateEPNS0_11RootVisitorEPc
+Risk: _ZN2v88internal13GlobalHandles33IterateWeakRootsForPhantomHandlesEPFbPNS0_4HeapENS0_14FullObjectSlotEE
+Risk: _ZN2v88internal13GlobalHandles35IterateYoungStrongAndDependentRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13GlobalHandles23ProcessWeakYoungObjectsEPNS0_11RootVisitorEPFbPNS0_4HeapENS0_14FullObjectSlotEE
+Risk: _ZN2v88internal13GlobalHandles18IterateStrongRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13GlobalHandles16IterateWeakRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13GlobalHandles15IterateAllRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13GlobalHandles20IterateAllYoungRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13GlobalHandles25IterateAllRootsForTestingEPNS_23PersistentHandleVisitorE
+Risk: _ZN2v88internal14EternalHandles15IterateAllRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal14EternalHandles17IterateYoungRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal12LocalHandles7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal17PersistentHandles7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal21PersistentHandlesList7IterateEPNS0_11RootVisitorEPNS0_7IsolateE
+Risk: _ZNK2v88internal4Heap23GetEmbedderRootsHandlerEv
+Risk: _ZN2v88internal13TracedHandles23ProcessWeakYoungObjectsEPNS0_11RootVisitorEPFbPNS0_4HeapENS0_14FullObjectSlotEE
+Risk: _ZN2v88internal13TracedHandles7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13TracedHandles12IterateYoungEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13TracedHandles17IterateYoungRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13TracedHandles36IterateAndMarkYoungRootsWithOldHostsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal13TracedHandles39IterateYoungRootsWithOldHostsForTestingEPNS0_11RootVisitorE
+Risk: _ZN2v88internal19CppGraphBuilderImpl25VisitRootForGraphBuildingERNS0_9RootStateERKN5cppgc8internal16HeapObjectHeaderERKNS_14SourceLocationE
+Risk: _ZN2v88internal19CppGraphBuilderImpl11AddRootEdgeERNS0_9RootStateERNS0_5StateENSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE
+Risk: _ZTVN2v88internal16EmbedderRootNodeE
+Risk: _ZN2v88internal12StateStorage15CreateRootStateEPNS0_16EmbedderRootNodeE
+Risk: _ZTVN2v88internal24GraphBuildingRootVisitorE
+Risk: _ZTVN2v88internal9RootStateE
+Risk: _ZN5cppgc8internal20PersistentRegionBase7IterateERNS0_11RootVisitorE
+Risk: _ZN5cppgc8internal27CrossThreadPersistentRegion7IterateERNS0_11RootVisitorE
+Risk: _ZN2v813EmbedderGraph4Node10IsRootNodeEv
+Risk: _ZN2v88internal9RootStateD0Ev
+Risk: _ZN2v88internal16EmbedderRootNodeD0Ev
+Risk: _ZN2v88internal16EmbedderRootNode10IsRootNodeEv
+Risk: _ZN5cppgc8internal11RootVisitorD2Ev
+Risk: _ZN2v88internal24GraphBuildingRootVisitorD0Ev
+Risk: _ZN2v88internal24GraphBuildingRootVisitor9VisitRootEPKvN5cppgc15TraceDescriptorERKNS_14SourceLocationE
+Risk: _ZN5cppgc8internal11RootVisitor13VisitWeakRootEPKvNS_15TraceDescriptorEPFvRKNS_14LivenessBrokerES3_ES3_RKN2v814SourceLocationE
+Risk: _ZN2v88internal11FactoryBaseINS0_7FactoryEE15read_only_rootsEv
+Risk: _ZN2v88internal11FactoryBaseINS0_12LocalFactoryEE15read_only_rootsEv
+Risk: _ZN2v88internal3Map19TryGetMapRootIdxForENS0_12InstanceTypeE
+Risk: _ZN2v88internal11FactoryBaseINS0_7FactoryEE17NewStructInternalENS0_13ReadOnlyRootsENS0_6TaggedINS0_3MapEEEiNS0_14AllocationTypeE
+Risk: _ZN2v88internal18SharedFunctionInfo9SetScriptENS0_17IsolateForSandboxENS0_13ReadOnlyRootsENS0_6TaggedINS0_10HeapObjectEEEib
+Risk: _ZN2v88internal18SharedFunctionInfo4InitENS0_13ReadOnlyRootsEi
+Risk: _ZN2v88internal11FactoryBaseINS0_12LocalFactoryEE17NewStructInternalENS0_13ReadOnlyRootsENS0_6TaggedINS0_3MapEEEiNS0_14AllocationTypeE
+Risk: _ZN2v88internal7Factory13InitializeMapENS0_6TaggedINS0_3MapEEENS0_12InstanceTypeEiNS0_12ElementsKindEiNS0_13ReadOnlyRootsE
+Risk: _ZN2v88internal13DependentCode20empty_dependent_codeERKNS0_13ReadOnlyRootsE
+Risk: _ZN2v88internal10RootsTable14FindHeapNumberEd
+Risk: _ZN2v88internal3Map40TransitionRootMapToPrototypeForNewObjectEPNS0_7IsolateENS0_12DirectHandleIS1_EENS4_INS0_5UnionIJNS0_10JSReceiverENS0_4NullEEEEEE
+Risk: _ZN2v88internal13ReadOnlyRoots27one_pointer_filler_map_wordEv
+Risk: _ZNK2v88internal3Map11FindRootMapENS0_16PtrComprCageBaseE
+Risk: _ZN2v88internal7Factory28EmptyStringRootIsInitializedEv
+Risk: _ZN2v88internal4Heap19ExternalStringTable12IterateYoungEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap19ExternalStringTable10IterateAllEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap20ProcessWeakListRootsEPNS0_18WeakObjectRetainerE
+Risk: _ZN2v88internal4Heap16IterateWeakRootsEPNS0_11RootVisitorENS_4base7EnumSetINS0_8SkipRootEiEE
+Risk: _ZN2v88internal11StringTable15IterateElementsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal24SharedStructTypeRegistry15IterateElementsEPNS0_7IsolateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap15IterateSmiRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal35ClearStaleLeftTrimmedPointerVisitorC2EPNS0_4HeapEPNS0_11RootVisitorE
+Risk: _ZN2v88internal35ClearStaleLeftTrimmedPointerVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZN2v88internal35ClearStaleLeftTrimmedPointerVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal4Heap12IterateRootsEPNS0_11RootVisitorENS_4base7EnumSetINS0_8SkipRootEiEENS1_16IterateRootsModeE
+Risk: _ZN2v88internal12Bootstrapper7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal11Relocatable7IterateEPNS0_7IsolateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap15IterateBuiltinsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal35ClearStaleLeftTrimmedPointerVisitorC1EPNS0_4HeapEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap29IterateConservativeStackRootsEPN4heap4base12StackVisitorENS1_13StackScanModeE
+Risk: _ZN2v88internal16IsolateSafepoint7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal22SerializerDeserializer25IterateStartupObjectCacheEPNS0_7IsolateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal22SerializerDeserializer28IterateSharedHeapObjectCacheEPNS0_7IsolateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap17IterateStackRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap29IterateConservativeStackRootsEPNS0_11RootVisitorENS1_16IterateRootsModeE
+Risk: _ZN2v88internal4Heap28IterateRootsIncludingClientsEPNS0_11RootVisitorENS_4base7EnumSetINS0_8SkipRootEiEE
+Risk: _ZTVN2v88internal17ClientRootVisitorINS0_11RootVisitorEEE
+Risk: _ZN2v88internal4Heap24IterateWeakGlobalHandlesEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap29IterateRootsForPrecisePinningEPNS0_11RootVisitorE
+Risk: _ZN2v88internal4Heap19RegisterStrongRootsEPKcNS0_14FullObjectSlotES4_
+Risk: _ZN2v88internal4Heap17UpdateStrongRootsEPNS0_16StrongRootsEntryENS0_14FullObjectSlotES4_
+Risk: _ZN2v88internal4Heap21UnregisterStrongRootsEPNS0_16StrongRootsEntryE
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC2EPNS0_9LocalHeapE
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC2EPNS0_7IsolateE
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC2EPNS_7IsolateE
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC2EPNS0_12LocalIsolateE
+Risk: _ZN2v88internal11RootVisitor11SynchronizeENS0_22VisitorSynchronization7SyncTagE
+Risk: _ZN2v88internal23CheckHandleCountVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal11RootVisitorD2Ev
+Risk: _ZN2v88internal17ClientRootVisitorINS0_11RootVisitorEED0Ev
+Risk: _ZN2v88internal17ClientRootVisitorINS0_11RootVisitorEE17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES7_
+Risk: _ZN2v88internal17ClientRootVisitorINS0_11RootVisitorEE17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES7_
+Risk: _ZN2v88internal17ClientRootVisitorINS0_11RootVisitorEE16VisitRunningCodeENS0_14FullObjectSlotES4_
+Risk: _ZN2v88internal17ClientRootVisitorINS0_11RootVisitorEE11SynchronizeENS0_22VisitorSynchronization7SyncTagE
+Risk: _ZN2v88internal24UnreachableObjectsFilter14MarkingVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES6_
+Risk: _ZN2v88internal24UnreachableObjectsFilter14MarkingVisitor17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES6_
+Risk: _ZThn8_N2v88internal24UnreachableObjectsFilter14MarkingVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES6_
+Risk: _ZThn8_N2v88internal24UnreachableObjectsFilter14MarkingVisitor17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES6_
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC1EPNS0_9LocalHeapE
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC1EPNS0_7IsolateE
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC1EPNS_7IsolateE
+Risk: _ZN2v88internal23StrongRootAllocatorBaseC1EPNS0_12LocalIsolateE
+Risk: _ZN2v88internal18IncrementalMarking9MarkRootsEv
+Risk: _ZN2v88internal18RootMarkingVisitorC1EPNS0_20MarkCompactCollectorE
+Risk: _ZN2v88internal18RootMarkingVisitorD1Ev
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitorC1EPNS0_23MinorMarkSweepCollectorE
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitorD1Ev
+Risk: _ZN2v88internal18IncrementalMarking19MarkRootsForTestingEv
+Risk: _ZN2v84base11SmallVectorIPNS_8internal15GCRootsProviderELm4ENSt6__ndk19allocatorIS4_EEE11FreeStorageEv
+Risk: _ZN2v88internal9LocalHeap7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal20MarkCompactCollector9MarkRootsEPNS0_11RootVisitorE
+Risk: _ZN2v88internal20MarkCompactCollector30MarkRootsFromConservativeStackEPNS0_11RootVisitorE
+Risk: _ZTVN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitorE
+Risk: _ZN2v88internal20MarkCompactCollector23PinPreciseRootsIfNeededEv
+Risk: _ZN2v88internal18RootMarkingVisitorC2EPNS0_20MarkCompactCollectorE
+Risk: _ZTVN2v88internal18RootMarkingVisitorE
+Risk: _ZN2v88internal18RootMarkingVisitorD2Ev
+Risk: _ZN2v88internal18RootMarkingVisitorD0Ev
+Risk: _ZN2v88internal18RootMarkingVisitor16VisitRunningCodeENS0_14FullObjectSlotES2_
+Risk: _ZN2v88internal18RootMarkingVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZN2v88internal18RootMarkingVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitorD0Ev
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitor13VisitPointersENS0_6TaggedINS0_10HeapObjectEEENS0_14FullObjectSlotES6_
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitor13VisitPointersENS0_6TaggedINS0_10HeapObjectEEENS0_19FullMaybeObjectSlotES6_
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitor29VisitInstructionStreamPointerENS0_6TaggedINS0_4CodeEEENS0_21OffHeapFullObjectSlotE
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitor12VisitPointerENS0_6TaggedINS0_10HeapObjectEEENS0_14FullObjectSlotE
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitor15VisitCodeTargetENS0_6TaggedINS0_17InstructionStreamEEEPNS0_9RelocInfoE
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitor20VisitEmbeddedPointerENS0_6TaggedINS0_17InstructionStreamEEEPNS0_9RelocInfoE
+Risk: _ZN2v88internal20MarkCompactCollector28CustomRootBodyMarkingVisitor15VisitMapPointerENS0_6TaggedINS0_10HeapObjectEEE
+Risk: _ZN2v88internal25PrecisePagePinningVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal25PrecisePagePinningVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZN2v88internal23PointersUpdatingVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZN2v88internal23PointersUpdatingVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal23PointersUpdatingVisitor17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES5_
+Risk: _ZThn8_N2v88internal23PointersUpdatingVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZThn8_N2v88internal23PointersUpdatingVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZThn8_N2v88internal23PointersUpdatingVisitor17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES5_
+Risk: _ZN2v88internal30InternalizedStringTableCleaner17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal30InternalizedStringTableCleaner17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES5_
+Risk: _ZN2v88internal33ExternalStringTableCleanerVisitorILNS0_31ExternalStringTableCleaningModeE0EE17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES7_
+Risk: _ZN2v88internal33ExternalStringTableCleanerVisitorILNS0_31ExternalStringTableCleaningModeE1EE17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES7_
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitorC2EPNS0_23MinorMarkSweepCollectorE
+Risk: _ZTVN2v88internal33YoungGenerationRootMarkingVisitorE
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitorD2Ev
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitorD0Ev
+Risk: _ZN2v88internal23MinorMarkSweepCollector9MarkRootsERNS0_33YoungGenerationRootMarkingVisitorEb
+Risk: _ZN2v88internal23MinorMarkSweepCollector30MarkRootsFromConservativeStackERNS0_33YoungGenerationRootMarkingVisitorE
+Risk: _ZN2v88internal23MinorMarkSweepCollector26MarkRootsFromTracedHandlesERNS0_33YoungGenerationRootMarkingVisitorE
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitor17VisitPointersImplINS0_14FullObjectSlotEEEvNS0_4RootET_S5_
+Risk: _ZN2v88internal33YoungGenerationRootMarkingVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZNK2v88internal33YoungGenerationRootMarkingVisitor9collectorEv
+Risk: _ZN2v88internal12ReadOnlyHeap22InitializeIsolateRootsEPNS0_7IsolateE
+Risk: _ZN2v88internal12ReadOnlyHeap21OnCreateRootsCompleteEPNS0_7IsolateE
+Risk: _ZN2v88internal12ReadOnlyHeap26InitializeFromIsolateRootsEPNS0_7IsolateE
+Risk: _ZN2v88internal19RootScavengeVisitorC1ERNS0_9ScavengerE
+Risk: _ZN2v88internal19RootScavengeVisitorD1Ev
+Risk: _ZN2v88internal19RootScavengeVisitor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZN2v88internal19RootScavengeVisitor15ScavengePointerENS0_14FullObjectSlotE
+Risk: _ZN2v88internal19RootScavengeVisitor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal19RootScavengeVisitorC2ERNS0_9ScavengerE
+Risk: _ZTVN2v88internal19RootScavengeVisitorE
+Risk: _ZN2v88internal19RootScavengeVisitorD2Ev
+Risk: _ZN2v88internal19RootScavengeVisitorD0Ev
+Risk: _ZN2v88internal15SourceCodeCache7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal7Genesis11CreateRootsEv
+Risk: _ZN2v88internal10JsonParserIhE5rootsEv
+Risk: _ZN2v88internal10JsonParserItE5rootsEv
+Risk: _ZN2v88internal9HashTableINS0_21CompilationCacheTableENS0_21CompilationCacheShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal8JSObject27ApplyAttributesToDictionaryINS0_16NumberDictionaryEEEvPNS0_7IsolateENS0_13ReadOnlyRootsENS0_12DirectHandleIT_EENS0_18PropertyAttributesE
+Risk: _ZN2v88internal8JSObject27ApplyAttributesToDictionaryINS0_16GlobalDictionaryEEEvPNS0_7IsolateENS0_13ReadOnlyRootsENS0_12DirectHandleIT_EENS0_18PropertyAttributesE
+Risk: _ZN2v88internal8JSObject27ApplyAttributesToDictionaryINS0_14NameDictionaryEEEvPNS0_7IsolateENS0_13ReadOnlyRootsENS0_12DirectHandleIT_EENS0_18PropertyAttributesE
+Risk: _ZNK2v88internal14LookupIterator23GetRootForNonJSReceiverEv
+Risk: _ZN2v88internal6Object24GetPrototypeChainRootMapENS0_6TaggedIS1_EEPNS0_7IsolateE
+Risk: _ZN2v88internal10MapUpdater11FindRootMapEv
+Risk: _ZN2v88internal9HashTableINS0_9StringSetENS0_14StringSetShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_9StringSetENS0_14StringSetShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_6TaggedINS0_6StringEEEi
+Risk: _ZN2v88internal9HashTableINS0_9StringSetENS0_14StringSetShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_9StringSetENS0_14StringSetShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_9StringSetENS0_14StringSetShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_9StringSetENS0_14StringSetShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_21CompilationCacheTableENS0_21CompilationCacheShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_21CompilationCacheTableENS0_21CompilationCacheShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEPNS0_12HashTableKeyEi
+Risk: _ZN2v88internal21CompilationCacheShape13HashForObjectENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_21CompilationCacheTableENS0_21CompilationCacheShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_21CompilationCacheTableENS0_21CompilationCacheShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_21CompilationCacheTableENS0_21CompilationCacheShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_13ObjectHashSetENS0_18ObjectHashSetShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_13ObjectHashSetENS0_18ObjectHashSetShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_6ObjectEEEi
+Risk: _ZN2v88internal9HashTableINS0_13ObjectHashSetENS0_18ObjectHashSetShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_13ObjectHashSetENS0_18ObjectHashSetShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_13ObjectHashSetENS0_18ObjectHashSetShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_13ObjectHashSetENS0_18ObjectHashSetShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_20NameToIndexHashTableENS0_16NameToIndexShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_20NameToIndexHashTableENS0_16NameToIndexShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_6TaggedINS0_4NameEEEi
+Risk: _ZN2v88internal9HashTableINS0_20NameToIndexHashTableENS0_16NameToIndexShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_20NameToIndexHashTableENS0_16NameToIndexShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_20NameToIndexHashTableENS0_16NameToIndexShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_21RegisteredSymbolTableENS0_26RegisteredSymbolTableShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_21RegisteredSymbolTableENS0_26RegisteredSymbolTableShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_6StringEEEi
+Risk: _ZN2v88internal9HashTableINS0_21RegisteredSymbolTableENS0_26RegisteredSymbolTableShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_21RegisteredSymbolTableENS0_26RegisteredSymbolTableShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_21RegisteredSymbolTableENS0_26RegisteredSymbolTableShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_21RegisteredSymbolTableENS0_26RegisteredSymbolTableShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_15ObjectHashTableENS0_20ObjectHashTableShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_15ObjectHashTableENS0_20ObjectHashTableShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_6ObjectEEEi
+Risk: _ZN2v88internal9HashTableINS0_15ObjectHashTableENS0_20ObjectHashTableShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_15ObjectHashTableENS0_20ObjectHashTableShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_15ObjectHashTableENS0_20ObjectHashTableShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_15ObjectHashTableENS0_20ObjectHashTableShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_18EphemeronHashTableENS0_23EphemeronHashTableShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_18EphemeronHashTableENS0_23EphemeronHashTableShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_6ObjectEEEi
+Risk: _ZN2v88internal9HashTableINS0_18EphemeronHashTableENS0_23EphemeronHashTableShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_18EphemeronHashTableENS0_23EphemeronHashTableShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_18EphemeronHashTableENS0_23EphemeronHashTableShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_18EphemeronHashTableENS0_23EphemeronHashTableShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_18ObjectTwoHashTableENS0_25ObjectMultiHashTableShapeILi2EEEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_18ObjectTwoHashTableENS0_25ObjectMultiHashTableShapeILi2EEEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_6ObjectEEEi
+Risk: _ZN2v88internal9HashTableINS0_18ObjectTwoHashTableENS0_25ObjectMultiHashTableShapeILi2EEEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_18ObjectTwoHashTableENS0_25ObjectMultiHashTableShapeILi2EEEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_18ObjectTwoHashTableENS0_25ObjectMultiHashTableShapeILi2EEEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_18ObjectTwoHashTableENS0_25ObjectMultiHashTableShapeILi2EEEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_22SimpleNumberDictionaryENS0_27SimpleNumberDictionaryShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_22SimpleNumberDictionaryENS0_27SimpleNumberDictionaryShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEji
+Risk: _ZN2v88internal9HashTableINS0_22SimpleNumberDictionaryENS0_27SimpleNumberDictionaryShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_22SimpleNumberDictionaryENS0_27SimpleNumberDictionaryShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_22SimpleNumberDictionaryENS0_27SimpleNumberDictionaryShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_22SimpleNumberDictionaryENS0_27SimpleNumberDictionaryShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_16NumberDictionaryENS0_21NumberDictionaryShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_16NumberDictionaryENS0_21NumberDictionaryShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEji
+Risk: _ZN2v88internal9HashTableINS0_16NumberDictionaryENS0_21NumberDictionaryShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_16NumberDictionaryENS0_21NumberDictionaryShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_16NumberDictionaryENS0_21NumberDictionaryShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_16NumberDictionaryENS0_21NumberDictionaryShapeEE18FindInsertionEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsEj
+Risk: _ZN2v88internal9HashTableINS0_20SimpleNameDictionaryENS0_25SimpleNameDictionaryShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_20SimpleNameDictionaryENS0_25SimpleNameDictionaryShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_4NameEEEi
+Risk: _ZN2v88internal9HashTableINS0_20SimpleNameDictionaryENS0_25SimpleNameDictionaryShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_20SimpleNameDictionaryENS0_25SimpleNameDictionaryShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_20SimpleNameDictionaryENS0_25SimpleNameDictionaryShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_14NameDictionaryENS0_19NameDictionaryShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_14NameDictionaryENS0_19NameDictionaryShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_4NameEEEi
+Risk: _ZN2v88internal9HashTableINS0_14NameDictionaryENS0_19NameDictionaryShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_14NameDictionaryENS0_19NameDictionaryShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_14NameDictionaryENS0_19NameDictionaryShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_16GlobalDictionaryENS0_21GlobalDictionaryShapeEE6GetMapERNS0_10RootsTableE
+Risk: _ZN2v88internal9HashTableINS0_16GlobalDictionaryENS0_21GlobalDictionaryShapeEE9FindEntryENS0_16PtrComprCageBaseENS0_13ReadOnlyRootsENS0_12DirectHandleINS0_4NameEEEi
+Risk: _ZN2v88internal9HashTableINS0_16GlobalDictionaryENS0_21GlobalDictionaryShapeEE5IsKeyENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal9HashTableINS0_16GlobalDictionaryENS0_21GlobalDictionaryShapeEE13EntryForProbeENS0_13ReadOnlyRootsENS0_6TaggedINS0_6ObjectEEEiNS0_13InternalIndexE
+Risk: _ZN2v88internal9HashTableINS0_16GlobalDictionaryENS0_21GlobalDictionaryShapeEE5ToKeyENS0_13ReadOnlyRootsENS0_13InternalIndexEPNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal11Relocatable7IterateEPNS0_11RootVisitorEPS1_
+Risk: _ZN2v88internal14OrderedHashSet8GetEmptyENS0_13ReadOnlyRootsE
+Risk: _ZN2v88internal14OrderedHashMap8GetEmptyENS0_13ReadOnlyRootsE
+Risk: _ZN2v88internal19TransitionsAccessor19IsSpecialTransitionENS0_13ReadOnlyRootsENS0_6TaggedINS0_4NameEEE
+Risk: _ZN2v88internal11RootVisitor8RootNameENS0_4RootE
+Risk: _ZN2v88internal12HeapSnapshot23AddSyntheticRootEntriesEv
+Risk: _ZN2v88internal12HeapSnapshot17AddGcSubrootEntryENS0_4RootEj
+Risk: _ZN2v88internal12HeapSnapshot12AddRootEntryEv
+Risk: _ZN2v88internal12HeapSnapshot15AddGcRootsEntryEv
+Risk: _ZTVN2v88internal24RootsReferencesExtractorE
+Risk: _ZN2v88internal13ReadOnlyRoots7IterateEPNS0_11RootVisitorE
+Risk: _ZN2v88internal14V8HeapExplorer23SetRootGcRootsReferenceEv
+Risk: _ZN2v88internal14V8HeapExplorer19SetGcRootsReferenceENS0_4RootE
+Risk: _ZN2v88internal14V8HeapExplorer21SetGcSubrootReferenceENS0_4RootEPKcbNS0_6TaggedINS0_6ObjectEEE
+Risk: _ZN2v88internal14V8HeapExplorer22GetStrongGcSubrootNameENS0_6TaggedINS0_10HeapObjectEEE
+Risk: _ZN2v88internal10RootsTable11root_names_E
+Risk: _ZN2v88internal24RootsReferencesExtractorD0Ev
+Risk: _ZN2v88internal24RootsReferencesExtractor17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal24RootsReferencesExtractor16VisitRootPointerENS0_4RootEPKcNS0_14FullObjectSlotE
+Risk: _ZN2v88internal24RootsReferencesExtractor17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES5_
+Risk: _ZN2v88internal24RootsReferencesExtractor16VisitRunningCodeENS0_14FullObjectSlotES2_
+Risk: _ZN2v88internal23GlobalObjectsEnumerator17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal23GlobalObjectsEnumerator21VisitRootPointersImplINS0_14FullObjectSlotEEEvNS0_4RootEPKcT_S7_
+Risk: _ZN2v88internal23GlobalObjectsEnumerator17VisitRootPointersENS0_4RootEPKcNS0_21OffHeapFullObjectSlotES5_
+Risk: _ZN2v88internal23GlobalObjectsEnumerator21VisitRootPointersImplINS0_21OffHeapFullObjectSlotEEEvNS0_4RootEPKcT_S7_
+Risk: _ZN2v88internal14HeapObjectsMap21kInternalRootObjectIdE
+Risk: _ZN2v88internal14HeapObjectsMap16kGcRootsObjectIdE
+Risk: _ZN2v88internal14HeapObjectsMap22kGcRootsFirstSubrootIdE
+Risk: _ZN2v88internal9CodeEntry10root_entryEv
+Risk: _ZN2v88internal9CodeEntry14kRootEntryNameE
+Risk: _ZN2v88internal17AllocationProfile11GetRootNodeEv
+Risk: _ZN2v88internal13ReadOnlyRoots24InitFromStaticRootsTableEm
+Risk: _ZN2v88internal10Serializer13SerializeRootENS0_6TaggedINS0_10HeapObjectEEE
+Risk: _ZN2v88internal10Serializer17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE19ReadFixedRepeatRootINS0_21SlotAccessorForHandleIS2_EEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE22ReadVariableRepeatRootINS0_21SlotAccessorForHandleIS2_EEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE13ReadRootArrayINS0_21SlotAccessorForHandleIS2_EEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE22ReadSingleBytecodeDataINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE19ReadFixedRepeatRootINS0_25SlotAccessorForHeapObjectEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE22ReadVariableRepeatRootINS0_25SlotAccessorForHeapObjectEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE13ReadRootArrayINS0_25SlotAccessorForHeapObjectEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE19ReadFixedRepeatRootINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE13ReadHotObjectINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE13ReadNewObjectINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE14ReadNewMetaMapINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE16ReadApiReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE23ReadOffHeapBackingStoreINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE21ReadExternalReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE11ReadBackrefINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE19ReadVariableRawDataINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE19ReadReadOnlyHeapRefINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE25ReadSharedHeapObjectCacheINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE22ReadVariableRepeatRootINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE22ReadStartupObjectCacheINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE21ReadAttachedReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE13ReadRootArrayINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_7IsolateEE24ReadRawExternalReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE16ReadRepeatedRootINS0_21SlotAccessorForHandleIS2_EEEEiT_i
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE22ReadVariableRepeatRootINS0_21SlotAccessorForHandleIS2_EEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE13ReadRootArrayINS0_21SlotAccessorForHandleIS2_EEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES7_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE22ReadSingleBytecodeDataINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE19ReadFixedRepeatRootINS0_25SlotAccessorForHeapObjectEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE22ReadVariableRepeatRootINS0_25SlotAccessorForHeapObjectEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE13ReadRootArrayINS0_25SlotAccessorForHeapObjectEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE19ReadFixedRepeatRootINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE13ReadHotObjectINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE13ReadNewObjectINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE14ReadNewMetaMapINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE16ReadApiReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE23ReadOffHeapBackingStoreINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE21ReadExternalReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE11ReadBackrefINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE19ReadVariableRawDataINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE19ReadReadOnlyHeapRefINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE25ReadSharedHeapObjectCacheINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE22ReadVariableRepeatRootINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE22ReadStartupObjectCacheINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE21ReadAttachedReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE13ReadRootArrayINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal12DeserializerINS0_12LocalIsolateEE24ReadRawExternalReferenceINS0_24SlotAccessorForRootSlotsEEEihT_
+Risk: _ZN2v88internal15RootsSerializerC2EPNS0_7IsolateENS_4base5FlagsINS0_8Snapshot14SerializerFlagEiiEENS0_9RootIndexE
+Risk: _ZTVN2v88internal15RootsSerializerE
+Risk: _ZN2v88internal15RootsSerializer22SerializeInObjectCacheENS0_6HandleINS0_10HeapObjectEEE
+Risk: _ZN2v88internal15RootsSerializer11SynchronizeENS0_22VisitorSynchronization7SyncTagE
+Risk: _ZN2v88internal15RootsSerializer17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal15RootsSerializer18CheckRehashabilityENS0_6TaggedINS0_10HeapObjectEEE
+Risk: _ZN2v88internal15RootsSerializerD2Ev
+Risk: _ZN2v88internal15RootsSerializerD0Ev
+Risk: _ZN2v88internal12RootIndexMapC1EPNS0_7IsolateE
+Risk: _ZN2v88internal10Serializer10PutSmiRootENS0_14FullObjectSlotE
+Risk: _ZN2v88internal10Serializer19SerializeRootObjectENS0_14FullObjectSlotE
+Risk: _ZN2v88internal10Serializer7PutRootENS0_9RootIndexE
+Risk: _ZN2v88internal10Serializer13PutRepeatRootEiNS0_9RootIndexE
+Risk: _ZN2v88internal23SerializedHandleChecker17VisitRootPointersENS0_4RootEPKcNS0_14FullObjectSlotES5_
+Risk: _ZN2v88internal12RootIndexMapC2EPNS0_7IsolateE
+Risk: _ZN2v88internal14MacroAssembler14LoadTaggedRootENS0_8RegisterENS0_9RootIndexE
+Risk: _ZN2v88internal14MacroAssembler8LoadRootENS0_8RegisterENS0_9RootIndexE
+Risk: _ZN2v88internal14MacroAssembler8PushRootENS0_9RootIndexE
+Risk: _ZN2v88internal14MacroAssembler16LoadRootRelativeENS0_8RegisterEi
+Risk: _ZN2v88internal14MacroAssembler17StoreRootRelativeEiNS0_8RegisterE
+Risk: _ZN2v88internal14MacroAssembler22LoadRootRegisterOffsetENS0_8RegisterEl
+Risk: _ZN2v88internal14MacroAssembler17CompareTaggedRootERKNS0_8RegisterENS0_9RootIndexE
+Risk: _ZN2v88internal14MacroAssembler11CompareRootERKNS0_8RegisterENS0_9RootIndexE14ComparisonMode
+Risk: _ZN2v88internal14MacroAssembler10JumpIfRootERKNS0_8RegisterENS0_9RootIndexEPNS0_5LabelE
+Risk: _ZN2v88internal14MacroAssembler13JumpIfNotRootERKNS0_8RegisterENS0_9RootIndexEPNS0_5LabelE
+Risk: _ZNK6disasm13NameConverter16RootRelativeNameEi
+Risk: _ZN5cppgc8internal10MarkerBase15VisitLocalRootsENS_18EmbedderStackStateE
+Risk: _ZN5cppgc8internal10MarkerBase26MarkStrongCrossThreadRootsEv
+Risk: _ZN5cppgc8internal18RootMarkingVisitorC1ERNS0_19MutatorMarkingStateE
+Risk: _ZN5cppgc8internal10MarkerBase21VisitCrossThreadRootsEv
+Risk: _ZN5cppgc8internal18RootMarkingVisitorC2ERNS0_19MutatorMarkingStateE
+Risk: _ZTVN5cppgc8internal18RootMarkingVisitorE
+Risk: _ZN5cppgc8internal18RootMarkingVisitor9VisitRootEPKvNS_15TraceDescriptorERKN2v814SourceLocationE
+Risk: _ZN5cppgc8internal18RootMarkingVisitor13VisitWeakRootEPKvNS_15TraceDescriptorEPFvRKNS_14LivenessBrokerES3_ES3_RKN2v814SourceLocationE
+Risk: _ZN5cppgc8internal18RootMarkingVisitorD0Ev
+Risk: _ZN5cppgc8internal20PersistentRegionBase29RefillFreeListAndAllocateNodeEPvPFvRNS0_11RootVisitorEPKvE
+Risk: V8.GCScavenger.ScavengeRoots
+Risk: V8_STATIC_ROOTS_BOOL
+Risk: !StateExists(root_node)
+Risk: (Strong root list)
+Risk: (Strong roots)
+Risk: root ca not trusted
+Risk: Isolate::isolate_root()
+Risk: V8.GC_MC_MARK_ROOTS
+Risk: (Weak roots)
+Risk: setct-BatchAdminReqData
+Risk: assetsRoot
+Risk: CppGC.MarkVisitRoots.Minor
+Risk: ro-promotion: updated pointer {root
+Risk: root_array_available_
+Risk: evacuate.update_pointers.to_new_roots
+Risk: !strong_gc_subroot_names_.empty()
+Risk: setct-BatchAdminResData
+Risk: Normalize_RootModification4
+Risk: %*sRootArray [%u] : %s
+Risk: set-policy-root
+Risk: %*sRootArrayConstants [%u] : %s
+Risk: setct-BatchAdminResTBE
+Risk: C++ Persistent roots
+Risk: scavenge.roots
+Risk: V8.GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS
+Risk: !IsSmi(root)
+Risk: (Smi roots)
+Risk: address != ReadOnlyRoots(heap_).not_mapped_symbol().ptr()
+Risk: trustRoot
+Risk: setCext-hashedRoot
+Risk: StrongRootAllocator
+Risk: (Read-only roots)
+Risk: read only roots entry
+Risk: C++ CrossThreadPersistent roots
+Risk: (GC roots)
+Risk: (Stack roots)
+Risk: root_index
+Risk: treatGlobalObjectsAsRoots
+Risk: Encoding root %d:
+Risk: V8.GC_SCAVENGER_SCAVENGE_ROOTS
+Risk: CppGC.MarkVisitRoots
+Risk: ReadOnlyRoots(isolate()).the_hole_value() == Tagged<Object>(Memory<Address>(exception_argument_slot))
+Risk: roots_table
+Risk: array_elements->map() == ReadOnlyRoots(isolate).fixed_cow_array_map()
+Risk: Normalize_RootModification2
+Risk: Trust Root
+Risk: result_script->source() == ReadOnlyRoots(isolate).empty_string()
+Risk: setct-BatchAdminReqTBE
+Risk: mark.roots
+Risk: set-rootKeyThumb
+Risk: C++ native stack roots
+Risk: Normalize_RootModification1
+Risk: (root)
+Risk: root_array_available()
+Risk: Register did not match expected root
+Risk: V8.GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS
+Risk: V8.GC_MC_MARK_ROOTS
+Risk: V8.GC_SCAVENGER_SCAVENGE_ROOTS
+Risk: V8.GC_SCAVENGER_SCAVENGE_STACK_ROOTS
+Risk: V8.GC_MC_MARK_ROOTS
+Risk: GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS
+Risk: GC_MC_MARK_ROOTS
+Risk: GC_SCAVENGER_SCAVENGE_ROOTS
+Risk: GC_SCAVENGER_SCAVENGE_STACK_ROOTS
+Risk: (Read-only roots)
+Risk: (Smi roots)
+Risk: (Stack roots)
+Risk: (Strong root list)
+Risk: (Strong roots)
+Risk: (Weak roots)
+
+--- Credential Leaks (100% Impact) ---
