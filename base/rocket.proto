@@ -1,0 +1,114 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "reward.proto";
+
+message RocketJoinInfo {
+  bool open = 1; //是否开启火箭配置
+  int32 level = 2;
+  int64 nowValue = 3; //当前值
+  int64 targetValue = 4;//目标值
+  bool already = 5; //是否有要准备发射的火箭
+  int64 sendTime = 6;//发射时间
+}
+
+message RocketBoxOpenArg {
+  int64 roomId = 1;
+  int64 rocketId = 2;
+}
+
+message RocketBoxOpenReply {
+  repeated NewReward reward = 1; //奖励
+}
+
+message RoomRocketInfoArg {
+  int32 level = 1;
+  int64 roomId = 2;
+}
+
+message RoomRocketInfoReply {
+  int64 rocketId = 1; //已经发射才有该字段
+  bool already = 2; //是否已达成
+  int64 nowValue = 3; //当前值
+  int64 targetValue = 4;//目标值
+  repeated RocketSimpleContribute topUser = 5; //top3用户
+  repeated NewReward rewards = 6; //奖励
+  repeated NewReward myRewards = 7;
+}
+
+message RocketSimpleContribute {
+  int64 userId = 1;
+  string avatar = 2;
+  string nickname = 3;
+  int32 type = 4; //1火箭王 2点燃者
+}
+
+message RocketRewardRecordArg {
+  int64 pos = 1;
+  int64 size = 2;
+  int64 roomId = 3;
+}
+
+message RocketRewardRecordReply {
+  repeated RocketRewardRecordItem items = 1;
+  int64 nextPos = 2;
+  bool hasNext = 3;
+}
+
+message RocketRewardRecordItem {
+  repeated NewReward rewards = 1;
+  int64 receiveTime = 2; //领取时间
+}
+
+message RocketRankArg {
+  int64 roomId = 1;
+  int32 level = 2;
+  int64 pos = 3;
+  int64 size = 4;
+  int32 rankType = 5; //1贡献榜 2火箭王榜
+}
+
+message RocketRankReply {
+  int64 finishTime = 1; //结束的时间
+  repeated RocketRankItem items = 2;
+  RocketRankItem mine = 3;
+  int64 nextPos = 4;
+  bool hasNext = 5;
+}
+
+message RocketRankItem {
+  RocketSimpleContribute  user = 1;
+  int64 value = 2; //火力值
+  int32 rank = 3;
+  int64 num = 4;//火箭王次数
+}
+
+message RocketCoinPushData {
+  int64 roomId = 1;
+  int64 coin = 2;
+  int64 userId = 3;
+}
+
+message RocketPreparePushData {
+  int64 roomId = 1;
+  int32 level = 2;
+  int64 sendTime = 3;
+  int64 senderId = 4; //火箭点燃者
+  string region = 5;//房间所在大区
+  int32 num = 6;//第几次发射火箭
+  string localDate = 7; //当日日期
+  string localWeekDate = 8; //当周周一日期
+}
+
+message RocketProgressData {
+  repeated RocketProgress items = 1;
+}
+
+message RocketProgress {
+  int32 level = 1;
+  int64 nowValue = 2;
+  int64 targetValue = 3;
+  bool already = 4;
+  int64 sender = 5;
+}

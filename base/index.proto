@@ -1,0 +1,142 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "user.proto";
+import "voice_room.proto";
+import "account_enum.proto";
+
+enum SearchType {
+  searchT_none = 0;
+  searchT_room = 1;
+  searchT_user = 2;
+  searchT_family = 3;
+}
+
+// 截屏限制场景
+enum ScreenshotLimitType {
+    screenshotLimitType_none = 0;
+    screenshotLimitType_videoCall = 1; // 视频通话
+    screenshotLimitType_homepage = 2; // 他人主页
+    screenshotLimitType_privateAlbum = 3; // 私密相册
+    screenshotLimitType_privateChatSession = 4; // 私聊会话
+    screenshotLimitType_family = 5; // 家族会话
+    screenshotLimitType_officialGroup = 6; // 官方群会话
+    screenshotLimitType_rechargePage = 7; // 充值页
+}
+
+message SearchArg {
+  SearchType type = 1;
+  string keyword = 2;
+}
+
+message SearchReply {
+  repeated RoomTabList rooms = 1; // 搜索类型为房间时
+  repeated User users = 2; // 搜索类型为用户时
+}
+
+message ProfileCfgReply {
+  repeated ProfessionInfo professionInfo = 3; //职业
+  repeated HobbyInfo hobbyInfo = 4;//爱好
+  Section height = 5; //身高区间
+  Section weight = 6; //体重区间
+  bool risingStars = 7; //首页精选是否打开
+  int32 updateIntroduce = 8; //每日修改简介的次数
+  repeated EmotionItem emotion = 9;//情感状态
+  bool income = 10; // 是否显示收益入口开关
+  string incomePath = 11; //收益入口路径
+  int64 roomId = 12; //自己的房间id
+  string upIntroduceContent = 13; //每日修改简介的文案
+  string upNicknameContent = 14; //每日修改昵称的文案
+  string bottomAvatar = 15; //头像认证底图
+  repeated string videoShowDescribeText = 16; //视频秀说明文案
+  string videoShowHomepageDescribe = 17; //视频秀主页主态-问号按钮中的视频秀说明文案
+  bool anchorShow = 18; //主播展示
+  bool privatePhotoShow = 19; //是否展示私照入口
+  map<int32, bool> screenshotLimit = 20; //截屏限制map(map中只存在被限制场景的type:true键值对；若用户无任何限制，则map为nil)
+}
+
+message EmotionItem {
+  EmotionType emotionKey = 1; //状态值
+  string emotionValue = 2;//文案
+}
+
+message PictureCfgReply {
+  repeated string figurePic = 1; //认证页 示例人物图片
+  repeated string homePic = 2; //推荐首页顶部照片
+  repeated AlbumCfg albumCfg = 3; //相册示例文案图片
+  string avatar = 4;
+}
+
+message AlbumCfg {
+  string title = 1;
+  string content = 2;
+  string pic = 3;
+}
+
+message Section {
+  int64 start = 1;
+  int64  end = 2;
+}
+
+message VoiceSignCfgArg {
+  int64 id = 1; //上回取得id
+  Gender gender = 2;
+}
+
+message VoiceSignCfgReply {
+  int64 id = 1;
+  string content = 2;
+}
+
+message IntimacyCfgReply {
+  string content = 1; //说明文案
+  repeated IntimacyCfgItem maleCfg = 2;
+  repeated IntimacyCfgItem femaleCfg = 3;
+}
+
+message IntimacyCfgItem {
+  int32 gender = 1;//1男 11女
+  int64 value = 2; //亲密度阈值
+  string layerContent = 3;//弹层功能项解锁文案
+  string lockTip = 4;//未解锁弹窗提示
+  string unlockTip = 5;//已解锁Tip提示
+  int32 type = 6; //1私信(图片) 2私信(语音) 3通话 4私密相册
+  string icon = 7;
+}
+
+message VoiceRoomTagCfgReply {
+  repeated VoiceRoomTag tags = 1;
+}
+
+enum ExplainContentType {
+  cmect_none = 0;
+  cmect_voice = 1; // 语音匹配说明内容
+  cmect_video = 2; // 视频匹配说明内容
+  cmect_matchMode = 3; // 匹配模式说明内容
+  cmect_redPacket = 4; // 红包规则说明内容
+  cmect_replyInterval = 5; // 回复间隔规则说明内容
+  cmect_deepChat = 6; // 深聊多得规则说明内容
+  cmect_deepVideo = 9; // 趣聊多得规则说明内容
+}
+
+message ExplainContentArg {
+  ExplainContentType type = 1; // 说明内容类型
+}
+
+message ExplainContentReply {
+  string content = 1; // 说明内容
+  bool isHtml = 2; // 是否html
+}
+
+enum SomeContentType {
+  sct_none = 0;
+  sct_familyDissolve = 1; //家族解散
+}
+
+message SomeContentArg {
+  SomeContentType type = 1;
+}
+
+message SomeContentReply {
+  repeated string content = 1; //单挑文案取第一个元素
+}

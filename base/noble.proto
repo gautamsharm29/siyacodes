@@ -1,0 +1,130 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "enum.proto";
+
+//message NobleMoreAuthority {
+//  string name = 1;
+//  int32 rank = 2;
+//}
+//message NobleMoreAuthorityList {
+//  repeated NobleMoreAuthority list = 1;
+//}
+// 贵族权限信息
+message NobleAuthority{
+  int32 id = 1;
+  string title = 2; // 标题
+  string desc = 3; // 描述
+  string icon = 4; // 图标
+  string activeIcon = 7; // 激活的图标
+  string detailSrc = 5; // 详情图
+  string detailDesc = 6; // 详情描述
+  int64 rank = 8; // 排序值
+}
+
+// 贵族价格信息
+message NobleProduct {
+  int32 productId = 1; // 商品id
+  api.Os clientType = 10;
+  int32 nobleId = 8; // 对应贵族id
+  int32 days = 2; // 天数
+  string price = 3; // 美元
+  string iapPrice = 4; // 美元
+  string iapId = 5; // iap商品id
+  int64 giveCoin = 6; // 赠送金币
+  int32 rank = 7; // 排序
+  string showDuration = 9; // 显示时长
+  string gapProductId = 11; // 谷歌商品id
+  string huaweiId = 13; // 华为商品id
+}
+
+// 贵族信息
+//message Noble {
+//  int32 id = 1; // id
+//  string name = 2; // 名称
+//  string icon = 3; // 图标
+//  repeated NobleAuthority authorities = 4; // 拥有的权限列表
+//  repeated NobleProduct products = 5; // 贵族商品价格
+//}
+
+// 贵族信息
+message NobleSimple {
+  int32 id = 1; // id
+  string name = 2; // 名称
+  string icon = 3; // 图标
+  repeated int32 authorities = 4; // 拥有的权限列表
+  int64 expiredAt = 5; // 到期时间
+  string bigIcon = 6; // 大图标
+  string bg = 7; // 背景图
+  string bigIconAnimation = 8; // 大图动画
+  string baseImg = 9;// 底图
+  string speedUp = 10; // 加速倍率
+  map<int32, string> authorityMore = 11; // 权限id->更多权限描述
+  string nameIcon = 12;// 名字图标
+  string bgV2 = 13; // 背景图v2
+  string bigIconAnimationV2 = 14; //大图动画v2
+  int32 animationDur = 15; // 动画时长
+}
+message NobleWithProduct {
+  int32 id = 1; // id
+  string name = 2; // 名称
+  string nameIcon = 3; // 名称图标
+  string bigIcon = 4; // 大图标
+  repeated int32 authorities = 5; // 拥有的权限列表
+  repeated NobleProduct products = 6; // 贵族商品价格
+}
+// 贵族中心列表
+message NobleList {
+  repeated NobleWithProduct nobleList = 1;
+  repeated NobleAuthority authorities = 2; // 所有权限列表
+}
+
+// 角色变更类型
+enum NobleChangeType {
+  nct_none = 0;
+  nct_pay = 1; //购买
+}
+
+
+message VipListArg {
+  int32 pos = 1; // 位置
+  int32 size = 2; // 数量
+  int32 vip = 3; // 指定vip
+}
+message ActiveVip {
+  int32 id = 1; // 记录id,用于激活
+  int32 nobleId = 2; // 贵族id
+  int64 getTime = 3; // 获得时间
+  string getWay = 4; // 获得方式
+  int32 days = 5; // 有效天数
+}
+message VipListReply {
+  bool hasNext = 1;
+  int32 nextPos = 2;
+  repeated ActiveVip items = 3;
+  int32 total = 4; // 总数
+}
+
+message ActiveVipArg {
+  int32 id = 1; // 记录id,ActiveVip.id
+}
+message ActiveVipReply{
+
+}
+message RefinedVipArg{
+  repeated int64 ids = 1; // 记录id,ActiveVip.id
+  int32 vip = 2; // 想要合成的vip
+  bool useCur = 3; // true 使用当前拥有的vip
+}
+message RefinedVipReply{
+  int32 vip = 1; // 合成后的vip
+  int32 day = 2; // 天数
+  bool useCur = 3;
+}
+
+message Vip {
+  bool isVip = 1;
+  int64 expiredTime = 2; //过期时间
+  int32 subStatus = 3; //订阅状态 1订阅中 2取消订阅
+}

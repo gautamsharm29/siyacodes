@@ -1,0 +1,128 @@
+Signature-Version: 1.0
+Created-By: 1.0 (Android)
+SHA1-Digest-Manifest: 0ydRk7D4qL8tnud1ACF0omAOGXU=
+X-Android-APK-Signed: 2, 3
+
+Name: AndroidManifest.xml
+SHA1-Digest: iZ8OU0ellYi7FVz18CzrUnPfFME=
+
+Name: lib/arm64-v8a/libCNamaSDK.so
+SHA1-Digest: yP4axMO8rkOjUX0TNakNiTPFkVU=
+
+Name: lib/arm64-v8a/libZegoExpressEngine.so
+SHA1-Digest: ekTSizsgWoqw/p3X85IfamIlis4=
+
+Name: lib/arm64-v8a/libalipdns.so
+SHA1-Digest: dF5plteGPDtia0SzHF+ZwUSZ/Rw=
+
+Name: lib/arm64-v8a/libalive_detected.so
+SHA1-Digest: leRnrBZykOQ1vJmnAZ4VgntsjXU=
+
+Name: lib/arm64-v8a/libaosl.so
+SHA1-Digest: OWWJeCt8IOxf4h0l6CLAOdy0DdQ=
+
+Name: lib/arm64-v8a/libavcodec.so
+SHA1-Digest: cz/5fHb21UuE2qVYE96nz8T1c9M=
+
+Name: lib/arm64-v8a/libavdevice.so
+SHA1-Digest: SM3ZMXi2Inh6runEfUUaxFTYoP4=
+
+Name: lib/arm64-v8a/libavfilter.so
+SHA1-Digest: myqsMHU2yENB4Zx6LSgoQRyJhdM=
+
+Name: lib/arm64-v8a/libavformat.so
+SHA1-Digest: JNAhM9PXfHhwWv2RqBME7E+OcgQ=
+
+Name: lib/arm64-v8a/libavutil.so
+SHA1-Digest: nd6MvTli7F/k2G1pV3kltz907Qk=
+
+Name: lib/arm64-v8a/libc++_shared.so
+SHA1-Digest: 6xe1IlEuocGtjPxy0Rj0bgFBMeU=
+
+Name: lib/arm64-v8a/libcipherdb.so
+SHA1-Digest: Sd9pmjM5O2ONmtzandL1+QcZXcs=
+
+Name: lib/arm64-v8a/libconscrypt_jni.so
+SHA1-Digest: R3LI3ItHUtSlSkWuO0H9vHhdadU=
+
+Name: lib/arm64-v8a/libcrashlytics-common.so
+SHA1-Digest: msi/PZBZG8gbvObaAprCbDDwzW0=
+
+Name: lib/arm64-v8a/libcrashlytics-handler.so
+SHA1-Digest: BS/gWUETZJU5bdjgB4ObR/cZhLk=
+
+Name: lib/arm64-v8a/libcrashlytics-trampoline.so
+SHA1-Digest: ijtDp/+gv6sDaoG0ekooqrKCoXM=
+
+Name: lib/arm64-v8a/libcrashlytics.so
+SHA1-Digest: oLNM3PhcgS5TsXigbQWb/2FS3BI=
+
+Name: lib/arm64-v8a/libffavc.so
+SHA1-Digest: GUO0eIn6zpqYWJa9fZmg1jgAlSs=
+
+Name: lib/arm64-v8a/libffmpeg-exec.so
+SHA1-Digest: Q2hns7dt4YFJjgoel32+f3qyTjg=
+
+Name: lib/arm64-v8a/libfuai.so
+SHA1-Digest: 0aycxAy9tT2zGmislu+kHzMzkN4=
+
+Name: lib/arm64-v8a/libhyphenate.so
+SHA1-Digest: XNJVLBSq0KxVJ9j1yz42+V2MAvM=
+
+Name: lib/arm64-v8a/libijkffmpeg.so
+SHA1-Digest: kObpUD+5WtgmEcV1TG0PVOUgCfg=
+
+Name: lib/arm64-v8a/libijkplayer.so
+SHA1-Digest: 9HqX5mVjT3DnP/WJvF7yy4nl54I=
+
+Name: lib/arm64-v8a/libijksdl.so
+SHA1-Digest: RXNW6fhFnLd6AFhEEFbX49zdah8=
+
+Name: lib/arm64-v8a/libmarsxlog.so
+SHA1-Digest: 6ooVzuOy5c4J/oyE1TxrYtcEbxg=
+
+Name: lib/arm64-v8a/libmmkv.so
+SHA1-Digest: dE6Dm2SwZiB8y0kpGXbUb1gSAK4=
+
+Name: lib/arm64-v8a/libmo-im-core.so
+SHA1-Digest: I4JWJJFzpmX71StI0iuXpYN5sZc=
+
+Name: lib/arm64-v8a/libnenn.so
+SHA1-Digest: L+qeAKygo+OyHwFr6O8qT1LoTL4=
+
+Name: lib/arm64-v8a/libnscsdk.so
+SHA1-Digest: UOgt5SNK+3aVxEPj9fkKs5W4cck=
+
+Name: lib/arm64-v8a/libpag.so
+SHA1-Digest: 2aqLYl94y/wWRYB4+8WbEANZYTk=
+
+Name: lib/arm64-v8a/libpostproc.so
+SHA1-Digest: mR0gtPWbqpQ95IJVMllPcyzSR4s=
+
+Name: lib/arm64-v8a/libsigner.so
+SHA1-Digest: c/nfvwWiJNMMfytOrBmv2CDSGFg=
+
+Name: lib/arm64-v8a/libsls_producer.so
+SHA1-Digest: GuOY4O/pxrXs9hON1dBbRKi3+XM=
+
+Name: lib/arm64-v8a/libsmsdk.so
+SHA1-Digest: 1AcyLRT203JUmffHZr631d2+YV0=
+
+Name: lib/arm64-v8a/libsqlcipher.so
+SHA1-Digest: XecONXxZYYi/rB0qdMdB291gY7g=
+
+Name: lib/arm64-v8a/libsud.so
+SHA1-Digest: 2eGaGz8vkp2Lnsorj3IN2YWPhks=
+
+Name: lib/arm64-v8a/libswresample.so
+SHA1-Digest: alAOdNuQrqYUkJLTz6pgqFpc0hQ=
+
+Name: lib/arm64-v8a/libswscale.so
+SHA1-Digest: Mh6VG0kkv4OJTWNd5z8PiqvXA/w=
+
+Name: lib/arm64-v8a/libtracepath.so
+SHA1-Digest: 5wdC6U0M6jTbipp7IK4Z/1V/ZP0=
+
+Name: stamp-cert-sha256
+SHA1-Digest: Bs40BvDZ1xrbgQrPTD2x5w/NfHQ=
+

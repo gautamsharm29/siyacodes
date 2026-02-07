@@ -1,0 +1,23 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "user.proto";
+
+// 访问记录
+message AccessRecordArg {
+  int64 pos = 1;
+  int32 size = 2;
+  bool mine=3; // 我发出的
+}
+
+message AccessRecordReply {
+  message Item {
+    User user = 1;
+    int64 createTime = 2; // 访问的时间
+    int64 num = 3; //访问次数
+  }
+  repeated Item items = 3;
+  bool hasNext = 1;
+  int64 nextPos = 2;
+  int64 total=4; // 总人数
+}

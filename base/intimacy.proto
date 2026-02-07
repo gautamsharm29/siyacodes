@@ -1,0 +1,10 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+message IntimacyLevel {
+  int32 level = 1;
+  int64 value = 2;
+  int64 exp = 3;
+  int64 nextLevelExp = 6;
+}

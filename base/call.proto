@@ -1,0 +1,325 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "intimacy.proto";
+import "account_enum.proto";
+
+enum CallType {
+  callType_none = 0;
+  callType_audio = 1; //私聊语音
+  callType_video = 2; //私聊视频
+  callType_audioMatch = 3; //语音匹配
+  callType_videoMatch = 4; //视频匹配
+}
+
+enum CallStatus {
+  callStatus_none = 0;
+  callStatus_call = 1;//拨打中
+  callStatus_onTheLine = 2; //已接通，在通话中
+  callStatus_end = 3; //结束
+}
+
+enum CallNtyType {
+  cnt_none = 0;
+  cnt_nsf = 201;// 余额不足(not sufficient funds)
+  cnt_violate = 202;//违规挂断
+  cnt_end = 203;//通话结束
+  cnt_wallet = 204;//提示下一分钟余额不足
+  cnt_timeout = 208; // 通话超时未接听
+  cnt_matchResult = 209; // 音/视频通话匹配结果
+}
+
+enum CallHangUpCode {
+  chut_none = 0;
+  chut_abnormal = 1;//系统或第三方异常挂断(Code:xxxx)
+  chut_balance = 2;//余额不足
+  chut_calling = 3;//拨打方主动挂断
+  chut_receiver = 4;//接听方主动挂断
+  chut_callingAbnormal = 5;//拨打方异常挂断
+  chut_receiverAbnormal = 6;//接听方异常挂断
+  chut_yellow = 7;//涉黄系统自动挂断
+  chut_refuse = 8;//接听方拒接
+  chut_busy = 9;//通话忙碌
+  chut_callTimeOut = 10;//拨打超时取消
+  chut_callCancel = 11;//拨打取消
+  chut_callingLogout = 12;//拨打方退出登录
+  chut_receiverLogout = 13;//接听方退出登录
+  chut_receiverNotInValidPage = 14;//接听方未在有效接听页面
+  chut_362Error = 15;//接听接口异常
+  chut_rtcInterrupted = 19;//19:通话被中断（突然来电）
+  chut_noGetPermission = 20;//20:接听方未获取到权限
+  chut_connectingError = 21;//21:通话连接中异常
+  chut_interruptedByServer = 22;//22:被后台禁用中断
+}
+
+message CallTokenArg {
+  int64 targetId = 1; //对方用户id
+  CallType type = 2;
+  int32 source = 3; // 通话来源 1.私信底部按钮  2.私信通话消息  3.通话列表 4.匹配
+  MatchMode mode = 4; // 匹配模式
+  bool isAutoCall = 5; // 是否自动来电
+}
+
+message CallTokenReply {
+  string token = 1; // 自己的token
+  string channelName = 2; // 即构channel
+  int64 uid = 3; // 即构uid
+  string targetToken = 4;//对方的token
+  int64 targetUid = 5; // 对方即构uid
+  int64 callRecordId = 6; //通话id
+}
+
+//通话通知
+message CallNty {
+  CallNtyType type = 1;
+  int64 callId = 2;
+  int32 code = 3;
+  CallType callType = 4; // 通话类型
+  MatchResult matchResult = 5; // 通话匹配结果
+  RuleCfg ruleCfg = 6; // 规则配置信息
+  int32 source = 7; // 来源
+  bool isAutoCall = 8;  // 是否自动匹配
+}
+
+message MatchResult {
+  MatchMode matchMode = 1; // 匹配模式 1:sm匹配；2:拨打匹配；4:伪匹配
+  int64 uid = 2; // 发送方uid
+  int64 targetUid = 3; // 接收方uid
+}
+
+message RuleCfg {
+  int32 incomeDuration = 1; // N秒内挂断无收益
+  int32 faceCheckNum = 2; // N次未检测到人脸上传截图
+  repeated int64 frequency = 3; // 视频通话截图频率
+  bool callCard = 4; // 首分钟是否使用通话卡
+  int32 tipNum = 5; // 提示次数 收益方为女时 每个用户最多在通话内提示3次，之后不再进行引导提示
+  int32 exitRemindWaitDuration = 6; // 拨打成功退出提示等待时长
+}
+
+enum MatchMode {
+  amm_none = 0;
+  amm_sm = 1; // sm匹配
+  amm_dial = 2; // 拨打匹配
+//  amm_autoIncoming = 3; // 自动来电
+  amm_camouflage = 4; // 伪匹配
+}
+
+message CallRecord {
+  int64 id = 1;
+  int64 senderId = 2;
+  int64 receiverId = 3;
+  int64 costCoin = 4;
+  int64 startTime = 8;
+  int64 endTime = 6;
+  int32 duration = 7;//通话时长，单位秒
+  int64 createTime = 5;
+  CallStatus status = 9; //通话状态
+}
+
+message CallAcceptArg {
+  CallType type = 1;
+  int64 targetId = 2; //用户id
+  string Channel = 3; //即构 channel 名
+  int64 callRecordId = 4; //通话id
+}
+
+message CallAcceptReply {
+  int64 id = 1;
+  bool isFree = 2;
+}
+
+message CallRejectArg {
+  CallType type = 1;
+  int64 targetId = 2; //用户id
+  string Channel = 3; //即构 channel 名
+}
+
+message CallRejectReply {
+
+}
+
+message CallHangupArg {
+  int64 id = 1; //CallAcceptReply.id
+  CallHangUpCode code = 2;
+  int32 errorCode = 3;
+}
+
+message CallHangupReply {
+
+}
+
+message CallPingArg {
+  int64 id = 1; //CallAcceptReply.id
+}
+
+message CallPingReply {
+
+}
+
+message CallCheckArg {
+  int64 targetId = 1;
+}
+
+message CallCheckReply {
+  int32 failReason = 1; //1己方禁聊 2对方禁聊  3亲密度不足 4拉黑对方 5被对方拉黑 6通话忙碌 7余额不足 100未互相关注(审核用户使用)
+  bool audio = 2; //是否能拨打语音
+  int64 audioValue = 3;//拨打语音亲密度
+  bool video = 4; //是否能拨打视频
+  int64 videoValue = 5; //拨打视频亲密度
+  int64 coinAsset = 6;//钱包金币数
+  bool callCard = 7;//首分钟是否使用通话卡
+  int64 perCost = 8; //语音每分钟花费
+  int32 tipNum = 9;//提示次数
+  int32 incomeDuration = 10; //几秒内挂断无收益
+  string incomeContent = 11; //女方收益文案
+  int32 faceCheckNum = 12;//N次未检测到人脸上传截图
+  repeated int64 frequency = 13; //视频通话截图频率
+  int64 perCostVideo = 14; //视频每分钟花费
+  int32 failReasonVideo = 15; //1己方禁聊 2对方禁聊  3亲密度不足 4拉黑对方 5被对方拉黑 6通话忙碌 7余额不足 100未互相关注(审核用户使用)
+}
+
+message CallListArg {
+  int64 pos = 1;
+  int32 size = 2;
+}
+
+message CallListReply {
+  repeated CallListItem items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message CallListItem {
+  User user = 1;
+  CallType type = 2;
+  CallStatus status = 3;
+  int64 timestamp = 4;
+  int64 sender = 5; //拨打方
+  int64 receiver = 6; //接听方
+  CallHangUpCode hangingUpStatus = 7; //通话结束方式
+  int32 duration = 8;//通话时长
+  IntimacyLevel intimacyLevel = 9; // 亲密度
+}
+
+message CallUploadCoverFaceArg {
+  int64 id = 1;//通话id
+  int32 type = 2;//上报类型 1固定频率截图 2上报未露脸 3N次未露脸截图
+  string picture = 3; //截图
+}
+
+message CallHangupErrorArg {
+  int64 id = 1;
+  int32 code = 2;//异常类型 1:系统或第三方异常挂断  2:余额不足
+}
+
+message CallMatchAvatarListReply {
+  repeated CallMatchAvatarItem items = 1; // 匹配用户头像列表
+  int32 onlinePeopleNum = 2; // 在线匹配人数
+}
+
+message CallMatchAvatarItem {
+  string pic = 1;
+  string countryCode = 2;
+  Gender gender= 3;
+
+}
+
+message CallMatchingTextListReply {
+  repeated CallMatchingTextItem items = 1;
+}
+
+message CallMatchingTextItem {
+  string text = 1;
+}
+
+enum MatchType {
+  amt_none = 0;
+  amt_audio = 1; // 语音匹配
+  amt_video = 2; // 视频匹配
+  amt_all = 3; // 音/视频匹配
+}
+
+message CallJoinAvMatchArg {
+  MatchType matchType = 1;
+  int32 source = 2;
+}
+
+message CallJoinAvMatchReply {
+  CallCheckFailReason failReason = 1; // 语音失败原因
+  FemaleJoinMatchResult femaleResult = 2; // 女用户返回数据
+  string failReasonContent = 3; // 失败原因内容
+}
+
+message FemaleJoinMatchResult {
+  string token = 1; // 女用户token
+  string channelName = 2; // 房间id
+  int32 unAppearDuration = 3; // N秒未检测到人脸上报冻结（0:不检测）
+}
+
+enum CallCheckFailReason{
+  ccfr_none = 0;
+  ccfr_oneselfBanChat = 1; // 己方禁聊
+  ccfr_targetBanChat = 2; // 对方禁聊
+  ccfr_intimacyDeficiency = 3; // 亲密度不足
+  ccfr_blockTarget = 4; // 拉黑对方
+  ccfr_beTargetBlock = 5; // 被对方拉黑
+  ccfr_busy = 6; // 通话忙碌
+  ccfr_balanceDeficiency = 7; // 余额不足
+  ccfr_oneselfBanVoiceMatch = 8; // 己方禁语音匹配
+  ccfr_oneselfBanVideoMatch = 9; // 己方禁视频匹配
+  ccfr_oneselfBanMatch = 10; // 己方禁匹配
+  ccfr_faceDeficiency = 11; // 用户画像不满足
+  ccfr_unAuthAvatar = 12; // 未完成头像认证
+  ccfr_unAuthGender = 13; // 未完成性别认证
+
+  ccfr_noFriend = 100; // 不是互相关注 (审核账号用)
+
+
+
+}
+
+enum CallFaceCheckReportedType {
+  cfcrt_none = 0;
+  cfcrt_freeze = 1; // 冻结
+  cfcrt_relieve = 2; // 解除
+}
+
+message CallFaceCheckReportedArg {
+  CallFaceCheckReportedType type = 1; // 上报类型
+  string freezeToken = 2; // 冻结token（解冻用）
+}
+
+message CallFaceCheckReportedReply {
+  string freezeToken = 1; // 冻结token（解冻用）
+}
+
+message CallMatchDebugArg {
+  int64 targetUid = 1; // 目标用户id
+  MatchType matchType = 2; // 匹配类型
+  MatchMode matchMode = 3; // 匹配模式
+  bool isAutoCall = 4; // 是否自动来电
+}
+
+enum SmMatchPunishType {
+  smpt_none = 0;
+  smpt_warn = 1;
+  smpt_close = 2;
+}
+
+enum AvMatchStatus {
+  avms_none = 0;
+  avms_matching = 1; // 匹配中
+  avms_connecting = 2; // 连接中
+  avms_calling = 3; // 通话中
+  avms_freeze = 4; // 冻结中
+  avms_close = 5; // 已关闭
+}
+
+enum AutoCallTimerOpType {
+  actoy_none = 0;
+  actoy_start = 1; // 开始
+  actoy_keep = 2; // 继续
+  actoy_stop = 3; // 停止
+}

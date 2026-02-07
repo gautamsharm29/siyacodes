@@ -1,0 +1,200 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+message GameListArg {
+  string countryCode = 1;
+}
+
+message GameListReply {
+  repeated Game games = 1;
+}
+
+message Game {
+  int64 id = 1;
+  string name = 2;
+  string tag = 3;
+  int32 tagType = 4; //标签类型 1新游戏 2热门
+  string icon = 5;
+  bool collect = 6; //是否收藏
+}
+
+message GameUrlArg {
+  int64 gameId = 1;
+  int32  source = 2; //1房间 2家族
+  int64 sourceId = 3;//房间或家族id
+}
+
+message GameUrlReply {
+  string url = 1; //游戏地址
+  bool half = 2; //是否半屏
+  float wide = 3; //宽
+  float high = 4;//高
+  int64 firmId = 5; //厂商id
+}
+
+message GameLampArg {
+  string countryCode = 1;
+}
+
+message GameLampReply {
+  repeated GameLamp lamps = 1;
+  string taskUrl = 2; //任务地址
+}
+
+message GameLamp {
+  int64 userId = 1;
+  string nickname = 2; //用户昵称
+  string avatar = 3; // 用户头像
+  string gameName = 4; //游戏名
+  int64 coin = 5;
+}
+
+message GameCoinNty {
+  int64 userId = 1;
+  string country = 2;
+  string region = 3;
+  int32 type = 4;//1减少 2增加
+  int64 coin = 5;
+  int64 gameId = 6;
+  string orderId = 7;
+  int64 source = 8;
+  int64 sourceId = 9;
+}
+
+// 通用状态码
+enum GameBaseStatus {
+  gbs_none = 0; // 无状态默认值
+  gbs_enabled = 1; // 激活
+  gbs_unactivated = 2; // 未激活
+  gbs_disabled = 3; // 禁用
+}
+
+// 中奖状态码
+enum GameRewardStatus {
+  grs_none = 0; // 无状态默认值
+  grs_won = 1; // 已中奖
+  grs_pending = 2; // 待中奖
+  grs_notWon = 3; // 未中奖
+}
+
+// 用户规则类型 - 幸运礼物-通用配置
+enum GameUserRuleType {
+  gurt_none = 0; // 无状态默认值
+  gurt_new = 1; // 新用户
+  gurt_old = 2; // 老用户
+}
+
+// 保护规则类型 - 幸运礼物-保护配置
+enum GameProtectionRuleType {
+  gprt_none = 0; // 无状态默认值
+  gprt_roi = 1; // 保护ROI
+  gprt_multiplier = 2; // 保护倍率
+}
+
+// 操作类型 - 幸运礼物-奖池操作
+enum GameEditorType {
+  get_none = 0; // 无状态默认值
+  get_add = 1; // 新增
+  get_deduct = 2; // 扣减
+}
+
+// 触发配置类型 - 幸运礼物-概率测算
+enum GameTriggerType {
+  gtt_none = 0; // 无状态默认值
+  gtt_baseRule = 1; // 通用配置规则
+  gtt_protectionRule = 2; // 保护配置规则
+  gtt_userRule = 3; // 天使之眼用户规则
+}
+
+// 是否处于保护配置 - 幸运礼物-概率测算
+enum GameIsProtectionRule {
+  gpr_none = 0; // 无状态默认值
+  gpr_inner = 1; // 是
+  gpr_outer = 2; // 否
+}
+
+// 是否处于天使之眼 - 幸运礼物-概率测算
+enum GameIsUserRule {
+  gur_none = 0; // 无状态默认值
+  gur_inner = 1; // 是
+  gur_outer = 2; // 否
+}
+
+// 是否显示磁片区banner - 幸运礼物-通用配置
+enum GameIsVisibleBanner {
+  gvb_none = 0; // 无状态默认值
+  gvb_show = 1; // 是
+  gvb_hide = 2; // 否
+}
+
+// 操作类型 - 幸运礼物-操作记录
+enum GameOperationType {
+  got_none = 0; // 无状态默认值
+  got_insert = 1; // 插入
+  got_update = 2; // 更新
+  got_delete = 3; // 删除
+}
+
+// 中奖连开类型 - 幸运礼物-天使之眼
+enum GameSerialDrawType {
+  gsdt_none = 0; // 无状态默认值
+  gsdt_click = 1; // 单击开
+  gsdt_combo10 = 2; // 连击10次开
+  gsdt_combo20 = 3; // 连击20次开
+  gsdt_combo50 = 4; // 连击50次开
+  gsdt_combo100 = 5; // 连击100次开
+  gsdt_combo200 = 6; // 连击200次开
+}
+
+// 中奖连开类型映射值 - 幸运礼物-天使之眼
+enum GameSerialDrawValue {
+  gsdtv_none = 0; // 无状态默认值
+  gsdtv_click = 1; // 单击开
+  gsdtv_combo10 = 10; // 连击10次开
+  gsdtv_combo20 = 20; // 连击20次开
+  gsdtv_combo50 = 50; // 连击50次开
+  gsdtv_combo100 = 100; // 连击100次开
+  gsdtv_combo200 = 200; // 连击200次开
+}
+
+// 连击次数档位 幸运礼物-日志 用户抽奖明细
+//连击次数档位{0:全部, 1:<= 2, 2:<= 5, 3:<= 10, 4:<= 20, 5:<= 50, 6:<= 100, 7:<= 200, 8:<= 300, 9: > 300}
+enum GameComboTier {
+  gct_none = 0; // 无状态默认值
+  gct_ComboTier1 = 1; // <= 2
+  gct_ComboTier2 = 2; // <= 5
+  gct_ComboTier3 = 3; // <= 10
+  gct_ComboTier4 = 4; // <= 20
+  gct_ComboTier5 = 5; // <= 50
+  gct_ComboTier6 = 6; // <= 100
+  gct_ComboTier7 = 7; // <= 200
+  gct_ComboTier8 = 8; // <= 300
+  gct_ComboTier9 = 9; // > 300
+}
+
+// 概率测算总权重 - 幸运礼物
+enum GameProbCalcWeight{
+  gpcw_none = 0; // 无状态默认值
+  gpcw_totalWeight = 1000000; // 总权重-百万精度
+}
+
+// 盈利ROI区间类型
+enum GameRoiRangeType{
+  grry_none = 0; // 无状态默认值
+  grry_0To01 = 1; // 盈利ROI[0, 0.1)
+  grry_01To02 = 2; // 盈利ROI[0.1, 0.2)
+  grry_02To05 = 3; // 盈利ROI[0.2, 0.5)
+  grry_05To08 = 4; // 盈利ROI[0.5, 0.8)
+  grry_08To10 = 5; // 盈利ROI[0.8, 1.0)
+  grry_10To12 = 6; // 盈利ROI[1.0, 1.2)
+  grry_12To15 = 7; // 盈利ROI[1.2, 1.5)
+  grry_15To20 = 8; // 盈利ROI[1.5, 2.0)
+  grry_20To25 = 9; // 盈利ROI[2.0, 2.5)
+  grry_25ToMore = 10; // 盈利ROI[2.5, 无穷大)
+}
+
+message GameCollectArg {
+  int64 gameId = 1;
+  bool collect = 2;//true收藏 false取消收藏
+}

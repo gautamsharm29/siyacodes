@@ -1,0 +1,63 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "account_enum.proto";
+
+enum CharmIncrType {
+  cit_none = 0;
+  cit_moment_praise = 2; // 动态点赞
+  cit_follow = 3; // 关注
+  cit_gift_coin = 4; // 礼物
+  cit_chat_point = 5; // 聊天
+
+}
+
+// 有收到积分就增加魅力值 消费金币/10
+message CharmIncrBody {
+  int64 userId = 2;
+  Gender gender = 4; // 用户性别
+  int64 addValue = 5; // 需要增加的结果值
+  int64 coin = 6;//房间榜增加 金币
+  int64 roomId = 7;
+  int64 GiftCoin = 8; //礼物价值
+  CharmIncrType type = 9;  // 类型
+}
+
+
+// 有消费就增加土豪值 消费金币/10
+enum WealthIncrType {
+  wit_none = 0;
+  wit_coin = 1; // 消费金币
+  wit_moment = 2; // 发布动态
+  wit_call = 3; // 语音通话
+  wit_chat_msg = 4; // 聊天
+
+}
+
+message WealthIncrBody {
+  int64 userId = 2;
+  Gender gender = 4; // 用户性别
+  int64 addValue = 5; //  需要增加的结果值 积分
+  int64 coin = 6;//房间榜增加 金币
+  int64 roomId = 7;
+  int64 GiftCoin = 8; //礼物价值
+  WealthIncrType type = 9;  // 类型
+
+}
+
+// 土豪、魅力榜
+message WealthCharmIncrNty {
+  CharmIncrBody charm = 1; // 魅力增加
+  WealthIncrBody wealth = 2; // 财富增加
+}
+
+message UserOnlineStatusNty {
+  int64 userId = 1; // 用户id
+  bool online = 2; // 在线状态
+}
+
+message GameIncrBody {
+  int64 userId = 1;
+  int64 addValue = 2;
+  string gameName = 3;
+}

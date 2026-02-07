@@ -1,0 +1,301 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "banner.proto";
+import "audit.proto";
+
+
+enum MomentContentType {
+  MC_none = 0;
+  MC_text = 1; //文本
+  MC_picture = 2; //图片
+  MC_textPicture = 3; //文本+图片
+  MC_video = 4; //视频
+  MC_textVideo = 5; //文本+视频
+}
+
+message PictureItem {
+  string src = 1;
+  int32 width = 2; //宽度
+  int32 height = 3; //高度
+}
+
+message VideoItem {
+  string src = 1;
+  int32 width = 2; //宽度
+  int32 height = 3; //高度
+  int32 duration = 4;
+  string cover = 5;//视频封面
+}
+
+message MomentArg {
+  int64 momentId = 1;
+}
+
+message CommentArg{
+  int64 commentId = 1;
+}
+
+message PersonalListArg {
+  int64 targetId = 1;
+  int64  pos = 2; //第一页传0
+  int32  size = 3;
+}
+
+message RecommendMomentListArg {
+  string countryCode = 1;//注册国家
+  int64  pos = 2; //第一页传0
+  int32  size = 3;
+}
+
+message TopicMomentListArg {
+  int64 topicId = 1;//
+  int64  pos = 2; //第一页传0
+  int32  size = 3;
+}
+
+message Location {
+  string detail = 1;
+  string city = 2; //城市名（仅市名，不需要省份）
+  string longitude = 3;//经度
+  string latitude = 4;//纬度
+}
+
+message Moment {
+  int64 userId = 1;
+  int64 id = 2; //动态id
+  int64 createTime = 3; //创建时间
+  MomentContentType contentType = 4;
+  string text = 5;
+  repeated PictureItem pictures = 6;
+  VideoItem video = 7;
+  string ext = 8;//拓展字段，contentType >= 6的动态内容放在这儿
+  int32 commentNum = 9; //评论数
+  int32 praiseNum = 10;//点赞数
+  int32 visitNum = 11;//游览数
+  int32 repostNum = 12;//转发数
+  AuditStatus status = 13;
+
+  bool praised = 14;
+  User owner = 15;
+  TopicTag topic = 16;
+  MomentTimeType timeType = 17;
+  int64 roomId = 18;
+  bool onMic = 19;
+  bool top = 20;
+  bool official = 21;
+}
+
+//动态列表
+message MomentList {
+  repeated Moment items = 1;
+  repeated TopicTag topics = 2; //仅推荐页返回
+  TopicDetail topicDetail = 3; //仅话题动态页返回
+  int64 nextPos = 4; //下一页的position参数
+  bool hasNext = 5; //是否还有下一页
+  int64 total = 6;//动态总数， 仅个人动态列表第一页返回
+  repeated Banner banner = 7;//推荐动态第一页下发
+}
+
+//发布动态参数
+message AddMomentArg {
+  MomentContentType contentType = 1;
+  string text = 2;
+  repeated PictureItem pictures = 3;
+  VideoItem video = 4;
+  string ext = 5;//拓展字段
+  int64 topicId = 6;//话题id
+}
+
+enum CommentContentType {
+  CC_none = 0;
+  CC_text = 1; //文本
+}
+
+//添加评论参数
+message AddCommentArg {
+  int64 momentId = 1;
+  int64 targetUserId = 2; //评论传0，回复别人评论传被回复的人的id
+  int64 targetCommentId = 3; //评论传0，回复别人评论传被回复的评论id
+  CommentContentType contentType = 4;
+  string content = 5;
+}
+//获取评论列表参数
+message CommentListArg {
+  int64 momentId = 1;//动态ID
+  int64  pos = 2; //第一页传0
+  int32  size = 3;
+}
+
+//评论的具体内容
+message MomentComment {
+  int64 id = 2; //评论id
+  int64 userId = 1;
+  int64 momentId = 3;//对应动态ID
+  int64 createTime = 4;//评论时间戳（毫秒）
+
+  int64 targetUserId = 5; //评论传0，回复别人评论传被回复的人的id
+  int64 targetCommentId = 6; //评论传0，回复别人评论传被回复的评论id
+
+  CommentContentType contentType = 7;
+  string content = 8;
+
+  AuditStatus status = 9;
+
+  User owner = 11;
+  User targetUserInfo = 10;
+}
+
+//评论列表
+message CommentListReply {
+  repeated MomentComment items = 1;
+  int64 nextPos = 2; //下一页的position参数
+  bool hasNext = 3; //是否还有下一页
+}
+
+enum ActionType {
+  AT_none = 0;
+  AT_comment = 1;
+  AT_praise = 2;
+  AT_reply = 3;
+}
+
+enum ObjectType {
+  OT_none = 0;
+  OT_moment = 1;
+  OT_comment = 2;
+}
+
+message MomentNotificationItem {
+  int64 actionUserId = 1; //互动人
+  ActionType actionType = 2;
+  int64 actionObjectId = 10;//行为所产生记录id
+  int64 objectId = 3;
+  ObjectType objectType = 4;
+  int64 timestamp = 5; //时间戳，毫秒
+  User actionUser = 9;
+
+  MomentComment comment = 7;
+  Moment moment = 8;
+}
+
+message MomentNotificationList {
+  repeated MomentNotificationItem items = 1;
+  bool hasNext = 2; //是否还有下一页
+  int64 nextPos = 3; //下一页的position参数
+}
+
+
+message MomentNotificationMarkArg{
+  int64 userId = 1;
+}
+
+message MomentNotificationMarkInfo{
+  bool hasUnread = 1; //是否有未读通知
+  int32 count = 2;//未读通知数量
+}
+
+message MomentNotification {
+  MomentNotificationItem item = 1;
+}
+
+message PositionPageArg {
+  int64  pos = 1; //第一页传0
+  int32  size = 2;
+}
+
+message PageMeta {
+  bool hasNext = 1; //是否还有下一页
+  int64 nextPos = 2; //下一页的position参数
+}
+
+message PraisedUserListArg {
+  int64 momentId = 1;
+  int64  pos = 2; //第一页传0
+  int32  size = 3;
+}
+
+message PraisedUserList {
+  message Item {
+    User user = 1;
+    int64 timestamp = 2;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2; //是否还有下一页
+  int64 nextPos = 3; //下一页的position参数
+}
+
+message MomentDetail {
+  Moment moment = 1;
+  bool followed = 2; //是否已关注动态所有者
+  bool blocked = 3; //是否已屏蔽
+}
+
+enum MomentNotifyType {
+  mnt_none = 0;
+  mnt_praise = 1; //互动通知 点赞
+  mnt_comment = 2;//互动通知 评论
+}
+
+message MomentNotify {
+  ActionType type = 1;
+  int64 userId = 2;
+  string nickname = 3;
+}
+
+message TopicDetail {
+  int64 id = 1;
+  string name = 2;
+  int64 viewNum = 3;// 浏览数量
+  string introduction = 4; //简介
+}
+
+message TopicTag {
+  int64 id = 1;
+  string name = 2;
+  int64 viewNum = 3;
+}
+
+message TopicListReply {
+  repeated TopicTag items = 1;
+}
+
+enum MomentTimeType {
+  mtt_none = 0;
+  mtt_online = 1;//显示最近在线
+  mtt_moment = 2;//显示动态时间
+}
+
+message MomentPraiseUserList {
+  repeated MomentPraiseUserListItem items = 1;
+  bool hasNext = 2; //是否还有下一页
+  int64 nextPos = 3; //下一页的position参数
+}
+
+message MomentPraiseUserListItem {
+  SimpleUser user = 1;
+  int64 momentId = 2;
+  string momentContent = 3;
+  string momentPic = 4;
+  int64 createTime = 5;
+}
+
+message MomentCommentUserList {
+  repeated MomentCommentUserListItem items = 1;
+  bool hasNext = 2; //是否还有下一页
+  int64 nextPos = 3; //下一页的position参数
+}
+
+message MomentCommentUserListItem {
+  SimpleUser user = 1;
+  int64 momentId = 2;
+  string momentContent = 3;
+  string momentPic = 4;
+  string comment = 5;
+  int64 createTime = 6;
+  int32 status = 7; //1正常 2删除 3隐藏
+  int64 commentId = 8;
+}

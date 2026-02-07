@@ -1,0 +1,39 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "rank.proto";
+
+
+message ContributionRankBriefSiteArg {
+  int64 roomId = 1;
+}
+
+message ContributionRankBriefSiteReply {
+  repeated string avatars = 1;
+}
+
+
+message ContributionRankArg {
+  int64 roomId = 1;
+  CycleType cycleType = 2; // 周期，日周月：1,2,3,
+
+}
+
+message ContributionRankReply {
+  repeated ConRoomRankInfo rankList = 1; // 贡献榜
+  ConRoomRankInfo selfRank = 2; // 个人
+  string rankInfo = 3; // 贡献榜说明
+  bool isClick = 4; // 是否跳转
+  string totalFlow  = 5; // 榜单流水总数
+}
+
+
+message ConRoomRankInfo {
+  int64 rank = 1;
+  int64 value = 2;
+  RankUser luser = 3;
+  string rankStr = 4;
+}
+

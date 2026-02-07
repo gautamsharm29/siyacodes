@@ -1,0 +1,19 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum PayStatus {
+  ps_none = 0;
+  ps_pending = 1;//交易处理中
+  ps_success = 2;//交易成功
+  ps_failed = 3;//交易失败
+  ps_closed = 4;//交易关单
+}
+
+enum PayPlatform {
+  pp_none = 0;
+  pp_google = 1;
+  pp_iap = 2;
+  pp_payerMax = 3;
+  pp_dlocal = 4;
+}

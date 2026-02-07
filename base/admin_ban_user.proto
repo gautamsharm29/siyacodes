@@ -1,0 +1,20 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+//①举报-运营封禁；②家族成员熔断封禁；③用户管理-手动封禁；④游客熔断封禁；⑤用户单聊/群聊熔断封禁
+enum BanVia {
+  bw_none = 0;
+  bw_report_manual_ban = 1; //举报-运营封禁
+  bw_user_manual_ban = 3; //用户管理-手动封禁
+  bw_device_ban = 6; //设备封禁
+  bw_ip_ban = 7; //ip封禁
+  bw_refund_ban = 8; //退款封禁
+}
+
+
+enum BanType {
+  btt_none = 0;
+  btt_all_ban = 11; //全部封禁
+  btt_part_ban = 12; //部分封禁
+}

@@ -1,0 +1,35 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+
+enum BannerType {
+  bat_none = 0;
+  bat_index = 1; // 首页
+  bat_moment = 2; // 动态页
+  bat_search = 3; //搜索页
+  bat_task_center = 4; // 任务中心
+  bat_wallet = 5; //钱包 充值
+  bat_family = 6; // 家族
+  bat_familySession = 7; // 家族聊天
+  bat_voiceRoom = 8;//语聊房
+  bat_session = 9;//单聊
+}
+
+message Banner {
+  int64 id = 1;
+  string pic = 2; // 图片地址
+  int64 rank = 3;
+  string jumpUrl = 4; // 跳转地址
+  int32 jumpType = 5; // 1:原生 2:h5
+}
+
+// 获取banner的参数
+message BannerArg {
+  BannerType bt = 1; // banner类型
+  int64 ver = 2;
+}
+
+message BannerList {
+  repeated Banner banners = 1;
+}

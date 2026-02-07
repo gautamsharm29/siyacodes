@@ -1,0 +1,442 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+//道具一级类型
+enum ItemType1 {
+  it1_none = 0;
+  it1_person = 1; //个人
+  it2_room = 2; //房间
+  it3_medal = 3; //勋章的大类
+}
+
+
+//道具二级类型
+enum ItemType2 {
+  it2_none = 0;
+  it2_1_account = 1001; //个人靓号
+  it2_1_headFrame = 1002; //个人头像框
+  it2_1_joinRoom = 1003; //个人进场动画
+  it2_1_vehicle = 1004; //个人座驾
+  it2_1_infoCard = 1005; //个人资料卡
+  it2_1_chatBubble = 1006; // 聊天气泡
+  it2_1_micRipple = 1007; // 麦上波纹
+  it2_1_DirectMessageCard = 1008;//私聊卡
+  it2_1_CallingCard = 1009;//通话卡
+  it2_1_PickUpCard = 1010; //搭讪卡
+  it2_1_MemberPrivateLetterCard = 1011; //会员私信卡
+  it2_1_title = 1012; //称号
+  it2_1_roomChatBubble = 1013;//房间聊天气泡
+
+  it2_2_account = 2001;//房间靓号
+  it2_2_headFrame = 2002;//房间框
+  it2_2_bg = 2003;// 房间背景
+  it2_2_sbg = 2004; // 自定义房间背景
+  it2_2_micSkin = 2005; //麦位皮肤
+
+  it2_3_achievement_medal = 3001; //成就勋章
+  it2_3_activity_medal = 3002; //活动勋章
+  it2_3_privilege_medal = 3003; //特权勋章
+}
+
+enum SubItem {
+  sub_none = 0;
+  sub_activity_medal = 1; // 成就活跃勋章
+  sub_recharge_medal = 2; // 成就充值勋章
+}
+
+enum ItemChangeLogType {
+  iclt_none = 0;
+  iclt_add = 1;
+  iclt_expired = 2;
+  iclt_used = 3;
+}
+
+//道具获得途径
+enum ItemGetPath {
+  igp_none = 0;
+  igp_get_buyCoin = 101;//金币购买
+  igp_get_activity = 102; //活动奖励
+  igp_get_admin = 103; //后台赠送
+  igp_get_checkin = 104; //签到获得
+  igp_get_task = 105; //每日任务获取
+  igp_get_newerRegister = 106; //新人注册
+  igp_get_maleReissueCard = 107; //新男私聊卡补发策略
+  igp_get_newer_task = 108; //每日新人获取
+  igp_get_first_recharge = 109; //首充
+  igp_get_week_star = 110; // 周星活动
+  igp_get_intimacy = 111; //亲密度奖励
+
+  igp_office_reward = 200; // 人工奖励发放
+  igp_office_reward_platform = 201; // 人工发放-平台活动奖励
+  igp_office_reward_task = 202; // 人工发放-任务奖励
+  igp_office_reward_room_activity = 203; // 人工发放-房间活动奖励
+  igp_office_reward_inner = 204; // 人工发放-内部员工测试
+
+  igp_pri_msg = 400; // 私信聊天
+  // 1私聊语音 2私聊视频 3语音匹配 4视频匹配
+  igp_pri_call = 401; // 1私聊语音
+  igp_pri_voice = 402; // 2私聊视频
+  igp_match_call = 403; // 3语音匹配
+  igp_match_voice = 404; // 4视频匹配
+
+
+  igp_lose_expire = 501; //过期
+  igp_los_admin = 502;//后台移除
+  igp_lose_use = 503;//使用
+
+}
+
+enum ItemSourceBurialPoint {
+  isbp_none = 0;
+  isbp_newerTask = 1;
+  isbp_dailyTask = 2;
+  isbp_signTask = 3;
+  isbp_rankActivity = 4;
+  isbp_register = 5;
+  isbp_maleReissue = 6;
+  isbp_officeTask = 7;
+  isbp_weekStar = 8;
+}
+
+enum ItemPosition {
+  IPS_None = 0;
+  IPS_left = 1; // 居左
+  IPS_center = 2; // 居中
+}
+
+message Item {
+  int64 id = 1;
+  ItemType1 type1 = 2;
+  ItemType2 type2 = 3;
+  string name = 4;
+  int64 resourceId = 5; //上层动态资源文件
+  int64 staticResourceId = 8; //背景静态资源文件
+  int32 status = 6; // 1:上架 2:下架
+  string pic = 7; // 静态图
+}
+
+// 使用的装扮
+message UseItem {
+  int64 id = 1; // item.id
+  int64 expired = 2; // 到期时间,-1为没有期限
+  int64 bagItemId = 3; // 所处背包id
+  string src = 4; // 资源文件(自定义才有)
+  int64 resourceId = 5; //特效资源id
+}
+
+// 用户使用的装扮
+message UserUseItem {
+  UseItem frame = 1; // 头像框
+  UseItem join = 2; // 进场特效
+  UseItem vehicle = 3; // 个人座驾
+  UseItem info = 4; // 个人资料卡
+  UseItem account = 5; // 靓号
+  UseItem bubble = 6; // 私聊聊天气泡
+  UseItem ripple = 7; // 麦位光波
+  UseItem roomBubble = 8; //房间聊天气泡
+}
+
+// 房间使用的装扮
+message RoomUseItem {
+  UseItem frame = 1; // 房间框
+  UseItem background = 2; // 房间背景
+  UseItem micSkin = 3; //麦位皮肤
+}
+
+message StoreProduct {
+  int64 id = 1; // 商品id
+  ItemType2 type = 2; // 道具类型
+  int64  duration = 4; // 天数
+  bool  timeLimited = 5; // 是否有时效性
+  int64 coin = 6; // 价值金币
+  int64 rank = 7; // 排序值
+  int64 itemId = 8; // 道具id
+  bool give = 9; // 是否可赠送
+  int32 payWay = 10; //1:金币 2:水晶
+  int32 extType = 11; //当type为自定义房间背景时，1静态 2动态
+}
+message StoreProductList {
+  repeated StoreProduct products = 1;
+}
+message StoreProductLab {
+  int64 parentId = 1; // 父级StoreItemLab id
+  int64 id = 2;
+  ItemType2 type2 = 3; // 商品类型
+  string name = 4;
+  int64 rank = 5;
+  repeated StoreProduct products = 6;
+}
+// 道具商城列表
+message StoreItemListArg {
+  ItemType1 type = 1; // 类型商城
+}
+message StoreItemListReply {
+  repeated StoreProductLab labs = 1;
+}
+// 同步道具信息
+message SyncItemArg {
+  // @gotags: form:"lastSyncTime"
+  int64 lastSyncTime = 1; // 上一次同步道具的时间(毫秒级时间戳)
+  // @gotags: form:"id"
+  int64 id = 2;//道具id
+}
+message SyncItemReply{
+  repeated Item items = 1; // 有变动的道具列表
+  int64 lastSyncTime = 2; // 保存此值, 下次同步传此参数
+}
+// 购买道具
+message StoreItemBuyArg {
+  bool give = 1; // 是否为赠送
+  int64 target = 2; // 对方id
+  int64 productId = 3; // 商品id(tips:不是item.id)
+  bool renew = 4; // 续费
+}
+message StoreItemBuyReply {
+
+}
+
+// 购买道具
+message BgStoreItemBuyArg {
+  int64 productId = 1; // 商品id(tips:不是item.id)
+  bool renew = 2; // 续费
+  int64 id = 3; // 续费时的道具背包id
+  string src = 4;
+}
+message BgStoreItemBuyReply {
+
+}
+
+// 道具转赠送
+message ItemGiveArg {
+  int64 id = 1; // 道具列表的id
+  int64 target = 2; // 对方id
+}
+message ItemGiveReply {
+
+}
+
+// 我的道具列表
+message ItemListArg {
+  ItemType1 type = 1;
+  ItemType2 type2 = 2;
+}
+
+message ItemListDetail {
+  int64 id = 1; // 商品id
+  int64 itemId = 2; // 道具类型
+  int64 duration = 4; // 剩余天数
+  bool  timeLimited = 5; // 是否有时效性
+  int64 createTime = 6; // 购买时间
+  int64 expireAt = 7; // 到期时间
+  bool inUse = 8; // 是否在使用
+  int64 coin = 10; // 价值金币
+  int64 productId = 11; // 商品id,用于续费
+  string src = 12; // 图片列表
+  bool renew = 13; // 是否可续费
+  int64 renewDay = 14; // 续费天数
+  ItemType2 type = 15;
+  int32 payWay = 16; //1:金币
+}
+message ItemListReply {
+  repeated ItemListDetail list = 1;
+}
+
+message ValidItem {
+  int64 id = 1;
+  ItemType1 type = 2; // 道具一级类型
+  ItemType2 type2 = 3; // 道具二级类型
+  bool hasLimited = 4; // 是否有时效
+  int64 expireAt = 5; // 到期时间
+}
+
+// 使用道具
+message ItemUseArg {
+  int64 id = 1; // 道具列表的id
+  bool use = 2; // true:使用 false:不适用
+}
+
+// 座驾
+message UserVehicleWallArg{
+  int64 userId = 1;
+  int64 pos = 2;
+  int64 size = 3;
+}
+
+message UserVehicleWallReply{
+  bool hasNext = 1;
+  int64 nextPos = 2;
+  repeated SimpleItem items = 3; //座驾
+  int64 total = 4; // 总得到座驾物个数
+}
+
+// 称号
+message UserTitleWallArg {
+  int64 userId = 1;
+  int64 pos = 2;
+  int64 size = 3;
+}
+
+message UserTitleWallReply {
+  string avatar = 1;
+  string nickname = 2;
+  int64 titleNum = 3;
+  repeated TitleWallItem titleList = 4;
+}
+
+message TitleWallItem {
+  int64 titleId = 1;
+  string name = 2;
+  string url = 3; // 装扮图
+  string gainTime = 4; // 获得时间
+  int64 expireTime = 5; //过期时间
+  int32 timeLimited = 6; // 1:有时效 2:无时效
+  int32 duration = 7; // 时长
+  int64 dynamicId = 8; // 动效
+}
+
+// 勋章
+message UserMedalWallArg {
+  int64 userId = 1; // 用户id
+}
+
+message UserMedalWallReply {
+  string avatar = 1;
+  string nickname = 2;
+  int64 medalNum = 3;
+  // 佩戴勋章
+  repeated SimpleItem dressedMedals = 4;
+}
+
+enum MedalType {
+  mty_none = 0;
+  mty_achievement = 1;
+  mty_activity = 2;
+  mty_right = 3;
+}
+
+// 勋章tab
+message SubMedalTabArg {
+  int32 tab = 1; // 1:成就勋章 2:活动勋章 3:特权勋章
+  int64 userId = 2; // 用户id
+}
+
+message SubMedalTabReply {
+  // 成就勋章
+  repeated AchieveMedalItem achieveMedal = 1;
+  // 普通勋章
+  repeated SimpleItem normalMedals = 2;
+}
+
+message AchieveMedal {
+  // 活跃勋章
+  AchieveMedalItem LoginMedal = 1;
+  // 充值勋章
+  AchieveMedalItem RechargeMedal = 2;
+}
+
+message AchieveMedalItem {
+  int64 cur = 1; // 当前的进度
+  repeated string nodeList = 2; // 节点进度
+  repeated SimpleItem medals = 3;
+  int64 perc = 4; // 进度百分比
+  string title = 5; // 标题
+  string info = 6; //  说明
+  SubItem subMadelType = 7 ; // 子类型 1; // 成就活跃勋章 2; // 成就充值勋章
+}
+
+// 勋章操作
+message MedalUseOpArg {
+  int32 medalOp = 1; // 1:使用 2:卸下
+  int64 id = 2; // myself item id
+}
+
+message MedalUseOpReply {
+  // the items reflash
+  repeated SimpleItem medalList = 1;
+}
+
+
+message SimpleItem {
+  int64 id = 1;
+  string name = 2; //名称
+  string pic = 3; // 静态图
+  int64 dynamicId = 4; // 动态id
+  bool inUse = 5; //使用中
+  int64 expireTime = 6; //过期时间
+  int32 timeLimited = 7;//1:有时效 2:无时效
+  int32 num = 8; //数量
+  string info = 9; // 说明
+  string gainTime = 10; // 获得时间
+  int32 level = 11;
+  string borderUrl = 12; // 边框的图，佩戴
+  string borderDynamic = 13; // 展示栏的边框图
+  bool isGain = 14; // 是否拥有
+  int64 userItemId = 15; // 操作的时候使用
+}
+
+enum LevelStr {
+  level_none = 0 ;
+  level_D = 1;
+  level_C = 2;
+  level_B = 3;
+  level_A = 4;
+  level_S = 5;
+  level_SS = 6;
+}
+
+message Resource {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;//资源图
+  string fileType = 4; //资源类型 lottie/svga/pag/vap
+  string fileSrc = 5; //资源
+  bool predownload = 6; //是否预下载
+  int32 status = 7; //状态 1启用
+}
+
+// 同步资源信息
+message SyncResourceArg {
+  // @gotags: form:"lastSyncTime"
+  int64 lastSyncTime = 1; // 上一次同步道具的时间(毫秒级时间戳)
+  // @gotags: form:"id"
+  int64 id = 2;//道具id
+}
+
+message SyncResourceReply{
+  repeated Resource items = 1; // 有变动的资源列表
+  int64 lastSyncTime = 2; // 保存此值, 下次同步传此参数
+}
+
+message CallingCardNumArg {
+  int64 targetId = 1; // 目标用户id
+}
+
+message CallingCardNumReply {
+  int32 total = 1; // 可使用数量
+  int32 exclusiveNum = 2; // 专属数量
+
+}
+
+message ExclusiveCallingCardDebugArg {
+  int32 notifyType = 1; // 通知类型 1:奖励通知；2:使用通知
+  int64 targetId = 2; //目标用户id
+  int32 authType = 3; // 目标认证类型 1:头像认证；2:性别认证
+  int64 msgId = 4; // 消息id
+}
+
+message ExclusiveCallingCardRecordArg {
+  int64 targetId = 1; // 目标用户id
+  int64 itemId = 2; // 通话卡id
+}
+
+message ExclusiveCallingCardRecordReply {
+  repeated ExclusiveCallingCardRecordItem items = 1; // 记录集
+}
+
+message ExclusiveCallingCardRecordItem {
+  string avatar = 1; // 头像
+  string resource = 2; // 资源url
+  int32 residueNum = 3; // 剩余数量
+  int64 expireTime = 4; // 到期时间
+}

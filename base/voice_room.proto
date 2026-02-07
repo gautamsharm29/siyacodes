@@ -1,0 +1,599 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "voice_room_enum.proto";
+import "voice_room_microphone.proto";
+import "account_enum.proto";
+import "op_enum.proto";
+import "item.proto";
+import "user_appeal.proto";
+import "gift.proto";
+import "audit.proto";
+
+message VoiceRoom {
+  int64 id = 1;
+  string account = 2;
+  string prettyAccount = 3;
+  VoiceRoomType type = 4;
+  string name = 5;
+  int64 ownerId = 6;
+  VoiceRoomJoinPerm joinPerm = 7; //加入权限
+  VoiceRoomStatus status = 8;
+  string pwd = 9; //进入密码
+  int64 createTime = 10;
+  User owner = 11;
+  VoiceRoomMicPerm micPerm = 12; //麦位权限
+  int64 hot = 13; //热度值
+  int32  empty = 14; //房间是否为空
+  RoomUseItem item = 15; // 房间装扮信息
+  string cover = 16; //封面
+  string introduction = 17;//房间介绍
+  int32 micNum = 18; //麦位数量
+  int32 micUpgradeNum = 19; //麦位可升级数量
+  VoiceRoomChatPerm chatPerm = 20; //发言权限
+  int64 updateTime = 21;//房间信息变动时间
+  string background = 22; //房间背景
+  Tag tag = 23; //房间标签
+  bool follow = 24;//是否关注
+}
+
+message CurrentVoiceRoomArg {
+  int64 userId = 1;
+}
+
+message CurrentVoiceRoomReply {
+  int64 roomId = 1; //房间id
+  int64 micPos = 2;  //麦位
+}
+
+message VoiceRoomCreateArg {
+  VoiceRoomType type = 1;
+  string name = 2;
+  string cover = 3;//房间头像封面
+  string introduce = 4; //房间介绍
+  int32 tag = 5; //房间标签
+}
+
+message VoiceRoomCreateReply {
+  int64 id = 1;
+  VoiceRoomStatus status = 2; //房间状态
+}
+
+message VoiceRoomJoinArg {
+  int64 id = 1;
+  string pwd = 2;//进入密码
+}
+
+message VoiceRoomJoinReply {
+  VoiceRoom roomInfo = 1; //房间基本信息
+  repeated VoiceRoomMicListItem micList = 2; //麦位列表信息
+  VoiceRoomTokenReply zegoToken = 3; //即构token信息
+  string officialAnnouncement = 11; //官方公告
+  VoiceRoomRole role = 4; //房间内角色，是否是管理员/房主
+  bool hasAppliedMic = 5; //是否已申请麦位
+  int64 micApplyNum = 8; //未处理的麦位申请数量
+  int32 num = 9;//房间在线人数
+}
+
+message VoiceRoomExitArg {
+  int64 id = 1;
+}
+
+message VoiceRoomExitReply {
+
+}
+
+
+message VoiceRoomUpdateArg {
+  int64 id = 1;
+  VoiceRoomInfoChangeField filed = 2;
+  string value = 3;
+}
+message VoiceRoomListArg {
+  int64 pos = 1;
+  int64 size = 2;
+  //VoiceRoomTabType tabType = 3;
+}
+
+message VoiceRoomListReply{
+  repeated RoomTabList roomList = 1;
+  int64 nextPos = 2;
+  bool hasNext = 3;
+  int64 total = 4; //总共有多少房间
+}
+
+message RoomTabList {
+  int64 id = 1; //房间id
+  VoiceRoomType type = 2;
+  string account = 3; // 房间号
+  string prettyAccount = 4; // 靓号
+  string name = 5;
+  string cover = 6;//房间封面
+  int64 hot = 7; //热度值
+  SimpleUser owner = 8; //房主信息
+  string countryCode = 9; //国家代码
+  bool lock = 10; //房间上锁
+  int32  onlineNum = 11; //在线人数
+  string background = 12;//列表背景图
+  string introduction = 13; //房间介绍
+  string pwd = 14; //密码
+  Tag tag = 15; //标签
+}
+
+
+message RoomList {
+  int64 id = 1; //房间id
+  VoiceRoomType type = 2;
+  string name = 3;
+  string icon = 4;//房间头像
+  int64 hot = 5; //热度值
+  VoiceRoomJoinPerm joinPerm = 6; //权限 1任何人 2仅家族
+  VoiceRoomMicPerm micPerm = 8; //权限 1任何人 2仅家族
+  repeated string userIcon = 7; //麦上用户头像
+}
+
+message VoiceRoomTopRoomArg {
+
+}
+
+message VoiceRoomTopRoomReply {
+  RoomList room = 1;
+}
+
+message VoiceRoomClearHotArg {
+  int64 roomId = 1; //房间id
+}
+
+enum VoiceRoomRankType {
+  vrrt_none = 0;
+  vrrt_totalSend = 1; //送礼总榜
+  vrrt_totalReceive = 2; //收礼总榜
+
+  vrrt_daySend = 3; //送礼日榜
+  vrrt_dayReceive = 4; //收礼日榜
+
+  vrrt_weekSend = 5; //送礼周榜
+  vrrt_weekReceive = 6;//收礼周榜
+}
+
+message VoiceRoomRankArg {
+  int64 roomId = 1;//房间id
+  VoiceRoomRankType type = 2;
+  int64 pos = 3;
+}
+
+message VoiceRoomRankReply {
+  repeated VoiceRoomRankItem rankList = 1;
+  VoiceRoomRankItem mine = 2;
+  bool inRank = 3;//自己是否在100名内
+  int64 nextPos = 4;
+  bool hasNext = 5;
+}
+
+message VoiceRoomRankItem {
+  int64 userId = 1;
+  string nickname = 2;//昵称
+  string avatar = 3;//头像
+  int32 rank = 4;//排名
+  int64 coin = 5;//金币数
+  Gender gender = 6;//性别
+  int32 age = 7; //年龄
+  int32 charmLevel = 8;//魅力等级
+  int32 wealthLevel = 9; //财富等级
+  int32 nobleId = 10;//贵族id
+  string countryCode = 11;
+}
+
+message VoiceRoomSeatArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomSeatReply {
+  repeated User users = 1;
+}
+
+message VoiceRoomOnlineUserArg {
+  int64 roomId = 1;
+  int64 pos = 2;
+}
+
+message VoiceRoomOnlineUserReply {
+  repeated User users = 1;
+  int64 nexPos = 2;
+  bool hasNext = 3;
+}
+
+message VoiceRoomExtUserInfoArg {
+  int64 id = 1;
+  int64 roomId = 2;
+}
+
+message VoiceRoomExtUserInfoReply {
+  int32 fans = 1; // 粉丝数
+  int32 follow = 2; // 关注数
+  bool liked = 3; // 是否已关注
+  bool isManager = 5; //是否为管理员
+  bool isOwner = 6; //是否为房主
+}
+
+message VoiceRoomKickOutArg {
+  int64 roomId = 1;
+  int64 userId = 2;
+  bool block = 3;//是否拉黑
+}
+
+message VoiceRoomTopRightArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomTopRightReply {
+  repeated VoiceRoomRankItem topThree = 1;
+  int64 myCoin = 2;
+  int32 roomUserNum = 3;
+  repeated VoiceRoomRankItem weekTopThree = 4;//周榜前三
+  int64 myCoinWeek = 5;//我的周送礼金币数
+}
+
+message VoiceRoomUpdateRankTopThreeArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomTokenArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomTokenReply {
+  string token = 1; // 自己的token
+  string channelName = 2; // 即构channel
+  int64 uid = 3; // 即构uid
+  //VoiceRoomServiceType serviceType = 4;
+}
+
+message VoiceRoomManagerListArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomManagerListReply {
+  message Item {
+    User user = 1;
+  }
+
+  repeated Item items = 1;
+}
+
+message VoiceRoomManagerOpArg {
+  int64 roomId = 3;
+  ResOp op = 1;
+  string account = 2;
+}
+
+message VoiceRoomManagerOpReply {
+
+}
+
+message VoiceRoomInfoArg {
+  int64 ownerId = 1; //根据房间所有者获取房间信息，二选一
+  int64 roomId = 2; //根据房间id获取房间信息，二选一
+}
+
+message VoiceRoomInfoReply {
+  VoiceRoom info = 1;
+}
+
+message AllVoiceRoomStatics {
+  GiftType giftType = 1;
+  VoiceRoomType voiceRoomType = 2;
+  int64 roomId = 3;
+  int64 senderId = 4;
+  int64 targetId = 5;
+  int64 senderGetCoin = 6; //发送方获得的金币价值
+  int64 receiverGetCoin = 7; //接收方获得的金币价值
+  int64 costCoin = 8; // 发送方花费的金币
+  int64 hot = 9;
+}
+
+
+message VoiceRoomJoinTokenArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomJoinTokenReply {
+  string token = 1;
+}
+
+message VoiceRoomHotListArg {
+  int64 pos = 1;
+  int64 size = 2;
+}
+
+message VoiceRoomHotListReply {
+  int64 nextPos = 1; //下一页的position参数
+  bool hasNext = 2; //是否还有下一页
+  repeated RoomTabList roomList = 3;
+  repeated string firstRoomTop = 4; //第一房间榜单前三
+}
+
+message VoiceRoomCountryListArg {
+  int64 pos = 1;
+  int64 size = 2;
+  string countryCode = 3;
+}
+
+message VoiceRoomCountryListReply {
+  int64 nextPos = 1; //下一页的position参数
+  bool hasNext = 2; //是否还有下一页
+  repeated RoomTabList roomList = 3;
+  int64 total = 4; //一共多少房间
+}
+
+message VoiceRoomFollowListArg {
+  int64 pos = 1;
+  int64 size = 2;
+}
+
+message VoiceRoomFollowListReply {
+  repeated RoomTabList roomList = 1;
+  int64 nextPos = 2;
+  bool hasNext = 3;
+}
+
+message VoiceRoomRecentListArg {
+  int64 pos = 1;
+  int64 size = 2;
+}
+
+message VoiceRoomRecentListReply {
+  repeated RoomTabList roomList = 1;
+  int64 nextPos = 2;
+  bool hasNext = 3;
+}
+
+message FollowVoiceRoomArg {
+  int64 roomId = 1;
+  bool unfollow = 2;//是否取消关注
+}
+
+message VoiceRoomPageDataArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomPageDataReply {
+  int64 totalHeat = 1;//总礼物热度
+  int64 dayHeat = 2;//本日礼物热度
+  int64 follower = 3;//关注数
+  bool followed = 4;//是否已关注
+}
+
+message VoiceRoomStatusCheckArg {
+  int64 ownerId = 1; //根据房间所有者获取房间状态，二选一
+  int64 roomId = 2; //根据房间id获取房间状态，二选一
+}
+
+message VoiceRoomBanInfo {
+  string banReason = 2; //封禁原因
+  int64 banTime = 3; //封禁时间
+}
+
+message VoiceRoomStatusCheckReply {
+  VoiceRoomStatus status = 1; //房间状态
+  BanInfo banInfo = 2;
+  AppealStatus appealStatus = 3;
+  AppealInfo appealInfo = 4;
+}
+
+message VoiceRoomClearScreenArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomBlockRemoveArg {
+  int64 roomId = 1;
+  int64 userId = 2;
+}
+
+message VoiceRoomBlockListArg {
+  int64 roomId = 1;
+  int64 pos = 2;
+  int64 size = 3;
+}
+
+message VoiceRoomBlockListReply {
+  message Item {
+    User user = 1;
+    int64 opTime = 2;
+    User manager = 3;
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message VoiceRoomKickOutRecordArg {
+  int64 roomId = 1;
+  int64 pos = 2;
+  int64 size = 3;
+}
+
+message VoiceRoomKickOutRecordReply {
+  message Item {
+    User user = 1;
+    User manager = 2;
+    int64 opTime = 3;
+    int32  type = 4; // 1:24小时 2:黑名单
+  }
+
+  repeated Item items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message VoiceRoomVoteInfoStatics {
+  int64 roomId = 1;
+  int64 voteId = 2;
+  int64 giftId = 3;
+  repeated int64  userIds = 4;
+  VoiceRoomVoteSignalType signal = 5;
+  int32 timeLimit = 6;
+  int64 endTime = 7;
+  int64 creator = 8;
+}
+
+message VoiceRoomCreateVoteArg {
+  int64 roomId = 1;
+  int64 giftId = 2;
+  repeated int64  userIds = 3;
+  string title = 4;
+  int32 timeLimit = 5; //是否限时 1有时限 2乌什县
+  int32 duration = 6; //分钟
+}
+
+message VoiceRoomCreateVoteReply {
+  int64 voteId = 1; //投票id
+}
+
+message VoiceRoomVoteInfoArg {
+  int64 roomId = 1;
+  int64 voteId = 2;
+}
+
+message VoiceRoomVoteInfoReply {
+  int64 voteId = 1;
+  string title = 2;
+  int32 timeLimit = 3;
+  int64 startTime = 4;
+  int64 endTime = 5;
+  repeated VoiceRoomVotePlayerInfo players = 6;
+  int32 myVoteNum = 7;
+  int64 giftId = 8;
+  VoiceRoomVoteSignalType status = 9;
+}
+
+message VoiceRoomVotePlayerInfo {
+  User user = 1;
+  int32  num = 2;//礼物个数
+}
+
+message VoiceRoomVoteEndArg {
+  int64 roomId = 1;
+  int64 voteId = 2;
+}
+
+message VoiceRoomVoteHistoryArg {
+  int64 pos = 1;
+  int64 size = 2;
+  int64 roomId = 3;
+}
+
+message VoiceRoomVoteHistoryReply {
+  repeated VoiceRoomVoteHistoryItem list = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message VoiceRoomVoteHistoryItem {
+  int64 voteId = 1;
+  string title = 2;
+  string creatorName = 3;
+  int64 startTime = 4;
+  int64 endTime = 5;
+  int64 giftId = 6;
+  repeated  VoiceRoomVotePlayerInfo players = 7;
+}
+
+message VoiceRoomVoteHistoryDetailArg {
+  int64 voteId = 1;
+}
+
+message VoiceRoomIdArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomRandomIntroduceReply {
+  string introduce = 1;
+}
+
+message VoiceRoomTag {
+  int32 id = 1;
+  string name = 2;
+  bool isDefault = 3;//默认选择
+}
+
+message Tag {
+  string name = 1;
+  string backgroundColor = 2;//背景色
+  string color = 3;//字体颜色
+}
+
+message VoiceRoomMuteArg {
+  int64 roomId = 1;
+  int64 userId = 2;
+}
+
+message VoiceRoomForbidListArg {
+  int32 type = 1; //1踢出 2拉黑 3禁言
+  int64 roomId = 2; //房间列表
+  int64 pos = 3;
+  int64 size = 4;
+}
+
+message VoiceRoomForbidListReply {
+  repeated SimpleUser users = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message VoiceRoomForbidRemoveArg {
+  int32 type = 1; //1踢出 2拉黑 3禁言
+  int64 roomId = 2;
+  int64 userId = 3;
+}
+
+message VoiceRoomSettingArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomSettingReply {
+  int64 blockNum = 1; //拉黑数量
+  int64 kickOutNum = 2; //踢人数量
+  int64 muteNum = 3; //禁言列表数量
+}
+
+message VoiceRoomBackgroundArg {
+  int64 pos = 1;
+  int64 size = 2;
+  int32 backgroundType = 3; // 0:系统背景 1:自定义房间背景
+}
+
+message VoiceRoomBackgroundReply {
+  repeated RoomBackground background = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message RoomBackground {
+  int64 id = 1;
+  string name = 2;
+  string url = 3;
+  bool default = 4;
+  // 自定义背景特有字段
+  int64 expire = 5; // 过期时间(秒级时间戳)
+  AuditStatus auditStatus = 6; // 审核状态
+  int64 duration = 7; // 剩余有效天数
+}
+
+message VoiceRoomBackgroundAddReply {
+  AuditStatus auditStatus = 1; // 机审结果
+}
+
+
+message VoiceRoomUserInfoArg {
+  int64 userId = 1;
+  int64 roomId = 2;
+}
+
+message VoiceRoomUserInfoReply {
+  int64 userId = 1;
+  bool mute = 2; //是否禁言
+}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "enum.proto";
+
+enum UpgradeType {
+  UPGRADE_TYPE_NONE = 0;
+  UPGRADE_TYPE_SELF = 1;
+  UPGRADE_TYPE_GOOGLE = 2;
+  UPGRADE_TYPE_HUAWEI = 3;
+}
+//版本信息
+message Version{
+  Os clientType = 1;
+  int32 innerVersion = 2;//'内部版本'
+  string outerVersion = 3;//外部版本
+  string versionDetailInfo = 4;//更新详情
+  string url = 6;//下载地址
+  int64 releaseTime = 7;//  版本时间
+  int32 forceUpdate = 8 ;//是否强更 1: 强更 2:不强更
+  int32 popupTime = 11; // 弹窗提示频率 0无提示 1仅一次
+  int32 auditStatus = 10;//审核状态 1:审核通过 2:审核中
+  bool self = 12[deprecated = true]; //自升级
+  UpgradeType upgradeType = 13; //升级类型
+}
+//版本检测参数
+message VersionCheckArg {
+  Os clientType = 1;
+  int32 innerVersion = 2;// '内部版本'
+  string channel = 3; // 渠道
+  string osVer = 4;// 系统版本
+}
+//返回的版本信息
+message VersionCheckReply{
+  Version version = 1; //如果有更新，新版本信息
+  bool upgrade = 2;//是否有更新
+  bool forceUpdate = 4;//是否是强制更新
+  Version curVersion = 3;//当前版本信息
+}

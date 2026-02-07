@@ -1,0 +1,12 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+message LivePersonArg {
+  string token = 1;
+  string photo = 2;//SDK返回的base64照片
+}
+
+message LivePersonReply {
+  bool pass = 1;
+}

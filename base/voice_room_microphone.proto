@@ -1,0 +1,154 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "voice_room_enum.proto";
+import "user.proto";
+
+message VoiceRoomMicPos {
+  int64 id = 1; //麦位id
+  int64 roomId = 2; //房间id
+  int64 userId = 3;
+  VoiceRoomRole role = 4; //麦位所在用户角色
+  VoiceRoomMicStatus status = 5; //麦位状态
+  bool lock = 6; //是否锁定
+  bool offline = 7; //是否掉线
+  int64 offlineCountdownEndTime = 8;//掉线倒计时结束时间
+  bool leave = 9;//是否暂离麦位
+  bool byOther = 10;//是否被别人下麦 房主或者管理员
+}
+
+message VoiceRoomMicUpArg {
+  int64 roomId = 1;
+  int64 pos = 2; //指定麦位
+}
+
+message VoiceRoomMicUpReply {
+  int64 pos = 1; //实际上的麦位
+}
+
+message VoiceRoomMicDownArg {
+  int64 roomId = 1;
+  int64 pos = 2; //麦位
+  int64 userId = 3; //必传
+}
+
+message VoiceRoomMicMuteArg {
+  int64 roomId = 1;
+  int64 pos = 2; //麦位
+  int64 userId = 3;//必传
+}
+
+message VoiceRoomMicUnMuteArg {
+  int64 roomId = 1;
+  int64 pos = 2; //麦位
+  int64 userId = 3;//必传
+}
+
+message VoiceRoomMicLockArg {
+  int64 roomId = 2;
+  int64 pos = 1; //麦位
+}
+
+message VoiceRoomMicUnLockArg {
+  int64 roomId = 2;
+  int64 pos = 1; //麦位
+}
+
+message VoiceRoomMicMoveArg {
+  int64 roomId = 2;
+  int64 pos = 1; //麦位
+  int64 targetPos = 3; //目标麦位
+}
+
+message VoiceRoomMicListItem {
+  User user = 1;
+  VoiceRoomMicPos posInfo = 2;
+  int64 hot = 3;//热度值
+}
+
+message VoiceRoomMicListArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomMicListReply {
+  repeated VoiceRoomMicListItem items = 1;
+}
+
+message VoiceRoomMicInviteAcceptArg {
+  int64 roomId = 1;
+  int64 pos = 2;
+  bool reject = 3;//是否拒绝邀请
+}
+
+message VoiceRoomMicInviteAcceptReply {
+  int64 pos = 1;
+}
+
+message VoiceRoomMicInviteArg {
+  int64 roomId = 1;
+  int64 userId = 2;
+  int64 pos = 3;
+}
+
+message VoiceRoomMicInviteReply {
+
+}
+
+message VoiceRoomMicApplyListArg {
+  int64 roomId = 1;
+  int64 pos = 2;
+  int64 size = 3;
+}
+
+message VoiceRoomMicApplyListReply {
+  message Item {
+    User user = 1;
+  }
+
+  repeated Item items = 1;
+  int64 nextPos = 2;
+  bool hasNext = 3;
+}
+
+message VoiceRoomMicApplyArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomMicApplyOpArg {
+  int64 roomId = 1;
+  int64 userId = 2;
+  VoiceRoomMicApplyOp op = 3;
+}
+
+message voiceRoomMicNumCfgReply {
+  message Item {
+    int64 threshold = 1; //历史充值阈值
+    int32 micNum = 2; //麦位数
+  }
+
+  int64 accumulateRechargeCoin = 1; //历史充值金币数
+  repeated Item items = 2;
+  int32 maxMicNum = 3;//当前房间最大麦位数量
+}
+
+message VoiceRoomMicCfgReply {
+  repeated MicCfg cfg = 1;
+}
+
+message MicCfg {
+  int32 miuNum = 1; //麦位数量
+  string background = 2; // 背景图
+}
+
+message voiceRoomMicInviteListArg {
+  int64 pos = 1;
+  int64 size = 2;
+  int64 roomId = 3;
+}
+
+message voiceRoomMicInviteListReply {
+  repeated SimpleUser items = 1;
+  int64 nextPos = 2;
+  bool hasNext = 3;
+}

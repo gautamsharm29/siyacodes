@@ -1,0 +1,22 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "account_enum.proto";
+
+//api:7 ThreeAuth 授权预获取信息参数
+message ThreeAuthArg {
+  LoginType t = 1; // 登录类型
+  string code = 2; // 授权code
+  int32 ver = 3; // 内部版本号
+}
+
+// 授权预获取信息返回值
+message ThreeAuthReply {
+  int64 phone = 1; // 如果是已经绑定的会返回手机号。此字段为0说明需要绑定手机。登录调下一个op:4接口
+  bool forceBind = 2; // 是否强绑手机号
+}
+
+// 取消绑定第三方账号参数
+message CancelThreeAuthArg {
+  LoginType t = 1; // 微信/qq/apple
+}

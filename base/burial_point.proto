@@ -1,0 +1,9 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+message BurialPointArg {
+  string eventName = 1; //事件名
+  string eventCode = 2; //事件识别码
+  map<string, string> eventValue = 3 ;//事件属性
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "account_enum.proto";
+
+message WithdrawMsg {
+  int64 msgId = 1;
+}
+
+message AckMsg {
+  int64 timestamp = 1;
+}
+
+message interactionQaArg {
+  int64 userId = 1; //对方的id
+  Gender gender = 2; //自己的性别
+}
+
+message interactionQaReply {
+  string question = 1;
+  repeated string answer = 2;
+}

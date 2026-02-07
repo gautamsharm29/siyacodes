@@ -1,0 +1,35 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+// enum FamilyMemberType {
+//   fmt_none = 0;//游客
+//   fmt_patriarch = 1;//族长
+//   fmt_subPatriarch = 2;//副族长
+//   fmt_manager = 3; //管理员
+//   fmt_normal = 100;//普通成员
+// }
+
+enum FamilyStatus {
+  fs_none = 0;
+  fs_normal = 1;
+  fs_freeze = 11;//冻结
+  fs_dissolve = 21;//解散
+}
+
+enum FamilyApplyStatus {
+  fas_none = 0;//未处理
+  fas_accept = 1;//接受
+  fas_ignore = 2; //忽略
+}
+
+enum FamilyAudit {
+  fa_none = 0;//不审核
+  fa_audit = 1;//审核
+}
+
+enum FamilyManagerOp {
+  fmo_none = 0;
+  fmo_add = 1; //添加
+  fmo_delete = 2;//移除
+}

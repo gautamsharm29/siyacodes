@@ -1,0 +1,61 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "banner.proto";
+import "account_enum.proto";
+
+message RecommendUserListArg {
+  int32 page = 1;
+  int32 startAge = 2;
+  int32 endAge = 3;
+  Gender gender = 4;
+  bool online = 5;
+  string country = 6;
+  string longitude = 7; //经度
+  string  latitude = 8; //纬度
+}
+
+
+message HomeUserItem {
+  User user = 1;
+  UserBaseInfo baseInfo = 2;
+  bool onMic = 3;
+  int64 roomId = 4;
+  int64 ownerRoomId = 5;
+}
+
+message RecommendUserListReply {
+  repeated HomeUserItem items = 1;
+  repeated Banner banner = 2;
+  repeated HomeUserItem standbyItems = 3;
+}
+
+message NewUserListArg {
+  int32 page = 1;
+  int32 startAge = 2;
+  int32 endAge = 3;
+  Gender gender = 4;
+  bool online = 5;
+  string country = 6;
+  string longitude = 7; //经度
+  string  latitude = 8; //纬度
+}
+
+message NewUserListReply {
+  repeated HomeUserItem items = 1;
+  repeated Banner banner = 2;
+  repeated HomeUserItem standbyItems = 3;
+}
+
+message HandpickUserListArg {
+  int32 page = 1;
+  string longitude = 2;// 经度
+  string  latitude = 3;// 纬度
+}
+
+message HandpickUserListReply {
+  repeated HomeUserItem items = 1;
+  repeated Banner banner = 2;
+}

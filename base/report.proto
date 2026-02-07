@@ -1,0 +1,25 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+
+enum ReportScene {
+    // 1:举报动态、2:举报评论、3:举报用户、4:举报私信' 
+    // 5 房间举报  6家族举报
+    rrs_none = 0;
+    rrs_moment = 1;
+    rrs_comment = 2;
+    rrs_user = 3;
+    rrs_private = 4;
+    rrs_room = 5;
+    rrs_family = 6;
+}
+
+message ReportPreCheakArg {
+    ReportScene scene = 1;
+    int64 reportId = 2;
+}
+
+message ReportPreCheakReply{
+    
+}

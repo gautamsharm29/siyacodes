@@ -1,0 +1,94 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum AuthType {
+  aut_none = 0;
+  aut_real = 1; //真人
+  aut_id = 2; //实名
+}
+
+message CreateHttpJwtArg{
+  string deviceId = 1; // 设备id
+}
+message CreateHttpJwtReply {
+  string token = 1;
+}
+
+enum ShareTokenType {
+  stt_none = 0;
+  stt_user = 1; // 分享用户
+  stt_family = 2; // 分享家族
+  stt_moment = 3; // 分享动态
+}
+
+message CreateShareArg {
+  ShareTokenType st = 1; // 分享类型
+  int64 id = 2; // 分享的id(user.id/family.id/moment.id)
+}
+message CreateShareReply {
+  string token = 1;
+}
+
+// 实人调用获取certifyId
+message IdAuthTokenArg {
+  string name = 1; // 姓名
+  string idCardNum = 2; // 身份证号码
+  message Meta{
+    string zimVer = 1;
+    string appVersion = 2;
+    string bioMetaInfo = 3;
+    string appName = 4;
+    string deviceType = 5;
+    string osVersion = 6;
+    string apidToken = 7;
+    string deviceModel = 8;
+  }
+  Meta meta = 3; // MetaInfo环境参数，需要通过客户端SDK获取。
+}
+message IdAuthTokenReply {
+  string certifyId = 1; // 实人认证唯一标识。
+  string orderNo = 2 ; // 订单号
+}
+
+// 验证
+message IdAuthResultArg {
+  string certifyId = 1; // IdAuthTokenReply.certifyId
+  string orderNo = 2 ; // 订单号
+}
+message IdAuthResultReply {
+  bool pass = 1;
+}
+
+// 拍照与头像对比
+message FaceCompareArg {
+  string photo = 1; // 照片地址
+}
+message FaceCompareReply {
+  string code = 1; // 419 或则其他的 根据文档来
+  string msg = 2; // 不通过的错误信息
+  double score = 3; // 相似分数
+  bool pass = 4; // true:通过
+}
+
+// 认证状态
+enum AuthStatus {
+  at_none = 0;
+  at_no = 1; // 未认证
+  at_process = 2; // 处理中
+  at_fail = 3; // 认证失败
+  at_success = 4; // 认证成功
+}
+
+// 认证信息
+message AuthInfo {
+  AuthStatus status = 1; // 状态
+  string desc = 2; // 描述
+}
+// 认证列表
+message AuthRecord {
+  AuthInfo phone = 1; // 手机号认证状态
+  AuthInfo id = 2; // 实人认证状态
+  AuthInfo face = 3; // 真人认证状态
+  AuthInfo voice = 4; // 语音认证
+}

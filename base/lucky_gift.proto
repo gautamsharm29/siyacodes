@@ -1,0 +1,144 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+
+enum LuckyGiftBroadcast {
+    lgb_none = 0;
+    lgb_play = 1; // 玩法类型,幸运礼物
+    lgb_gift = 2; // 礼物类型
+    lgb_activity = 3; // 活动类型
+    lgb_red_packet = 4;
+}
+
+enum BroadcastType {
+  ebt_none = 0;
+  ebt_play_hit = 1; // 中奖大奖播报
+  ebt_gift = 2; // 礼物播报
+  ebt_activity = 3; // 活动播报
+  ebt_red_packet = 4;
+}
+
+
+//api:10900 GiftLuckyBanner 幸运礼物磁片区查询
+message GiftLuckyBannerArg {
+   int64 giftId = 1; // 礼物ID
+}
+
+message GiftLuckyBannerReply {
+  int64 giftId = 1; // 礼物ID
+  string giftName = 2; // 礼物名称
+  int64 jackpotAmount = 3; // 奖池金额
+}
+
+
+message RoomBroadcast {
+    BroadcastType broadcastType = 1; // 播报类型
+    GiverUserInfo giverUserInfo = 2; // 送礼者信息
+    string content = 3;
+    int64 duration = 6; // 展示时间 返回客户端用毫秒级
+    int64 voiceRoomId = 8; // 围观房间
+    int64 dynamicId = 9;
+    string icon = 10; // 配置里面的
+    string jumpAddress = 11; // 跳转
+
+}
+
+message GiverUserInfo {
+  int64 userId = 1;
+  string nickname = 2;
+  string avatar = 3;
+  int64 frameId = 4;
+  string account = 5;
+}
+
+// 玩法类型
+message PlayTypeInfo {
+  int64 coinMultiplier = 1; // 获得金币倍数
+  string giftMultiplierIcon = 2; // 幸运礼物倍率标识
+  string giftName = 3; //   礼物名称
+  string giftIcon = 4; // 礼物icon
+  int64 coinCount = 5; // 金币数量
+  int64 giftId = 6;
+
+}
+
+// 礼物类型
+message GiftTypeInfo {
+  string giftName = 1; //   礼物名称
+  string giftIcon = 2; // 礼物icon
+  int64 giftCount = 3; // 礼物数量
+  string targetNickname = 4; // 目标用户昵称
+  int64 giftId = 5;
+  BtyBigGiftType bbgt = 6; // 礼物播报类型
+  string sendAccount = 7; // 送礼人account
+}
+
+// 活动类型
+message ActivityTypeInfo {
+  string activityName = 1; // 活动名称
+  string giftName = 2; //   礼物名称
+  int64 giftCount = 3; // 礼物数量
+  string targetNickname = 4; // 目标用户昵称
+  int64 giftId = 5;
+
+}
+
+message MulRoomScreen {
+    string nickname = 1;
+    int64 giftId = 2;
+    string giftName = 3;
+    string giftIcon = 4;
+    repeated MrsItems items = 5;
+    int64 userId = 6;
+}
+
+message MrsItems {
+    string multipleLottery = 1; // 倍率
+    int64 coin = 2; // 金币
+}
+
+message VoiceRoomBroadcastArg {
+  int64 roomId = 1;
+}
+
+message  VoiceRoomBroadcastReply {
+  repeated RoomBroadcast broadcasts = 1;
+}
+
+// 应用场景
+enum RoomBroadcastType {
+  bty_none = 0;
+  bty_lucky = 1; // 幸运礼物
+  bty_big_gift = 2; // 大额礼物
+  bty_activity = 3; // 活动类型
+  bty_red_packet = 4; // 红包播报
+  bty_room_gift = 5; // 房间送礼
+}
+
+// 播报大额礼物子类型
+enum BtyBigGiftType {
+  bbgt_None = 0;
+  bbgt_Person = 1; // 个人
+  bbgt_In_Room = 2;// 房间所有人
+  bbgt_On_Mic = 3; // 麦上所有人
+}
+
+enum VisibleUserType {
+  vut_none = 0;
+  vut_current_room = 1; // 本房间
+  vut_current_room_same_region = 2; // 房间内与触发人同大区用户
+  vut_charm_ge_condition = 3; // 财富魅力等级大于等于x值用户
+  vut_all_room = 4; // 全平台房间
+  vut_all_family_in_room = 5; // 全平台家族
+  vut_same_region_room = 6; // 同大区房间
+  vut_same_region_family_in_room = 7; // 同大区家族d
+}
+
+// 幸运礼物消费场景类型
+enum LuckyGiftConsumerType {
+  lgct_none = 0; // 无状态默认值
+  lgct_voiceRoom = 1; // 聊天室
+  lgct_family = 2; // 家族
+  lgct_singleChat = 3; // 私聊
+}

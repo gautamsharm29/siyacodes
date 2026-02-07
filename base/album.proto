@@ -1,0 +1,50 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+message AlbumItem {
+  int64 id = 1;
+  string url = 2;
+}
+
+message normalAlbumListArg {
+  int64 userId = 1;
+}
+
+message NormalAlbumListReply {
+  repeated AlbumItem items = 1;
+}
+
+message NormalAlbumDeleteArg {
+  int64 id = 1;
+}
+
+message UploadAlbumArg {
+  string url = 1;
+}
+
+message UploadAlbumReply {
+  int64 id = 1; //照片的id
+}
+
+message NormalAlbumChangeLocationArg {
+  int64 id = 1;
+  int32 location = 2;
+}
+
+message privacyAlbumListArg {
+  int64 userId = 1;
+}
+
+message PrivacyAlbumListReply {
+  repeated AlbumItem items = 1;
+}
+
+message PrivacyAlbumDeleteArg {
+  int64 id = 1;
+}
+
+message PrivacyAlbumChangeLocationArg {
+  int64 id = 1;
+  int32 location = 2;
+}

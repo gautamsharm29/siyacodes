@@ -1,0 +1,156 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "account_enum.proto";
+import "reward.proto";
+
+
+enum NewerRegisterSence {
+    registerSence_none = 0; // 默认无
+    registerSence_private_chat = 1; // 私聊
+    
+}
+
+enum IsTaskEnum {
+    ite_none = 0;
+    ite_female_task = 1; // 女性任务
+    ite_male_show = 2; // 男性展示
+}
+
+enum RegisterScene {
+    noneScene = 0;
+    privateChat = 1; // 私聊
+}
+
+message NewerRegisterArg {
+    RegisterScene scene = 1; // 1私聊
+}
+
+message NewerRegisterReply {
+    IsFirstDeviceEnum isFirstDevice = 1; // 设备是否第一次
+    Gender gender = 2; // 这个账号具体性别
+    MaleNewerRegResp maleResp = 3; // 男性返回
+    FemaleNewerRegResp femaleResp = 4; // 女性返回
+}
+
+enum IsFirstDeviceEnum {
+    ifde_none = 0;
+    ifde_is_first = 1; // 设备第一次
+    ifde_not_first = 2; // 设备非第一次
+
+}
+// 
+
+enum NewerRegiShowType {
+    newerRegiST_none = 0;
+    newerRegiST_a = 1; // 类型a
+    newerRegiST_b = 2; // 类型b
+}
+
+message MaleNewerRegResp {
+    NewerRegiShowType showType = 1; // 区别ab类型
+    string title = 2;  // 主标题
+    string subTitle = 3; // 副标题
+    AtypeTips atypeTips = 4; // a类型提示
+    BtypeTips btypeTips = 5; // b类型提示
+    repeated RegesterReward regesterRewards = 6; // 奖励
+    string tapValue = 7; // 价值转换
+    string bottomText = 8; // 底部文案 
+    
+}
+
+message RegesterReward {
+    RewardType rewardType = 1; // 奖励类型
+    int64 rewardId = 2; // 奖励id
+    int64 num = 3; // 奖励数量
+    string icon = 4; // 奖励icon
+    string show = 5;    // 奖励文案
+
+}
+
+enum IsRegister {
+    not_first_register = 0; // 非第一次注册
+    first_register = 1; // 第一次注册
+}
+
+message AtypeTips {
+    string chatCover = 1; // 聊天特权封面
+    string callCover = 2; // 通话特权封面
+    int64 chatTotal = 3; // 聊天特权数量
+    int64 callTotal = 4; // 通话特权数量
+    string chatText = 5; // 聊天特权文案
+    string callText = 6; // 通话特权文案
+}
+
+message BtypeTips {
+    string title = 1; //  标题 
+    string info = 2; // 说明
+}
+
+message FemaleNewerRegResp {
+    string title = 1; // 标题
+    string icon  = 2; // 奖励icon
+    int64 pointNum = 3; // 钻石奖励数量
+    string subTitle = 4; // 小标题
+    string tapValue = 5; // 钻石现金换算
+    int64 progress = 6; // 进度百分比
+    string totalPointNum = 7; // 总共：钻石现金换算
+}
+
+message GetNewerRegisterProgressArg {
+
+
+}
+
+message GetNewerRegisterProgressReply {
+    string title = 1; // 标题
+    string tapValue = 2; // 钻石现金换算
+    repeated RegisterTask tasks = 3; // 任务
+    NrepStatus progressStatus = 4; // 进度状态
+    
+}
+
+enum NrepStatus {
+    nrepStatus_none = 0; 
+    nrepStatus_all_done = 1; // 全部完成
+    nrepStatus_in_progress = 2; // 进行中
+}
+
+enum RegisterTaskStatus {
+    rtStatus_none = 0; // 0
+    rtStatus_done = 1; // 已完成
+    rtStatus_no_done = 2; // 未完成
+}
+
+message RegisterTask {
+    string taskTitle = 1; // 任务标题
+    string value = 2; // 值
+    RegisterTaskStatus status = 3; // 1 已完成 2未完成
+    string jumpPath = 4; // 跳转路径
+    string taskTitleProgress = 5; // 如果是和值相关的任务才展示 (x/x)
+    int64 timestamp = 6; // 任务完成时间
+    int64 taskSort = 7; // 任务排序
+}
+
+enum GuideReplyType {
+    guideReplyType_none = 0;
+    guideReplyType_a = 1; // a引导
+    guideReplyType_b = 2; // b引导
+}
+
+
+message RegisterMessageGuideArg {
+    GuideReplyType guideReplyType = 1; // 引导类型
+
+}
+
+message RegisterMessageGuideReply {
+    GuideReplyType guideReplyType = 1; // 引导类型
+    string mainContent  = 2; // 主内容
+    string subContent = 3; // 副标题
+    string chatTipsH5 = 4; // 聊天特权h5
+    int64 nextPopTs = 5; // 下一次弹窗时间
+    int64 rate = 6; // 比率
+
+}

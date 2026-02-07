@@ -1,0 +1,54 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "message.proto";
+import "session.proto";
+
+message MsgWithdrawArg {
+  int64 to = 1;
+  int64 msgId = 2;
+}
+
+message SendMsgArg {
+  Message msg = 1;
+}
+
+message SendMsgReply {
+  Message msg = 1;
+}
+
+message ReceiveAckArg {
+  SessionType type = 1;
+  int64 targetId = 2;
+  repeated int64 msgIds = 3;
+  bool ackAll = 4;
+}
+
+message MsgDelArg {
+  int64 to = 2;
+  int64 msgId = 3;
+  Message prevMsg = 4;
+}
+
+message SendGroupMsgArg {
+  Message msg = 1;
+}
+
+message TopMsgArg {
+  int64 id = 1; // 家族id
+}
+message TopMsg {
+  Message msg = 1; // 置顶消息
+}
+
+message SendAccostSource {
+  //1.首页推荐列表2.首页精选列表3.首页新人列表4.用户主页5.动态列表页6.动态详情页7.动态预览页
+  int64 sourceId = 1;
+  string sourceName = 2;
+}
+message SendAccostArg {
+  int64 userId = 2;
+  SendAccostSourceType source = 3;
+  int64 momentId = 4; // 若来源为5.动态列表页6.动态详情页7.动态预览页，需要传moment_id
+}

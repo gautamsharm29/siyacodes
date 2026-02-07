@@ -1,0 +1,67 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "message.proto";
+import "user.proto";
+import "enum.proto";
+
+enum SessionType {
+  st_none = 0;
+  st_user = 1;
+  st_official = 3;
+}
+
+message Session {
+  int64 id = 10;
+  int64 userId = 1;
+  int64 targetId = 2;
+  int64 readPos = 3;
+  int64 badge = 4;
+  Message latestMsg = 5;
+  int64 createTime = 6;
+  int64 updateTime = 7;
+  SessionType type = 8;
+
+  SessionTarget target = 9;
+  bool dnd = 11; // 是否免打扰 (Do Not disturb)
+}
+
+message SessionTarget {
+  User user = 2;
+}
+
+message SessionListArg {
+  int64 pos = 1;
+}
+
+message SessionListReply {
+  repeated Session items = 1;
+}
+
+message SessionHistoryArg {
+  int64 targetId = 1;
+  int64 startPos = 2;
+  int64 endPos = 4;
+  int32 size = 3;
+  Order order = 5;
+}
+
+message SessionHistoryReply {
+  repeated Message items = 1;
+  bool hasNext = 2;
+}
+
+message SetDndArg {
+  SessionType type = 1;
+  bool dnd = 2;// 免打扰 true开 false关
+}
+
+enum DontShowType {
+  dst_none = 0;
+  dst_womenDaySessionLimit = 1;//女方主动私信超限提示
+}
+
+message DontShowTipArg {
+  DontShowType tipType = 1;//不提示类型
+}

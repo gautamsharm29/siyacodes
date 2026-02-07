@@ -1,0 +1,5 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+//avatar, privacy_album, normal_album

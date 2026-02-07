@@ -1,0 +1,52 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "reward.proto";
+
+// 签到信息
+message SignInInfo {
+  string title =1; // 标题
+  repeated RespRewards rewards=3;  // 签到奖励
+  string context=4; // 签到内容
+}
+
+enum SignIconShowType {
+  sist_none = 0;
+  sist_coin = 1;
+  sist_point = 2;
+  sist_box = 3;
+}
+
+enum SignInStatus {
+  signedNone        =0;
+  signedIn    =1; // 已签到 
+  not_SignedIn=2; // 未签到
+}
+
+// 签到奖励
+message RespRewards{
+  RewardType rewardType =1;   //奖励类型： 1:金币 2:钻石 3:道具 5:礼物 
+  int64  day   =4; // 有效期天数
+  string icon  =5;  // 奖励图片
+  int64 num = 6; // 奖励数量
+  string name = 7; // 奖励名称
+}
+
+
+message GetUserIdSignIn {
+   int64 userid =1;
+}
+
+message UserSignInDayReply {
+   int64 userSignInDay=1;      // 连续签到多少天
+   repeated SignInItem signInItems = 2; // 
+   SignInStatus signInStatus = 3;     // 今日签到状态 1已签到 2未签到 
+}
+
+
+
+message SignInItem {
+  int64 type = 1; // 1只有金币2只有钻石3宝箱
+  int64 num = 2;
+  string icon = 3;
+}

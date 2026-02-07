@@ -1,0 +1,82 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "account_enum.proto";
+import "enum.proto";
+
+// 用来风控
+message RiskInfo {
+  string deviceId = 1; // 当前设备id
+  AccountStatus accountStatus = 2; // 账号状态
+  AccountRevokedStatus revoked = 3; // 注销状态
+  AccountMuteStatus mute = 4; // 禁言状态
+}
+
+// 账号基本信息
+message UserBase {
+  Gender gender = 1; // 性别
+  UserType ut = 2; // 账号类型
+  UserCmType cm = 3; // 客服类型
+  CmStealth stealth = 4; // 隐身访问
+  int64 loginTime = 5; // 登录时间
+  bool isNew = 6; // 新手用户
+  int64 guild = 7; // 公会id
+  bool white = 8; // 白名单
+}
+
+message LogicArg {
+  int32 op = 1;
+  int64 userID = 2;
+  int64 authKey = 3;
+  string ip = 4;
+  int32 os = 5;
+  int64 connID = 6;
+  int64 ver = 7;
+  bytes data = 8; // json data
+  RiskInfo risk = 9;// 风控信息
+  UserBase userBase = 10; // 账号基本信息
+  int64 frontId = 11;
+  string lang = 12; // 语言
+  string ch = 13; // 渠道
+}
+
+message LogicReply {
+  int32 code = 1;
+  string msg = 2;
+  bytes data = 3; //json data
+
+  int64 userID = 4;
+  int64 authKey = 5;
+  RiskInfo risk = 6; // 风控信息
+  UserBase userBase = 7; // 用户常用信息
+}
+
+message ConnectedArg {
+  int64 userID = 1;
+  int64 authKey = 2;
+  string ip = 3;
+  int64 connID = 4;
+  string serverName = 5;
+  int64 frontID = 6;
+  string latestOpTime = 7;
+  int64 latestHeart = 11; // 最近一次心跳时间
+  Os os = 8;
+  RiskInfo risk = 9; // 风控信息
+  UserBase userBase = 10; // 账号基本信息
+  int64 ver = 12;// 内部版本号
+}
+message ConnectedReply {
+
+}
+message PingArg {
+
+}
+message PingReply {
+  string msg = 1;
+}
+service Logic {
+  rpc Handle(LogicArg) returns (LogicReply);
+  rpc ConnectionNew(ConnectedArg) returns (ConnectedReply);
+  rpc ConnectionClose(ConnectedArg) returns (ConnectedReply);
+  rpc Ping(PingArg) returns (PingReply);
+}

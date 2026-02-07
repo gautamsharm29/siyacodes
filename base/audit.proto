@@ -1,0 +1,90 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum AuditStatus {
+  auditStatus_none = 0;
+  auditStatus_audit = 1; //审核中
+  auditStatus_machine_pass = 2; //机审通过
+  auditStatus_people_pass = 3; //人审通过
+  auditStatus_machine_fail = 4; //机审失败
+  auditStatus_people_fail = 5; //人审失败
+  auditStatus_machine_suspected = 6 ; //机审疑似
+  auditStatus_admin_hide = 7;//后台隐藏 (帖子)
+  auditStatus_user_delete = 8;//用户删除 (帖子、视频秀)
+}
+
+enum AuditErrCode {
+  bte_none = 0;
+  bte_text = 312001; // 文本审核不通过
+  bte_image = 312002; // 图片审核不通过
+
+
+
+  bte_room_name = 300501; // 房间名字审核不通过
+  bte_room_introduce = 300502; // 房间介绍审核不通过
+  bte_room_image = 300503; // 房间图片审核不通过
+
+  bte_family_name = 300504; // 家族名字审核不通过
+  bte_family_introduce = 300505; // 家族介绍审核不通过
+  bte_family_image = 300506; // 家族图片审核不通过
+
+  bte_name = 300507; // 名字审核不通过
+  bte_introduce = 300508; // 介绍审核不通过
+
+}
+
+message RealAuthArg {
+  int32 type = 1;//1性别认证 2头像认证
+  string token = 2;
+  string photo = 3;//SDK返回的base64照片
+}
+
+message RealAuthReply {
+  bool pass = 1;
+  string pic = 2;//返回一张活体截图
+}
+
+message UserRealAuthInfoReply {
+  AuditStatus genderStatus = 1;
+  AuditStatus avatarStatus = 2;
+  bool coin = 3;
+  string bottomAvatar = 4; //头像认证底图
+}
+
+message RealAuthCheckReply {
+  bool pass = 1;
+  int32 failReason = 2; //1头像对比过 2频率上限 3次数上限
+}
+
+message ChangeAvatarArg {
+  string avatar = 1;
+  bool twiceConfirm = 2; //是否为二次确认的请求(对比不通过且当前未认证客户端传true)
+  float score = 3; //上次人脸比对相似度
+}
+
+message ChangeAvatarReply {
+  AuditStatus status = 1; //新头像与头像认证底图的人脸比对机审结果
+  bool nowAvatarAuth = 2; //当前头像认证状态(true:已认证 false:未认证)
+  float score = 3; //人脸比对相似度
+}
+
+message OverallAuthCheckReply {
+  string url = 1; //跳转页面地址
+  string content = 2;//弹窗文案
+}
+
+message AuthGuideNtyArg {
+  int32 type = 1;//1303性别认证 1304头像认证
+}
+
+message AuthGuideNtyReply {
+  string toast = 1; //关闭弹窗时触发的toast
+}
+
+enum IpDeviceAuditReason {
+  idar_none = 0;
+  manually_enter = 1; //手动输入
+  review_version = 2; //审核版本
+  associated_hits = 3;//关联命中
+}

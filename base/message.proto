@@ -1,0 +1,181 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+
+enum MessageSource {
+  ms_user = 0;
+  ms_cupid = 1; // 牵线
+  ms_like = 2; // A 搭讪 B
+  ms_hello = 3; // 招呼语
+}
+
+enum ConversationType {
+  ct_none = 0;
+  ct_single = 1; //单人
+  ct_family = 2; //家族
+  //  ct_family_voice_room = 3; //家族语聊房
+  ct_voice_room = 4; //个人语聊房
+  //ct_customer = 5; // 客服
+  //ct_gameTable = 6; // 游戏桌
+  //ct_game = 7; // 游戏
+}
+
+enum MsgType {
+  mt_none = 0;
+
+  mt_normalText = 1; // 文本
+  mt_picture = 2; // 图片
+  mt_audio = 3; // 普通语音
+  mt_accost = 4; // 主动搭讪
+  mt_videoCall = 5;// 视频通话
+  mt_voiceCall = 6;//语音通话
+  mt_video = 7;//视频
+
+
+  mt_msgLine = 9;//消息牵线
+  mt_packetLine = 10;//红包牵线
+  mt_matchingLine = 11;//匹配牵线
+  mt_heartLine = 12;//心动牵线
+  mt_gift = 13;//私信礼物
+  mt_momentShare = 14; //动态分享
+  mt_greetingSysText = 15; //系统快捷招呼语
+  mt_greetingText = 16; //自定义招呼语(普通文本)
+  mt_greetingPic = 17; //自定义招呼语(图片)
+  mt_greetingVoice = 18; //自定义招呼语(语音)
+  mt_qa = 19;//互动问答消息
+
+  mt_share = 21; // 转发
+
+  mt_gfit_from_bag = 131; // 来自背包的礼物，后台用
+
+  mt_taskReward = 220; // 220 任务领奖
+
+  //mt_block = 502; // 502 拉黑通知
+  mt_withdraw = 503; // 503 撤回消息通知
+  mt_receiveAck = 504;//消息已读通知
+  /*mt_receivedGroupCreated = 601; // 收到进群通知
+  mt_receivedGroupMemberAdd = 602; // 收到添加群成员通知
+  mt_receivedGroupMemberRem = 603; // 收到移除群成员通知
+  mt_receivedGroupDisband = 604; //  收到群解散通知
+  mt_receivedGroupOwnerChange = 605; //  收到群聊群主变化通知
+  mt_receivedGroupMemberExit = 606; // 收到离开群聊通知
+  mt_receivedGroupMemberJoin = 607; // 收到加入群聊通知
+  mt_receivedGroupTouristsJoin = 608; // 收到游客加入群聊通知
+  mt_receivedGroupTouristsExit = 609; // 收到游客离开群聊通知*/
+
+  mt_system = 1000; // 系统消息
+  mt_systemActivity = 1001; // 活动助手消息
+  mt_announcement = 1002; // 公告
+  mt_link = 1003;//系统带跳转连接的消息
+  mt_updateIntimacy = 2000; // 更新亲密度
+
+  mt_tip = 4000; //相关tip
+
+  mt_text_ing = 5001;//正在输入中
+  mt_audio_ing = 5002;//正在讲话
+
+  mt_roomGift = 6000; //房间礼物
+
+  mt_system_def = 10000; // 静默系统推送
+
+  mt_voiceRoom = 70000; //语聊房专用
+
+  mt_callInvite = 80220; //通话邀请
+
+  //mt_giveNoble = 80400; // 赠送贵族
+  mt_moment = 80600; // 动态互动消息
+  /*mt_voiceRoomInvite = 80800; // 语聊房邀请
+  mt_voiceRoomInvite2 = 80810; // 娱乐房邀请
+  mt_CPInvite = 80900; // cp邀请
+  mt_RelationInvite = 80901; // 关系邀请
+  mt_roomActivity = 81100;//房间活动分享
+  mt_gameShare = 81200;//房间游戏分享*/
+
+  mt_momentNotify = 90000;//动态相关通知
+  mt_callNotify = 90001; //音视频通话相关通知
+  mt_myPageNotify = 90002; //我的页面红点通知
+
+}
+
+enum MtSysmtDetail {
+  mtsd_none = 0;
+  mtsd_pushCheckUpdate=100;//后台触发检查更新
+  mtsd_taskReward = 101; // 任务奖励
+  mtsd_taskRewardTip = 102; // 任务奖励
+  mtsd_familyCoverAudit = 201; // 家族头像审核推送
+  mtsd_familyCancel = 202; // 家族解散通知
+  mtsd_familyRemove = 203; // 后台解散家族通知
+  mtsd_familyRemoveUser = 204; // 后台移除家族单个用户通知
+
+  mtsd_banAccount = 300;//封禁账号
+  mtsd_banAccountDevice = 301;//封号及当前设备
+  mtsd_banAccountAllDevice = 302;//封号及所有设备
+  mtsd_banPrivateLetter = 303;//禁言(私信)
+  mtsd_banChatRoom = 304;//禁言(聊天室)
+  mtsd_banChat = 305;//禁聊
+  mtsd_banHost = 306;//禁播
+  mtsd_banMicrophone = 307;//禁麦
+  mtsd_warningUser = 308;//警告
+
+  mtsd_weathUp = 401;
+  mtsd_charmUp = 402;
+
+  mtsd_follow = 501;
+  mtsd_unfollow = 502;
+
+  mtsd_guild_user_type = 601; // 公会账户类型 50工会长 1普通账户
+  mtsd_locationCn = 700;//中国地区定位
+}
+
+//1.首页推荐列表  2.首页精选列表   3.首页新人列表 4.用户主页 5.动态列表页  6.动态详情页 7.动态预览页
+enum SendAccostSourceType {
+  sast_none = 0;
+  sast_recommended_homepage = 1;
+  sast_home_selection = 2;
+  sast_home_newcomer = 3;
+  sast_user_homepage = 4;
+  sast_moment = 5;
+  sast_moment_detail = 6;
+  sast_moment_preview = 7;
+}
+
+message Message {
+  ConversationType conversationType = 1;
+  MsgType msgType = 2;
+  int64  msgId = 3;
+  int64 sendTime = 4;
+  int64 from = 5;
+  int64 to = 6;
+  string content = 7;
+  string ext = 8;
+  int32 readStatus = 9; //0未读 1已读
+  User sender = 13;
+  MessageSource  source = 14;
+  int64 expiredTime = 15; //超时时间
+  int64 coin = 16;// 消息价值金币
+  string taskId = 17;//
+  int32 cardType = 18; //使用卡的类型 1会员私信卡 2私聊卡 3搭讪卡
+  MsgIncomeData incomeData = 19; //收益相关参数
+}
+
+message MsgIncomeData {
+  string diamond = 1;//用户通过回复消息获得的收益
+  repeated int64 incomeMsgId = 2;//获得收益的消息id
+  repeated int64 expiredMsgId = 3;//有价值过期的消息id
+  int32 constitute = 4; //收益的构成 1含有私信卡
+}
+
+message MsgExpiredRefund {
+  int32 type = 1;//1添加过期 2取消过期任务
+  int64 id = 2;//要过期的消息的数据库id
+  repeated int64 cancelIds = 3;//要取消的消息数据库id
+  int64 expiredTime = 4;//过期时间
+}
+
+enum DeepChatProgressStatus {
+  dcps_none = 0; // 未开始
+  dcps_ing = 1; // 进行中
+  dcps_end = 2; // 已结束
+}

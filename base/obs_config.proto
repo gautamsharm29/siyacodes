@@ -1,0 +1,43 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum BucketType {
+  BCT_none = 0;
+  BCT_common = 1; // 用于存储例如用户头像群组头像之类的通用资源
+  BCT_audio = 2; // 用于存储语音资源
+  BCT_file = 3;  // 用于存储发送文件资源
+  BCT_img = 4; // 用于存储聊天图片资源
+  BCT_vid = 5; //用于存储聊天视频及首帧图片资源
+  BCT_voiceSig = 6; // 语音签名
+  BTC_album = 7; // 个人相册
+  BTC_moment = 8; // 动态的文件
+  BTC_video_img = 9;//视频聊天截图
+}
+
+message Bucket {
+  BucketType type = 1;
+  string domain = 3;
+  string bucket = 4;
+  string dir = 5;
+}
+
+message ObsConfigReply {
+  ObsConfig obsConfig = 1;
+  int64 serverTime = 2;// 服务器时间，毫秒级时间戳
+  string endpoint = 3;
+}
+
+// 各类型对应的域名/bucket
+message ObsConfig {
+  string domain = 2;
+  repeated Bucket buckets = 3;
+  ObsToken token = 4;
+}
+// 上传凭证
+message ObsToken {
+  string accessKeyId = 1;
+  string secretAccessKey = 2;
+  string token = 3;
+  int64  expireIn = 4;
+}

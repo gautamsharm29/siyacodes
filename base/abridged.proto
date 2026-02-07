@@ -1,0 +1,510 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum Op {
+  Op_none = 0;//none
+  channelReady = 1; //none
+  channelFinished = 2;//none.
+  uploadInformation = 3; //上传信息 参数:UploadInformationArg 响应: 负责人:
+  loginOrRegister = 4;//登录注册 参数:LoginArg 响应:LoginReply 负责人:
+  logout = 5; //退出登录 参数:LogoutArg 响应: 负责人:
+  accountToken = 6; //登录token验证 参数:RefreshTokenArg 响应:RefreshTokenReply 负责人:
+  threeAuthPre = 7; //第三方授权登录前置步骤接口 参数:ThreeAuthArg 响应:ThreeAuthReply 负责人:
+  setPassword = 8; //设置、修改、重置密码 参数:SetPasswordArg 响应:SetPasswordReply 负责人:
+
+  completeProfile = 10; //完善资料 参数:CompleteProfileArg 响应:CompleteProfileReply 负责人:
+  updateProfile = 11; //修改资料 参数:UpdateProfileArg 响应:UpdateProfileReply 负责人:
+  sendLogicSingle = 12; //发送业务逻辑消息 参数:SendMsgArg 响应: 负责人:
+  sendSingle = 13;//发送单聊消息 参数:SendMsgArg 响应: 负责人:
+  receiveMessage = 14; // 收到消息的op
+  accountExist = 24; //账号是否存在 参数:AccountExistArg 响应:AccountExistReply 负责人:
+  receiveMessageList = 34; // 收到批量消息的op
+
+  receiveAck = 15;// 收到消息回执 参数:ReceiveAckArg 响应: 负责人:
+  singleMsgWithdraw = 16; //撤回单聊消息 参数:MsgWithdrawArg 响应: 负责人:
+  singleMsgDel = 17; //删除单聊消息 参数:MsgDelArg 响应: 负责人:
+  sendAccost = 18; //发送搭讪消息 参数:sendAccostArg 响应:SendMsgReply 负责人:
+  interactionQA = 19; //互动问答 参数:interactionQaArg 响应:interactionQaReply 负责人:
+
+
+  clearOfflineSession = 21; //清空离线会话 参数: 响应: 负责人:
+  sessionList = 22; //会话列表 参数:SessionListArg 响应:SessionListReply 负责人:
+  sessionHistory = 23; //单聊历史消息 参数:SessionHistoryArg 响应:SessionHistoryReply 负责人:
+  sysHistory = 26; //系统通知历史 参数:SessionHistoryArg 响应:SessionHistoryReply 负责人:
+  sessionDetail = 27; //会话详情 参数:SessionDetailArg 响应:SessionDetailReply 负责人:
+
+  UserOnline = 30; //用户在线状态查询 参数:UserIds 响应:UserOnlineReply 负责人:
+  UserVoiceSignSet = 35; //语音签名设置 参数:UserVoiceSignSetArg 响应: 负责人:
+  RandomNickname = 36; //随机昵称 参数: 响应:RandomNicknameReply 负责人:
+
+  bindList = 40; //第三方账号绑定列表 参数: 响应:BindListReply 负责人:
+  bind = 41; //第三方账号绑定 参数:BindArg 响应:BindReply 负责人:
+
+  cancelContent = 47; //注销账号文案 参数: 响应:CancelContentCfgReply 负责人:
+  cancelFeedback = 48;//注销反馈 参数:CancelFeedbackArg 响应: 负责人:
+  cancelAccount = 49; //注销账号 参数: 响应: 负责人:
+
+  dontShowTip = 55;//不再展示提示 参数:DontShowTipArg 响应: 负责人:
+
+  sendCode = 60; //发送短信验证码 参数:SendCodeArg 响应: 负责人:
+  sendEmailCode = 61; //发送邮箱验证码 参数:SendEmailCodeArg 响应: 负责人:
+
+  accessRecord = 189;// 访客记录 参数:AccessRecordArg 响应:AccessRecordReply 负责人:
+
+  ossConfig = 100;//oss配置 参数:OssConfigArg 响应:OssConfigReply 负责人:
+  versionCheck = 101;//版本更新检查 参数:VersionCheckArg 响应:VersionCheckReply 负责人:
+
+  obsConfig = 111; //obs配置 参数: 响应:ObsConfigReply 负责人:
+  kodoConfig = 112; //Kodo配置 参数: 响应:KodoConfigReply 负责人:
+  myPage = 149; //我的页面 参数: 响应:MyPageData 负责人:
+
+
+  honorList = 152; // 荣誉栏 参数:HonorListArg 响应:HonorListReply 负责人:
+
+  userTitleWall = 154; //用户头衔墙 参数:UserTitleWallArg 响应:UserTitleWallReply 负责人:
+  userMedalWall = 155; //用户头衔墙 参数:UserMedalWallArg 响应:UserMedalWallReply 负责人:
+  userGiftWall = 156; //用户礼物墙 参数:UserGiftWallArg 响应:UserGiftWallReply 负责人:
+  userVehicleWall = 157; //用户座驾墙 参数:UserVehicleWallArg 响应:UserVehicleWallReply 负责人:
+
+  subMedalTab = 158; // 勋章tab列表 参数:SubMedalTabArg 响应:SubMedalTabReply 负责人:
+  medalUseOp = 160; // 用户使用勋章 参数:MedalUseOpArg 响应:MedalUseOpReply 负责人:
+
+
+  userGreeting = 170;//招呼语列表 参数: 响应:UserGreetingReply 负责人:
+  userGreetingOp = 171; //招呼语操作 参数:UserGreetingOpArg 响应: 负责人:
+  userGreetingLocation = 172; //招呼语排序 参数:UserGreetingLocationArg 响应: 负责人:
+  chatGreeting = 173; //会话内快捷招呼 参数:ChatGreetingArg 响应:ChatGreetingReply 负责人:
+
+  userFrequently = 180;//常用语列表 参数:UserFrequentlyArg 响应:UserFrequentlyReply 负责人:
+  // 181被旧代码占用，不要用这个编号
+  userFrequentlyLocation = 182;//常用语排序 参数:UserFrequentlyLocationArg 响应: 负责人:
+  userFrequentlyShow = 183;//是否展示常用语入口 参数: 响应:UserFrequentlyShowReply 负责人:
+  userFrequentlyOp = 184; //常用语操作 参数:UserFrequentlyOpArg 响应:UserFrequentlyOpReply 负责人:
+
+  interactiveContent = 190;//互动内容 参数:InteractiveContentArg 响应:InteractiveContentReply 负责人:
+
+  intimacyUserList = 200; //亲密列表 参数:IntimacyUserListArg 响应:IntimacyUserList 负责人:
+  friendList = 201; //好友列表 参数:UserListArg 响应:UserList 负责人:
+  followList = 202;//关注列表 参数:UserListArg 响应:UserList 负责人:
+  fansList = 203; //粉丝列表 参数:UserListArg 响应:UserList 负责人:
+  follow = 204; //关注 参数:FollowArg 响应: 负责人:
+  unfollow = 205; //取消关注 参数:UnfollowArg 响应: 负责人:
+
+  block = 250; //拉黑(屏蔽)/解除拉黑(取消屏蔽), 参数:BlockArg 响应: 负责人:
+  blockUserList = 251; //拉黑用户列表 参数:BlockUserListArg 响应:BlockUserList 负责人:
+  changeOtherUserSetting = 252; //修改对其他用户的设置（设置备注名） 参数:ChangeOtherUserSettingArg 响应: 负责人:
+
+  banner = 256; //banner列表 参数:BannerArg 响应:BannerList 负责人:
+
+  getTimeNow = 257; //获取当前时间 参数: 响应:GetTimeNowReply 负责人:
+
+  //即构服务
+  zegoCallToken = 301;//即构音视频通话token 参数:CallTokenArg 响应:CallTokenReply  负责人:
+
+  //通话
+  callCheck = 361; //通话检查 参数:CallCheckArg 响应:CallCheckReply 负责人:
+  callAccept = 362; //通话接受 参数:CallAcceptArg 响应:CallAcceptReply 负责人:
+  // callReject = 363; //通话拒绝 参数:CallRejectArg 响应: 负责人:
+
+  callHangup = 364; //正常通话挂断结束 参数:CallHangupArg 响应:CallHangupReply 负责人:
+  callPing = 365; //通话过程中需要定期ping  参数:CallPingArg 响应:CallPingReply 负责人:
+  callRecord = 371;//通话记录  参数:CallListArg 响应:CallListReply  负责人:
+  callUploadCoverFace = 372;////未露脸上报 参数:CallUploadCoverFaceArg 响应:  负责人:
+  callHangupError = 373;////异常挂断上报 参数:CallHangupErrorArg 响应:  负责人:
+  callMatchAvatarList = 374;// 通话匹配用户头像列表 参数: 响应:CallMatchAvatarListReply  负责人:
+  callMatchingTextList = 375;//通话匹配中轮播文案列表 参数: 响应:CallMatchingTextListReply  负责人:
+  callJoinAvMatch = 376; //进入音/视频匹配 参数:CallJoinAvMatchArg 响应:CallJoinAvMatchReply  负责人:
+  callExitAvMatch = 377; //退出音/视频匹配 参数: 响应:  负责人:
+  callFaceCheckReported = 378; //面容检测上报 参数:CallFaceCheckReportedArg 响应:CallFaceCheckReportedReply  负责人:
+  callMatchDebug = 379; //匹配通话调试接口(临时) 参数:CallMatchDebugArg 响应:  负责人:
+  autoCallUnAccept = 380; //自动来电未接受 参数:AutoCallUnAcceptArg 响应:  负责人:
+  smMatchWaitDuration = 381; //sm匹配等待时长 参数: 响应:SmMatchWaitDurationReply  负责人:
+  callEarnings = 382; //通话收益查询 参数:CallEarningsArg 响应:CallEarningsReply  负责人:
+
+
+  walletInfo = 503; //钱包余额信息 参数:无 响应:Wallet 负责人:
+
+  //送礼
+  roomGiveGift = 510; //房间送礼 参数:GiveGiftArg 响应:GiveGiftReply 负责人:
+  roomGiftComboMsg = 511; //获取连击送礼消息 参数:RoomGiftComboMsgArg 响应:RoomGiftComboMsgReply 负责人:
+  giveGift = 514; //私信送礼 参数:GiveGiftArg 响应:GiveGiftReply 负责人:
+  familyGiveGift = 515; //家族送礼 参数:GiveGiftArg 响应:GiveGiftReply 负责人:
+
+  rechargeInfo = 520;//充值页面信息 参数:RechargeInfoArg 响应:RechargeInfoReply 负责人:
+  rechargeOrderPre = 521 ;//充值预下单 参数:OrderPreArg 响应:OrderPreReply 负责人:
+  googleVerify = 522;//谷歌支付验证 参数:GoogleVerifyArg 响应:GoogleVerifyReply 负责人:
+  iapVerify = 523; //苹果支付验证 参数:IAPVerifyArg 响应:IAPVerifyReply 负责人:
+
+  rechargeList = 530;//原生充值列表 参数:RechargeListArg 响应:RechargeListReply 负责人:
+  rechargePre = 531;//原生充值预下单 参数:RechargePreArg 响应:RechargePreReply 负责人:
+  googleRechargeVerify = 532;//原生谷歌支付验证 参数:GoogleVerifyArg 响应:GoogleVerifyReply 负责人:
+  iapRechargeVerify = 533; //原生苹果支付验证 参数:IAPVerifyArg 响应:IAPVerifyReply 负责人:
+  rechargeWayList = 534; //三方充值渠道列表 参数:RechargeWayListArg 响应:RechargeWayListReply 负责人:
+  rechargeWayProductList = 535;//三方充值渠道商品 参数:RechargeWayProductListArg 响应:RechargeWayProductListReply 负责人:
+  ThirdRechargePre = 536; //三方预下单 参数:ThirdRechargePreArg 响应:ThirdRechargePreReply 负责人:
+
+
+  nobleList = 556; //贵族商品列表 参数: 响应:NobleList 负责人:
+  nobleOrderPre = 507; //贵族购买预下单 参数:OrderPreArg 响应:OrderPreReply 负责人:
+
+  //普通会员
+  vipList = 600;//vip商品列表 参数: 响应:VipProductReply 负责人:
+  vipOrderPre = 601; //vip购买预下单 参数:OrderPreArg 响应:OrderPreReply 负责人:
+  vipGoogleVerify = 602;//谷歌支付验证 参数:GoogleVerifyArg 响应:GoogleVerifyReply 负责人:
+  vipIapVerify = 603; //苹果支付验证 参数:IAPVerifyArg 响应:IAPVerifyReply 负责人:
+
+  vipProduct = 610;//原生会员列表 参数:VipProductArgNew 响应:VipProductReplyNew 负责人:
+  vipProductPre = 611; //原生会员预下单 参数:VipProductPreArg 响应:VipProductPreReply 负责人:
+  googleVipVerify = 612; //原生谷歌会员支付验证 参数:GoogleVerifyArg 响应: 负责人:
+  iapVipVerify = 613; //原生iap会员支付验证 参数:IAPVerifyArg 响应: 负责人:
+  vipWayList = 614; //三方vip充值渠道列表 参数:VipWayListArg 响应:VipWayListReply 负责人:
+  ThirdVipPre = 615; //三方预下单 参数:ThirdRechargePreArg 响应:ThirdRechargePreReply 负责人:
+
+  RechargeWithdrawLamp = 620; //充值提现跑马灯 参数:RechargeWithdrawLampArg 响应:RechargeWithdrawLampReply 负责人:
+
+  //各种设置
+  settingPrivacy = 703; //隐私设置 参数:SettingPrivacyArg 响应: 负责人:
+  settingInvite = 704; //设置邀请 参数:SettingInviteArg 响应: 负责人:
+  settingNty = 705; //通知设置 参数:SettingNtyArg 响应:SettingNtyReply 负责人:
+  settingInfo = 706;//设置信息 参数:AllSettingArg 响应:AllSettingReply 负责人:
+  settingGeneral = 707;//通用设置 参数:SettingGeneralArg 响应: 负责人:
+  settingServicePrice = 708;//设置服务价格 参数:SettingServicePriceArg 响应: 负责人:
+
+  // 用户服务价格
+  userServicePriceList = 750;//用户服务价格列表 参数: 响应:UserServicePriceListReply 负责人:
+
+  // 月度魅力等级
+  //  charmMonthLevelPriceCfgList = 800;//月度魅力等级可设置价格配置列表 参数: 响应:CharmMonthLevelPriceCfgListReply 负责人:
+
+  //首页
+  RecommendUserList = 2001; //推荐用户 参数:RecommendUserListArg 响应:RecommendUserListReply 负责人:
+  NewUserList = 2002; //新人用户 参数:NewUserListArg 响应:NewUserListReply 负责人:
+  HandpickUserList = 2003; //精选用户 参数:HandpickUserListArg 响应:HandpickUserListReply 负责人:
+
+  profileByDefined = 1502; //自定义查询用户资料 参数:ProfileByDefinedArg 响应:ProfileByDefined 负责人:
+  batchOtherInfo = 1503; //批量查询他人信息 参数:BatchOtherInfoArg 响应:BatchOtherInfoReply 负责人:
+
+  searchRoomOrUserOrFamily = 258; //搜索房间或用户或家族 参数:SearchArg 响应:SearchReply 负责人:
+
+  heartbeat = 888;//心跳
+  frontBeat = 889;//前台在线上报
+
+  pointShow = 900; //展示钻石 参数: 响应:PointShowReply 负责人:
+
+  //认证相关
+  realAuth = 9001; //实人认证 参数:RealAuthArg 响应:RealAuthReply 负责人:
+  userRealAuthInfo = 9002; //用户认证状态 参数: 响应:UserRealAuthInfoReply 负责人:
+  realAuthCheck = 9003;//认证检查 参数: 响应:RealAuthCheckReply 负责人:
+  changeAvatar = 9004; //更换头像 参数:ChangeAvatarArg 响应:ChangeAvatarReply 负责人:
+  overallAuthCheck = 9005; //私信全局认证状态 参数: 响应:OverallAuthCheckReply 负责人:
+  authGuideNty = 9006; //认证引导通知 参数: 响应:AuthGuideNtyReply 负责人:
+  tryChangeAvatar = 9007; //尝试更换头像(若对比不通过且当前已认证，需要客户端调9004二次确认) 参数: 响应: 负责人:
+
+  reportPreCheak = 1000; //举报预检查 参数:ReportPreCheakArg 响应:ReportPreCheakReply 负责人:
+
+  momentAdd = 1001; //添加动态 参数:AddMomentArg 响应: 负责人:
+  momentDelete = 1002; //删除动态 参数:MomentArg 响应: 负责人:
+  momentPraise = 1003; //点赞 参数:MomentArg 响应: 负责人:
+
+  momentUndoPraise = 1004; //取消点赞 参数:MomentArg 响应: 负责人:
+  momentAddComment = 1005; //评论 参数:AddCommentArg 响应:MomentComment 负责人:
+  momentDeleteComment = 1006; //删除评论 参数:CommentArg 响应: 负责人:
+  momentRecommendList = 1010; //推荐动态列表 参数:RecommendMomentListArg 响应:MomentList 负责人:
+  momentFollowList = 1011; //关注动态列表 参数:PositionPageArg 响应:MomentList 负责人:
+  momentPersonList = 1012; //个人动态列表 参数:PersonalListArg 响应:MomentList 负责人:
+  momentCommentList = 1013; //动态评论列表 参数:CommentListArg 响应:CommentListReply 负责人:
+  momentNotificationList = 1014; //动态互动消息通知列表 参数:PositionPageArg 响应:MomentNotificationList 负责人:
+  momentNotificationMarkInfo = 1015; //动态互动消息标签信息 参数:MomentNotificationMarkArg 响应:MomentNotificationMarkInfo 负责人:
+  momentDetail = 1016;//动态详情  参数:MomentArg  响应:MomentDetail 负责人:
+  momentPhotoClick = 1017; // 动态图片点击 参数:MomentArg 响应: 负责人:
+  //momentLatestList = 1018; //最新动态列表 参数:PositionPageArg 响应:MomentList 负责人:
+  momentPraisedUserList = 1019; //点赞动态的用户列表 参数:PraisedUserListArg 响应:PraisedUserList 负责人:
+  momentClearReadMark = 1020;//清除未读数 参数: 响应: 负责人:
+  momentTopicList = 1021;//话题动态列表 参数:TopicMomentListArg 响应:MomentList 负责人:
+  topicList = 1022;//话题列表 参数: 响应:TopicListReply 负责人:
+  momentPraiseUserList = 1030;//互动中心点赞列表 参数:PositionPageArg 响应:MomentPraiseUserList 负责人:
+  momentCommentUserList = 1031;//互动中心评论列表 参数:PositionPageArg 响应:MomentCommentUserList 负责人:
+  userPublicEventInfo = 1032;
+  momentEvent = 1033;//动态事件上报  参数:MomentEventArg 响应: 负责人:
+
+  // 邀请活动
+  inviteSocialMediaInfo = 1101; // 分享组件-邀请社交媒体的分享信息 参数:InviteSocialMediaArg 响应:InviteSocialMediaReply 负责人:
+
+  //语聊房
+  voiceRoomToken = 3000; //语聊房token 参数:VoiceRoomTokenArg 响应:ZegoToken 负责人:
+  sendVoiceRoom = 3001; //发送语聊房消息 参数:SendVoiceRoomArg 响应:SendVoiceRoomReply 负责人:
+  voiceRoomMsgHistory = 3002; //语聊房历史消息 参数:VoiceRoomMsgHistoryArg 响应:VoiceRoomMsgHistoryReply 负责人:
+  voiceRoomInfo = 3003;//语聊房信息 参数:VoiceRoomInfoArg 响应:VoiceRoomInfoReply 负责人:
+  voiceRoomList = 3004; //语聊房列表 参数:VoiceRoomListArg 响应:VoiceRoomListReply 负责人:
+  voiceRoomCreate = 3005; //创建语音房 参数:VoiceRoomCreateArg 响应:VoiceRoomCreateReply 负责人:
+  voiceRoomUpdate = 3007; //更新房间信息 参数:VoiceRoomUpdateArg 响应: 负责人:
+  voiceRoomJoin = 3008; //进入语聊房 参数:VoiceRoomJoinArg 响应:VoiceRoomJoinReply 负责人:
+  voiceRoomExit = 3009; //离开语聊房 参数:VoiceRoomExitArg 响应: 负责人:
+  voiceRoomClearHot = 3012; //清空语聊房热度 参数:VoiceRoomClearHotArg 响应: 负责人:
+  voiceRoomOnlineUser = 3014; //语聊房在线用户 参数:VoiceRoomOnlineUserArg 响应:VoiceRoomOnlineUserReply 负责人:
+  voiceRoomSeat = 3015; //语聊房观众坐席  参数:VoiceRoomSeatArg 响应:VoiceRoomSeatReply 负责人:
+  voiceRoomKickOut = 3016; //踢出语聊房 参数:VoiceRoomKickOutArg 响应: 负责人:
+  voiceRoomMute = 3017; //房间公屏禁言 参数:voiceRoomMuteArg 响应: 负责人:
+  voiceRoomForbidList = 3018; //房间禁止行为用户列表 参数:VoiceRoomForbidListArg 响应:VoiceRoomForbidListReply 负责人:
+  voiceRoomForbidRemove = 3019; //房间解除用户禁止行为 参数:VoiceRoomForbidRemoveArg 响应: 负责人:
+
+  // lite包
+  voiceRoomListForLite1 = 300401; //语聊房列表lite1 参数:VoiceRoomListArg 响应:VoiceRoomListReply 负责人:
+
+  //-----麦相关
+  voiceRoomMicUp = 3020; //上麦 参数:VoiceRoomMicUpArg 响应:VoiceRoomMicUpReply 负责人:
+  voiceRoomMicDown = 3021; //下麦 参数:VoiceRoomMicDownArg 响应: 负责人:
+  voiceRoomMicMute = 3022; //闭麦 参数:VoiceRoomMicMuteArg 响应: 负责人:
+  voiceRoomMicUnMute = 3023; //开麦 参数:VoiceRoomMicUnMuteArg 响应: 负责人:
+  voiceRoomMicLock = 3024; //锁住麦位 参数:VoiceRoomMicLockArg 响应: 负责人:
+  voiceRoomMicUnLock = 3025; //解锁麦位 参数:VoiceRoomMicUnLockArg 响应: 负责人:
+  voiceRoomMicMove = 3026; //移动麦位 参数:VoiceRoomMicMoveArg 响应: 负责人:
+  voiceRoomMicList = 3027; //麦位列表 参数:VoiceRoomMicListArg 响应:VoiceRoomMicListReply 负责人:
+  voiceRoomMicCfg = 3028; //麦位配置 参数: 响应:VoiceRoomMicCfgReply 负责人:
+  voiceRoomMicInvite = 3029; //邀请上麦 参数:VoiceRoomMicInviteArg 响应:VoiceRoomMicInviteReply 负责人:
+  voiceRoomMicInviteAccept = 3030; //接受邀请上麦 参数:VoiceRoomMicInviteAcceptArg 响应:VoiceRoomMicInviteAcceptReply 负责人:
+  voiceRoomMicInviteList = 3031; //可邀请上麦用户列表 参数:VoiceRoomMicInviteListArg 响应:VoiceRoomMicInviteListReply 负责人:
+  voiceRoomOpenMicBeat = 3032; //开麦心跳 参数:VoiceRoomOpenMicBeatArg 响应: 负责人:
+
+  //----房间
+  voiceRoomBroadcast = 3039; // 拉去房间播报 参数:VoiceRoomBroadcastArg 响应:VoiceRoomBroadcastReply 负责人:
+  voiceRoomRandomIntroduce = 3040;//随机介绍 参数: 响应:VoiceRoomRandomIntroduceReply 负责人:
+  voiceRoomSettingInfo = 3041; //房间设置页信息 参数:VoiceRoomSettingArg 响应:VoiceRoomSettingReply 负责人:
+  voiceRoomBackground = 3042; //房间背景 参数:VoiceRoomBackgroundArg 响应:VoiceRoomBackgroundReply 负责人:
+  voiceRoomFollowList = 3043; //关注房间列表 参数:VoiceRoomListArg 响应:VoiceRoomListReply 负责人:
+  voiceRoomFollow = 3044; //关注房间 参数:FollowVoiceRoomArg 响应: 负责人:
+  voiceRoomBackgroundAdd = 3045; //添加自定义房间背景 参数:VoiceRoomBackgroundAddArg 响应:VoiceRoomBackgroundAddReply 负责人:
+  voiceRoomBackgroundPrice = 3046; //获取自定义房间背景价格(金币数/周期天数) 参数: 响应:VoiceRoomBackgroundPriceReply 负责人:
+  voiceRoomClearScreen = 3064; //清屏 参数:VoiceRoomClearScreenArg 响应: 负责人:
+  voiceRoomUserInfo = 3065; //用户在房间中的信息 参数:VoiceRoomUserInfoArg 响应:VoiceRoomUserInfoReply 负责人:
+
+  //----国家
+  voiceRoomCountryList = 3066; //房间国家列表 参数: 响应:RoomCountryListReply 负责人:
+
+  //----成员相关
+  voiceRoomMemberList = 3067; // 房间成员列表 参数:VoiceRoomMemberListArg 响应:VoiceRoomMemberListReply 负责人:
+  voiceRoomJoinMember = 3068; // 加入房间成员 参数:VoiceRoomJoinMemberArg 响应: 负责人:
+  voiceRoomRoleAllot = 3069; // 房间角色分配 参数:VoiceRoomRoleAllotArg 响应: 负责人:
+  voiceRoomMemberPrivilege = 3070; // 房间成员特权 参数: 响应:VoiceRoomMemberPrivilegeReply 负责人:
+  VoiceRoomExitMember = 3071; // 退出房间成员 参数:VoiceRoomExitMemberArg 响应: 负责人:
+
+  // 贡献榜
+  contributionRankBriefSite = 3074; // 贡献榜前三座椅 参数:ContributionRankBriefSiteArg 响应:ContributionRankBriefSiteReply 负责人:
+  contributionRank = 3075; // 贡献榜 参数:ContributionRankArg 响应:ContributionRankReply 负责人:
+
+
+  //----房间麦位表情
+  voiceRoomMemeGroupList = 3072; // 麦位表情分组列表 参数: 响应:VoiceRoomMemeGroupListReply 负责人:
+  voiceRoomMemeList = 3073; // 麦位表情列表 参数:VoiceRoomMemeListArg 响应:VoiceRoomMemeListReply 负责人:
+
+  //房间任务相关内容
+  voiceDailyTaskTrigger = 3076; // 房间在线任务触发 参数:VoiceDailyTaskTriggerArg 响应:VoiceDailyTaskTriggerReply 负责人:
+  voiceOwnerTaskList = 3077; // 房主任务 参数:VoiceOwnerTaskListArg 响应:VoiceOwnerTaskListReply 负责人:
+
+  voiceFollowRoomOnList = 3078; // 关注房间开播列表 参数: 响应:VoiceFollowRoomOnListReply 负责人:
+
+  voiceRoomPk = 3079; // 房间pk开始/结束 参数:VoiceRoomPkArg 响应: 负责人:
+  voiceRoomPkCfg = 3080; // 房间pk武器配置 参数:VoiceRoomPkCfgArg 响应:VoiceRoomPkCfgReply 负责人:
+  voiceRoomPkInfo = 3081; // 房间pk信息 参数:VoiceRoomPkInfoArg 响应:VoiceRoomPkInfoReply 负责人:
+
+  rocketBoxOpen = 3100; //房间火箭宝箱开启 参数:RocketBoxOpenArg 响应:RocketBoxOpenReply 负责人:
+  rocketInfo = 3101; //房间火箭信息面板 参数:VoiceRoomId 响应:RoomRocketInfoReply 负责人:
+  rocketRewardRecord = 3102; //房间火箭奖励记录 参数:RocketRewardRecordArg 响应:RocketRewardRecordReply 负责人:
+  rocketRank = 3103; //房间火箭排行榜 参数:RocketRankArg 响应:RocketRankReply 负责人:
+
+  voiceRoomAdditionalInfo = 3200; //房间额外信息 参数:VoiceRoomIdArg 响应:VoiceRoomAdditionalInfoReply 负责人:
+
+  //道具
+  itemList = 3604; //我的道具列表 参数:ItemListArg 响应:ItemListReply 负责人:
+  itemUse = 3605; //道具使用 参数:ItemUseArg 响应:ItemUseReply 负责人:
+  callingCardNum = 3606; //用户可使用通话卡数量 参数:CallingCardNumArg 响应:CallingCardNumReply 负责人:
+  //  exclusiveCallingCardRecord = 3707; //专属通话卡奖励记录 参数:ExclusiveCallingCardRecordArg 响应:ExclusiveCallingCardRecordReply 负责人:
+  exclusiveCallingCardDebug = 3708; //专属通话卡消息调试接口 参数:ExclusiveCallingCardDebugArg 响应: 负责人:
+
+  //背包
+  UserBag = 3701; //用户背包 参数:UserBagArg 响应:UserBagReply 负责人:
+
+  //排行榜
+  rankList = 4000; //排行榜 参数:RankListArg 响应:RankListReply 负责人:
+  rankRoomRound = 4001; // 排行榜房间轮播 参数:RankRoomRoundArg 响应:RankRoomRoundReply 负责人:
+
+  //配置类信息获取
+  giftSendInfo = 4500; //送礼面板信息 参数:GiftBagGiftArg 响应:GiftBagGiftReply 负责人:
+  syncGift = 5000; //同步礼物信息(GET-/gift/sync) 参数:SyncGiftArg 响应:SyncGiftReply 负责人:
+  globalCfg = 5010; //通用全局配置 参数:无 响应:GlobalCfgReply 负责人:
+  profileCfg = 5011; //个人信息配置 参数:无 响应:ProfileCfgReply 负责人:
+  pictureCfg = 5012; //图片信息配置 参数: 响应:PictureCfgReply 负责人:
+  voiceSignCfg = 5013; //随机语音签名文案 参数:VoiceSignCfgArg 响应:VoiceSignCfgReply 负责人:
+  intimacyCfg = 5014; //亲密度配置 参数: 响应:IntimacyCfgReply 负责人:
+  httpSyncItem = 5015; //同步道具信息(GET-/item/sync) 参数:SyncItemArg 响应:SyncItemReply 负责人:
+  httpSyncResource = 5016; //同步动效资源信息(GET-/item/syncResource) 参数:SyncResourceArg 响应:SyncResourceReply 负责人:
+  voiceRoomTagCfg = 5017; //创建语聊房类型配置 参数: 响应:voiceRoomTagCfgReply 负责人:
+  explainContent = 5018; //说明内容 参数:ExplainContentArg 响应:ExplainContentReply  负责人:
+  someContent = 5019; //各种文案 参数:SomeContentArg 响应:SomeContentReply  负责人:
+  redPoint = 5020; //红点获取 参数: 响应:RedPointReply  负责人:
+
+
+  createHttpJwt = 6000; //生成http账号使用的token 参数:CreateHttpJwtArg 响应:CreateHttpJwtReply 负责人:
+  createShareToken = 6001; //生成分享的token 参数:CreateShareArg 响应:CreateShareReply 负责人:
+
+  redPacketSend = 7001;//发送红包 参数:RedPacketSendArg 响应:RedPacketSendReply 负责人:
+  redPacketGet = 7002;//领取红包 参数:RedPacketGetArg 响应:RedPacketGetReply 负责人:
+  redPacketCfgInfo = 7003;//发送红包配置信息 参数: 响应:RedPacketCfgInfoReply 负责人:
+  redPacketUnGetList = 7004;//未领取红包列表 参数:RedPacketUnGetListArg 响应:RedPacketUnGetListReply 负责人:
+  redPacketDetail = 7005;//红包详情 参数:RedPacketDetailArg 响应:RedPacketDetailReply 负责人:
+  redPacketCoinRecordList = 7006;//红包金币流水 参数:RedPacketCoinRecordListArg 响应:RedPacketCoinRecordListReply 负责人:
+  redPacketGetRecordList = 7007;//查询用户领取的红包记录 参数:RedPacketGetRecordListArg 响应:RedPacketGetRecordListReply 负责人:
+  //  deepChatDebug = 7010;//深聊多得tip调试接口 参数:DeepChatDebugArg 响应: 负责人:
+  deepChatProgress = 7011;//深聊多得进度查询 参数:DeepChatProgressArg 响应:DeepChatProgressReply 负责人:
+  deepChatCompleteGears = 7012;//深聊多得弹窗完成阶段上报 参数:DeepChatCompleteGearsArg 响应: 负责人:
+
+  privatePhotoPay = 7101;//私照付费 参数:PrivatePhotoPayArg 响应: 负责人:
+
+  loginOther = 9999; //其他设备登录 参数:无 响应:无 负责人:
+
+  receiveSystem = 200000001; // 收到系统通知
+  receiveSystemInFamily = 200000002; // 房间中的系统通知
+
+  errorLog = 1310; //上传错误日志  参数:ErrorLogArg 响应: 负责人:
+
+  //相册
+  albumNormalList = 10001; //普通相册 参数:normalAlbumListArg 响应:normalAlbumListReply 负责人:
+  albumNormalUpload = 10002; //上传照片 参数:uploadAlbumArg 响应:UploadAlbumReply 负责人:
+  albumNormalDelete = 10003; //删除 参数:normalAlbumDeleteArg 响应:无 负责人:
+  albumNormalChangeLocation = 10004; //换位置 参数:normalAlbumChangeLocationArg 响应:无 负责人:
+
+  albumPrivacyList = 10011; //私密相册 参数:normalAlbumListArg 响应:privacyAlbumListReply 负责人:
+  albumPrivacyUpload = 10012; //上传照片 参数:uploadAlbumArg 响应:UploadAlbumReply 负责人:
+  albumPrivacyDelete = 10013; //删除 参数:normalAlbumDeleteArg 响应:无 负责人:
+  albumPrivacyChangeLocation = 10014; //换位置 参数:privacyAlbumChangeLocationArg 响应:无 负责人:
+
+  // 视频秀
+  videoShowAdd = 10015; // 上传视频秀 参数:VideoShowAddArg 响应:VideoShowAddReply 负责人:
+  videoShowDelete = 10016; // 删除视频秀 参数:VideoShowDeleteArg 响应:无 负责人:
+  videoShowHomepage = 10017; // 查看视频秀主页 参数:VideoShowHomepageArg 响应:VideoShowHomepageReply 负责人:
+  videoShowAddCheck = 10018; // 视频秀上传检查 参数:无 响应:无 负责人:
+  videoShowPraise = 10019; // 视频秀点赞 参数:VideoShowPraiseArg 响应:无 负责人:
+
+
+  // 用户承接，新人注册
+  newerRegister = 15001;            // 新人注册奖励接口 参数:NewerRegisterArg 响应:NewerRegisterReply 负责人:
+  getNewerRegisterProgress = 15002; // 女性注册后新人钻石任务进度 参数:GetNewerRegisterProgressArg 响应:GetNewerRegisterProgressReply 负责人:
+  checkRegisterMessageGuide = 15003; // 引导弹窗，针对女用户 参数:RegisterMessageGuideArg 响应:RegisterMessageGuideReply 负责人:
+  testTaskMsg = 15004; // // 信令测试接口 参数: 响应: 负责人:
+  triggerMessageCheck = 15005;// 新人账号message弹窗接口 参数: 响应:NewerTriggerReply 负责人:
+  newerRoomRegister = 15006; // 新人注册房间奖励接口 参数:NewerRoomRegisterArg 响应:NewerRoomRegisterReply 负责人:
+  // 任务中心
+  getTaskList = 20001; // 获取任务中心列表  参数:GetTask          响应:TaskList 负责人:
+  taskRewardsDesc = 20002; // 任务完成奖励弹窗  参数:GetTaskId        响应:TaskRewardDesc 负责人:
+  restOfToday = 20003; // 每日任务剩余时间  参数:GetTaskToDay     响应:RestOfTodayArg 负责人:
+
+  getTaskChainList = 20010;  // 官方任务 参数:TaskChainArg 响应:TaskChainReply 负责人:
+  preGetTaskChainList = 20011; // 官方任务预览 参数:PreGetTaskChainArg 响应:PreGetTaskChainReply 负责人:
+  getTaskChainReward = 20012; // 官方任务领奖 参数:TaskChainRewardArg 响应:TaskChainRewardReply 负责人:
+
+
+  getVoiceRoomTaskChainList = 20013; // 新人进房任务奖品 参数: 响应:GetVoiceRoomTaskChainListReply 负责人:
+  getVoiceRoomTaskChainReward = 20014; // 新人进房任务领取 参数:GetVoiceRoomTaskChainRewardArg 响应: 负责人:
+  getMicGuide = 20015; // 上麦引导 参数: 响应:GetMicGuideReply 负责人:
+  getPublicScreenGuide = 20016; // 公屏关注引导 参数: 响应:GetPublicScreenGuideReply 负责人:
+
+  // 签到
+  getUserSignInDay = 20004; // 获取签到的七日信息  参数:GetUserIdSignIn  响应:UserSignInDayReply  负责人:
+  signInSuccessPop = 20005; // 签到弹窗领奖         参数:GetUserIdSignIn  响应:SignInInfo 负责人:
+
+  // 家族接口
+  getFamilyWealthCharmCondition = 250000;  // 获取财富和魅力等级要求 参数: 响应:GetFamilyWealthCharmConditionReply 负责人:
+  createFamily = 250001;  // 创建家族 参数:CreateFamilyArg 响应:CreateFamilyReply 负责人:
+  getFamilyList = 250002; // 家族推荐大厅 参数:GetFamilyListArg 响应:GetFamilyListReply 负责人:
+  joinFamily = 250003;    // 加入家族 参数:JoinFamilyArg 响应:JoinFamilyReply 负责人:
+  getFamilyPageDetail = 250004; // 页面状态 参数:GetFamilyPageDetailArg 响应:UserFamily 负责人:
+  dissolutionFamily = 250005;   // 解散家族 参数:DissolutionFamilyArg 响应:DissolutionFamilyReply 负责人:
+  quitFamily = 250006;          // 退出家族 参数:QuitFamilyArg 响应:QuitFamilyReply 负责人:
+  familyCoverUpload = 250007;   // 更新家族封面 参数:FamilyCoverUploadArg 响应:FamilyCoverUploadReply 负责人:
+  familyNameUpgrade = 250008;   // 更新家族名称 参数:FamilyNameUpgradeArg 响应:FamilyNameUpgradeReply 负责人:
+  familyNoticeUpgrade = 250009; // 更新家族通知 参数:FamilyNoticeUpgradeArg 响应:FamilyNoticeUpgradeReply 负责人:
+  getMemberList = 250010; // 获取成员列表 参数:GetMemberListArg 响应:GetMemberListReply 负责人:
+  preCreateCheck = 250011; // 前置检查 参数: 响应:PreCreateCheckReply 负责人:
+  getFamilyRoom = 250012; // 获取家族房间列表 参数:getFamilyRoomListArg 响应:getFamilyRoomListReply 负责人:
+  familySearch = 250013; //搜索家族 参数:FamilySearchArg 响应:FamilySearchReply 负责人:
+  familyType = 250014; //家族类型 参数: 响应:FamilyTypeReply 负责人:
+  familyInviteCheck = 250015; //邀请成员检查 参数:FamilyInviteCheckArg 响应: 负责人:
+  familyCreateBuy = 250016; //购买家族创建资格 参数: 响应: 负责人:
+  familyChatInfo = 250017; //家族聊天页信息 参数:FamilyIdArg 响应:FamilyChatInfoReply 负责人:
+  familyOnlineMember = 250018; //家族聊天页信息 参数:FamilyOnlineMemberArg 响应:FamilyOnlineMemberReply 负责人:
+  friendFamilyList = 250019; // 好友家族列表 参数:GetFamilyListArg 响应:FriendFamilyListReply 负责人:
+
+  setFamilyNty = 250111; // 家族消息通知 参数:FamilyNtyArg 响应:FamilyNtyReply 负责人:
+  familyJoinAuditList = 250200; // 家族加入审核列表 参数:FamilyJoinAuditListArg 响应:FamilyJoinAuditListReply 负责人:
+  familyJoinAuditHandle = 250201; // 家族加入审核处理 参数:FamilyJoinAuditHandleArg 响应:FamilyJoinAuditHandleReply 负责人:
+  getFamilyJoinConstraint = 250202; // 获取家族加入限制  参数:GetFamilyJoinConstraintArg 响应:GetFamilyJoinConstraintReply 负责人:
+  setFamilyJoinConstraint = 250203; // 家族加入限制  参数:SetFamilyJoinConstraintArg 响应:SetFamilyJoinConstraintReply 负责人:
+  wealthCharmMaxLevel = 250204; // 财富等级魅力等级最大等级  参数:WealthCharmMaxLevelArg 响应:WealthCharmMaxLevelReply 负责人:
+  kickOutFamily = 250205; // 移出家族  参数:KickOutFamilyArg 响应:KickOutFamilyReply 负责人:
+
+  // 家族聊天
+  sendFamilyMessage = 250113; // 发送家族消息 参数:SendFamilyMessageArg 响应:FamilyMsgReply 负责人:
+  // receiveFamilyMessage = 250114; // 接收家族消息 参数: 响应: 负责人:
+  familyMsgHistory = 250115; // 家族消息历史 参数:FamilyMsgHistoryArg 响应:FamilyMsgHistoryReply 负责人:
+
+  // 官方群接口
+  officialGroupList = 260000; // 官方群列表(官方账号)不做分页 参数:OfficialGroupListArg 响应:OfficialGroupListReply 负责人:
+  officialGroupMemberList = 260001; // 官方群成员列表 参数:OfficialGroupMemberListArg 响应:OfficialGroupMemberListReply 负责人:
+  officialGroupMemberSetting = 260002; // 官方群成员设置 参数:OfficialGroupMemberSettingArg 响应: 负责人:
+  officialGroupJoin = 260003; // 官方群加入 参数:OfficialGroupJoinArg 响应: 负责人:
+  officialGroupDissolve = 260004; // 解散官方群 参数:OfficialGroupDissolveArg 响应: 负责人:
+  officialGroupUpdateProfile = 260005; // 编辑官方群信息 参数:OfficialGroupUpdateProfileArg 响应: 负责人:
+  officialGroupDetail = 260006; // 官方群详情 参数:OfficialGroupDetailArg 响应:OfficialGroupDetailReply 负责人:
+  officialGroupSessionList = 260007; // 官方群会话列表 参数:OfficialGroupSessionListArg 响应:OfficialGroupSessionListReply 负责人:
+  officialGroupSendMsg = 260008; // 官方群发消息 参数:OfficialGroupSendMsgArg 响应: 负责人:
+  officialGroupOut = 260009; // 退出官方群 参数:OfficialGroupOutArg 响应: 负责人:
+  OfficialGroupJoinRequestList = 260010; // 官方群加入申请列表 参数:OfficialGroupJoinRequestListArg 响应:OfficialGroupJoinRequestListReply 负责人:
+  OfficialGroupJoinRequestAudit = 260011; // 官方群加入申请审核 参数:OfficialGroupJoinRequestAuditArg 响应: 负责人:
+  OfficialGroupMsgHistory = 260012; // 官方群消息历史 参数:OfficialGroupMsgHistoryArg 响应:OfficialGroupMsgHistoryReply 负责人:
+
+  //游戏
+  gameList = 21001; // 游戏列表 参数:GameListArg 响应:GameListReply 负责人:
+  gameUrl = 21002; // 游戏跳转地址 参数:GameUrlArg 响应:GameUrlReply 负责人:
+  gameLamp = 21003; // 游戏跑马灯 参数:GameLampArg 响应:GameLampReply 负责人:
+  gameCollect = 21004; // 收藏游戏 参数: 响应: 负责人:
+  gameCollectList = 21005; // 收藏游戏列表 参数: 响应:GameListReply 负责人:
+
+  // 翻译
+  translate = 22001; // 翻译 参数:TranslateArg 响应: TranslateReply 负责人:
+  videoStrikerResource = 22002;// 视频贴纸资源 参数: VideoStrikerResourceArg 响应: VideoStrikerResourceReply 负责人:
+
+  //埋点
+  FrontAndBackSwitch = 999997; // 前后台切换 参数:FrontAndBackSwitchArg 响应: 负责人:
+  MatchPoint = 999998; // 牵线埋点上报 参数:MatchPointArg 响应: 负责人:
+  BurialPoint = 999999; //埋点上报 参数参数:BurialPointArg 响应: 负责人:
+
+  // 币商中心-支付设置相关
+  coinAgentQueryPay = 10800; // 支付查询 参数:无 响应:CoinAgentQueryPayReply 负责人:
+  coinAgentPaySettings = 10801; // 支付设置 参数:CoinAgentPaySettingsArg 响应: 负责人:
+  coinAgentForgetPass = 10802; // 忘记密码 参数:CoinAgentForgetPassArg 响应: 负责人:
+  coinAgentResetPass = 10803; // 重置密码 参数:CoinAgentResetPassArg 响应: 负责人:
+  coinAgentVerifyPass = 10804; // 校验密码 参数:CoinAgentVerifyPassArg 响应: 负责人:
+  coinAgentVerifyEmail = 10805; // 校验邮箱验证码 参数:CoinAgentVerifyEmailArg 响应: 负责人:
+  batchQueryCoinAgent = 10806; // 批量币商信息查询 参数:BatchQueryCoinAgentArg 响应:BatchQueryCoinAgentReply 负责人:
+
+  // 幸运礼物
+  giftLuckyBanner = 10900; // 幸运礼物磁片区查询 参数:GiftLuckyBannerArg 响应:GiftLuckyBannerReply 负责人:
+
+  // 房间派对活动
+  partyList = 11000; //派对活动列表 参数:PartyListArg 响应:PartyListReply 负责人:
+  partySubscribe = 11001; //派对订阅/取消订阅 参数:PartySubscribeArg 响应: 负责人:
+  partyThemeDurationList = 11002; //派对主题/持续时间列表 参数: 响应:PartyThemeDurationListReply 负责人:
+  partyRewardSponsor = 11003; //派对奖励/赞助 参数: 响应:PartyRewardSponsorReply 负责人:
+  partyCreate = 11004; //派对创建 参数:partyCreateArg 响应: 负责人:
+  partyShare = 11005; //派对分享 参数:PartyShareArg 响应:PartyShareRecordReply 负责人:
+  partyInfo = 11006; //派对详情 参数:PartyInfoArg 响应:PartyInfoReply 负责人:
+  partyRank = 11007; //贡献榜/收礼榜 参数:PartyRankArg 响应:PartyRankReply 负责人:
+  partyCancel = 11008; //房主取消活动  参数:PartyCancelArg 响应:PartyCancelReply 负责人:
+  partyOpGuest = 11009; //同意/拒绝成为嘉宾 参数:PartyOpGuestArg 响应:PartyOpGuestReply 负责人:
+  partyCreatePreCheck = 11010; // 创建派对提前判断 参数:PartyCreatePreCheckArg 响应:PartyCreatePreCheckReply 负责人:
+  partyInvite = 11011; // 房主邀请嘉宾接口 参数:PartyInviteArg 响应:PartyInviteReply 负责人:
+  //============短链接口100000起
+  countryList = 100001; //国家列表(GET-/index/country) 参数: 响应:CountryListReply 负责人:
+  levelColorCfg = 100002; //等级颜色配置(GET-/index/level_color_cfg) 参数:SyncArg(只要时间) 响应:LevelColorCfg 负责人:
+}

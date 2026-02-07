@@ -1,0 +1,341 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "account_enum.proto";
+import "item.proto";
+import "noble.proto";
+import "op_enum.proto";
+
+// 财富等级
+message WealthLevel {
+  int64 exp = 1;
+  int32 level = 2;
+  string icon = 3;
+  int64 nextLevelExp = 4; // 下一级经验值
+}
+
+// 魅力等级
+message CharmLevel {
+  int64 exp = 1;
+  int32 level = 2;
+  string icon = 3;
+  int64 nextLevelExp = 4; // 下一级经验值q
+}
+
+message GameLevel {
+  int64 exp = 1;
+  int32 level = 2;
+  string icon = 3;
+  int64 nextLevelExp = 4; // 下一级经验值
+}
+
+// 视频秀
+message VideoShow { // 视频秀
+  string video = 1; // 视频url
+  string cover = 2; // 封面url
+  string gif = 3; // 动图url
+}
+
+message TitleShow {
+  string name = 1;
+  string background = 2;
+  int64 dynamicId = 3;
+}
+
+message RankUser {
+  int64 id = 1;
+  string account = 2;
+  UserType ut = 3; // 账号类型
+  string nickname = 4;
+  Gender gender = 5;
+  string avatar = 6;
+  NobleSimple noble = 7; //贵族信息
+  WealthLevel wealth = 8; //财富等级
+  CharmLevel charm = 9; //魅力等级
+  int64 birthDay = 10; // 秒级时间戳
+  int64 registerTime = 11;// 注册时间
+}
+
+message User {
+  int64 id = 1;
+  string account = 2;
+  UserType ut = 3; // 账号类型
+  string nickname = 4;
+  Gender gender = 5;
+  string avatar = 6;
+  AccountStatus status = 7; // 账号状态
+  AccountRiskStatus riskStatus = 8; // 风控状态 保留字段
+  AccountMuteStatus mute = 9; // 禁言状态
+  int64 birthDay = 10; // 秒级时间戳
+  string countryCode = 11; //国家代码
+  int64 phone = 12;
+  string introduction = 13; // 个人介绍-Introduction
+  bool complete = 14; // 是否完善
+  string remarkName = 15; //备注名
+  bool setPwd = 16; // 是否设置密码
+  NobleSimple noble = 17; //贵族信息
+  WealthLevel wealth = 18; //财富等级
+  CharmLevel charm = 19; //魅力等级
+  AccountRevokedStatus revoked = 20; // 注销状态
+  int64 registerTime = 21;// 注册时间
+  int64 noNew = 22; // 不是新人的时间点
+  UserUseItem item = 23; // 装扮列表
+  string prettyAccount = 24; // 靓号
+  UserCmType cm = 25; // 客服类型 1:普通客服 30:客服管理
+  CmStealth stealth = 26; // 是否隐身
+  bool setInviteCode = 27; // 是否设置了邀请码
+  bool white = 28; // 是否白名单
+  string email = 29; // 邮箱
+  // repeated UseMedal medals = 30; //勋章列表
+  GameLevel game = 32; //游戏等级
+  int64 sort = 33; //用在业务需求的排序
+  //repeated UseMedal goldMedals = 34; //金勋章列表
+  string distance = 35; //距离
+  int32 height = 36;//身高
+  int32 weight = 37;//体重
+  Profession profession = 38;//职业
+  EmotionType emotion = 39; //情感状态
+  int32 genderAuth = 41;//性别认证
+  int32 avatarAuth = 42;//头像认证
+  repeated Hobby hobby = 43;//爱好id json
+  bool accost = 44; //是否搭讪过
+  bool online = 45; //是否在线
+  bool audit = 46; //是否是审核用户
+  Vip vip = 47; //vip
+  LastLogin lastLogin = 48; //上次在线时间
+  UserFamily family = 49;
+  AccountPlayStatus play = 50;//禁播状态
+  AccountMuteRoomStatus muteRoom = 51;//房间禁言
+  AccountChatStatus chat = 52;//趣聊禁言
+  AccountMicStatus mic = 53;//房间禁麦
+  bool official = 54; //是否官方账号
+  string uuid = 55; // uuid
+  SignUpWay signUpWay = 56; // 注册方式
+  bool calibration = 57; //是否校准过国家
+  int64 faceId = 58;
+  bool coinAgent = 59; //是否币商身份
+  AccountAVMatchStatus voiceMatch = 60; // 禁语音匹配
+  AccountAVMatchStatus videoMatch = 61; // 禁视频匹配
+  VideoShow videoShow = 62; //视频秀
+  repeated string medals = 63;
+  string genderAuthTime = 64;//性别认证时间
+  string avatarAuthTime = 65;//头像认证时间
+}
+
+message UserFamily {
+  FamilyItem item = 1; // 家族信息
+  FamilyRole familyRole = 2; // 家族角色 // 1 族长 2 副族长 3 长老 100 普通成员
+  bool isMyFamily = 3; // 是否已加入该家族
+  int64 extTimestamp = 4; // 不是萌新的时间戳
+  int32 ntySetting = 5; // 是否开启通知
+  int32 familyNoAudit = 6; // 家族是否不需要审核 1开启免审核
+}
+
+message FamilyItem {
+  string coverUrl = 1;
+  string name = 2;
+  string notice = 3;
+  int64 memberCnt = 4; // 人数
+  int64 id = 5; // 家族id
+  UserFamilyStatus status = 6; // 用户在家族状态，这里1 在家 2 不在
+  string account = 7; // 家族账号，对用户展示
+  bool isDefaultAvatar = 8; // 是否默认头像
+  int64 leaderId = 9; // 族长id
+  bool inAudit = 10;    // 是否在审核
+
+}
+
+enum UserFamilyStatus {
+  ufs_none = 0;
+  ufs_in_family = 1; // 在家族
+  ufs_quit_alone = 2; // 退出家族
+}
+
+enum FamilyRole {
+  role_none = 0;
+  role_leader = 1; // 族长
+  role_sub_leader = 2; // 副族长
+  role_elders = 3; // 长老
+  role_people = 100; // 平民
+}
+
+enum EmotionType {
+  et_none = 0; //
+  et_single = 1;//单身
+  et_divorce = 2;//离婚
+  et_married = 3;//已婚
+  et_Secret = 4;//秘密
+  et_inLove = 5;//恋爱中
+}
+
+//api:10 CompleteProfile 用于完善资料
+message CompleteProfileArg {
+  string nickname = 1; // 昵称
+  string avatar = 2; // 头像
+  Gender gender = 3; // 性别
+  int64 birthDay = 4; // 毫秒级时间戳
+  string countryCode = 5; //国家代码
+  string inviteCode = 6; //邀请码
+}
+message CompleteProfileReply {
+
+}
+
+enum UpdateProfileField {
+  upf_none = 0;
+  upf_avatar = 1;//头像
+  upf_nickname = 2;//昵称
+  upf_birthday = 3;//生日
+  upf_introduction = 4;// 个人介绍
+  upf_height = 5; //身高
+  upf_weight = 6; // 体重
+  upf_emotion = 7; // 情感状态
+  upf_profession = 8; // 职业
+  upf_signature = 9; // 语音签名
+  upf_greeting = 10; //招呼
+  upf_hobby = 11; //爱好
+}
+
+message UpdateProfileArg {
+  UpdateProfileField filed = 1; // 修改的字段
+  string value = 2; // 修改的值
+}
+
+enum ProfessionInfoType {
+  pit_none = 0;
+  pit_it = 1; //信息技术
+  pit_financial = 2; //金融保险
+  pit_service = 3; //商页服务
+  pit_project = 4; //工程制造
+  pit_traffic = 5; //交通运输
+  pit_media = 6; //文化传媒
+}
+
+message Profession {
+  int64  id = 1;
+  string name = 2;
+  string emoji = 3;
+  ProfessionInfoType type = 4; //方便客户端分类
+}
+
+message ProfessionInfo {
+  ProfessionInfoType type = 1;
+  repeated Profession items = 2;
+}
+
+enum HobbyInfoType {
+  hit_none = 0;
+  hit_food = 1; //食物
+  hit_sports = 2; //运动
+  hit_music = 3; //音乐
+}
+
+message Hobby {
+  int64 id = 1;
+  string name = 2;
+  string emoji = 3;
+  HobbyInfoType type = 4; //方便客户端分类
+}
+
+message HobbyInfo {
+  HobbyInfoType type = 1;
+  repeated Hobby items = 2;
+}
+
+message UserBaseInfo {
+  Profession profession = 1;
+  repeated string album = 2;
+}
+
+
+message SimpleUser {
+  int64 id = 1;
+  string account = 2;
+  string nickname = 3;
+  Gender gender = 4;
+  string avatar = 5;
+  string remarkName = 6; //备注名
+  NobleSimple noble = 7; //贵族信息
+  string prettyAccount = 8; // 靓号
+  int32 genderAuth = 9;//性别认证
+  int32 avatarAuth = 10;//头像认证
+  Vip vip = 11; //vip
+  string countryCode = 12;
+  int64 birthDay = 13;
+}
+
+message UserVoiceSignSetArg {
+  ResOp op = 1;
+  string url = 2;
+  int64  duration = 3; //时长
+}
+
+message MyPageData {
+  int64 friends = 1; // 好友个数
+  int64 newFriend = 2; //新好友
+  int64 fans = 3; // 粉丝个数
+  int64 newFans = 4; // 新粉丝
+  int64 follow = 5; // 关注个数
+  int64 visited = 6; // 访客总数
+  int64 newVisited = 7; // 新访客
+  bool defaultAvatar = 8; //默认头像
+  int32 vipAuthorityNum = 9; //vip权益数量
+}
+
+
+// 荣誉栏内容
+message HonorListArg {
+  int64 userId = 1;
+}
+
+message HonorListReply {
+  int64 wealthLevel = 1; // 财富等级
+  int64 charmLevel = 2;  // 魅力等级
+  string rankTip = 3; // 排名说明
+  string rank = 4; // 排名
+  bool isRank = 5; // 是否上榜
+  TitleTap titleTap = 6; // 称号
+  MedalTap medalTap = 7; // 勋章
+  int32 rankType = 8; // 排名类型 1魅力 2财富
+  string wealthLevelIcon = 9; // 财富等级图标
+  string charmLevelIcon = 10; // 魅力等级图标
+}
+
+message TitleTap {
+  int64 num = 1;
+  repeated BriefItem titles = 2; // 称号
+}
+
+message MedalTap {
+  int64 num = 1;
+  repeated BriefItem medals = 2; // 称号
+}
+
+
+message BriefItem {
+  int64 itemId = 1;
+  string name = 2;
+  string url = 3; // 装扮图
+  int64 dynamicId = 4;
+}
+
+message LastLogin {
+  bool isOnline = 1;
+  int64 lastLoginTime = 2;
+}
+
+message RandomNicknameArg {
+  Gender gender = 1;
+}
+
+enum UserAuthType {
+  uat_none = 0;
+  uat_gender = 1; // 性别认证
+  uat_avatar = 2; // 头像认证
+}
+
+enum UserAuthStatus {
+  uas_no = 0; // 未认证
+  uas_ok = 1; // 已认证
+}

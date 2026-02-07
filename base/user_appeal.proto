@@ -1,0 +1,57 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "account_enum.proto";
+
+enum AppealType {
+  apt_none = 0;
+  apt_user = 1; //用户申诉
+  apt_voiceRoom = 2; //语聊房申诉
+}
+
+enum AppealStatus {
+  AppealStatus_none = 0;
+  AppealStatus_ing = 1; //申诉中
+  AppealStatus_fail = 2;//申诉失败
+  AppealStatus_success = 3;//申诉成功
+}
+
+message AppealInfo {
+  int64 id = 7;
+  AppealType type = 11; //申诉类型
+  string phone = 3; //手机号
+  string email = 4; //邮箱
+  repeated string images = 5; //图片
+  string reason = 6; //申诉原因
+  int64 createTime = 8; //申诉时间
+  AppealStatus status = 9; //申述状态
+  string failReason = 10; //申诉失败原因
+}
+
+message BanInfo {
+  int64 id = 1;
+  int64 banTime = 2;
+  string banReason = 3;
+  int64 banEndTime = 4; //封禁结束时间
+  bool isForeverBan = 5;//是否是永久封禁
+}
+
+message UserAppealArg {
+  AppealType type = 7; //申诉类型
+  string phone = 3;
+  string email = 4;
+  repeated string images = 5;
+  string reason = 6;
+}
+
+message AppealInfoReply {
+  AppealInfo info = 1;
+}
+
+message UserStatusCheckReply {
+  AccountStatus accountStatus = 1;
+  BanInfo banInfo = 2;
+  AppealStatus appealStatus = 3;
+  AppealInfo appealInfo = 4;
+}

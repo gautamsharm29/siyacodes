@@ -1,0 +1,72 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "voice_room_enum.proto";
+import "account_enum.proto";
+import "noble.proto";
+
+message VoiceRoomMemberListArg {
+  int64 pos = 1;
+  int64 size = 2;
+  string keywords = 3; // 用户account'
+  int64 roomId = 4; // 房间id
+}
+
+message VoiceRoomMemberInfo {
+  int64 userId = 1; // 用户id
+  string account = 2; // 用户account
+  string avatar = 3; // 头像
+  string nickname = 4; // 昵称
+  VoiceRoomRole role = 5; // 角色 0:游客；10:成员；100:管理员；1000:房主；
+  Gender gender = 6; // 性别 1:男；11:女；
+  int64 birthDay = 7; // 生日
+  WealthLevel wealth = 8; // 财富等级
+  ActiveDesc activeDesc = 9; // 活跃描述
+  Vip vip = 10; // 是否VIP
+  string remarkName = 11; // 备注名
+
+}
+
+message ActiveDesc {
+  string text = 1; // 文本
+  bool isHighlight = 2; // 是否高亮（0:否；1:是；）
+}
+
+message VoiceRoomMemberListReply {
+  bool hasNext = 1;   // 是否有下一页
+  int64 nextPos = 2;  // 下一页位置
+  int64 total = 3; // 总记录数
+  repeated VoiceRoomMemberInfo items = 4; // 成员列表
+}
+
+message VoiceRoomJoinMemberArg {
+  int64 roomId = 1; // 房间id
+  int64 inviterUserId = 2; // 邀请用户id
+}
+
+message VoiceRoomRoleAllotArg {
+  int64 roomId = 1; // 房间id
+  repeated int64 userIds = 2; // 用户id集
+  VoiceRoomRole role = 3; // 分配角色 0:游客；10:成员；100:管理员；1000:房主；
+}
+
+message MemberPrivilege {
+  string  pic = 1; // 图片
+  string  title = 2; // 标题
+}
+
+message VoiceRoomMemberPrivilegeReply {
+  repeated MemberPrivilege items = 1;
+}
+
+message VoiceRoomExitMemberArg {
+  int64 roomId = 1; // 房间id
+}
+
+enum VoiceRoomMemberOpOs {
+  vrmoo_none = 0;
+  vrmoo_client = 1; // 客户端
+  vrmoo_manage = 2; // 后台
+}

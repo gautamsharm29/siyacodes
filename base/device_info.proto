@@ -1,0 +1,20 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+message DeviceInfo{
+  string brand = 1; // 手机品牌
+  string phoneModel = 2; // 手机型号
+  string deviceID = 3; // 设备ID,用于离线推送
+  string fingerprint = 4;//设备指纹
+  string oaID = 5;
+  string imei = 6;
+  string androidID = 7;
+  string ip = 8; // 客户端赋值 如果空值由服务端填充
+  string osVer = 9; // 系统版本
+  int64 simCode = 10; // Sim编码和运营商ISO码
+  bool root = 11; // 是否开启root权限
+  bool reality = 12; // 客户端保证真实
+  bool emulator = 13; // 是否为模拟器
+  string appId = 14;
+}

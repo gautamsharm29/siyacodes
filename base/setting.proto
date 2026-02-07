@@ -1,0 +1,41 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+
+message SettingInviteArg {
+  string inviteCode  = 1;
+}
+
+
+// 通知设置
+message SettingNtyArg{
+  int64 userId = 1;
+  SettingNtyType t = 2;//修改的东西
+  int32 value = 3; //1:开启 0:关闭
+}
+
+enum SettingNtyType {
+  snty_none = 0;
+  snty_newMsg = 1;//新消息通知
+  snty_topMsg = 2;//应用内顶部消息通知
+  snty_shake = 3;//震动通知
+  snty_fmyMsg = 4;//家族消息通知
+}
+
+// 按需相关设置
+message AllSettingArg {
+  bool nty = 1; // 通知设置
+}
+message AllSettingReply {
+  NtySetting nty = 6;// 通知设置
+}
+
+// 通知设置
+message NtySetting {
+  bool newMsg = 1;//新消息通知
+  bool topMsg = 2;//应用内顶部消息通知
+  bool shake = 5;//震动通知
+  bool fmyMsg = 6;//家族消息通知
+
+}

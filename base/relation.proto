@@ -1,0 +1,52 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "intimacy.proto";
+
+message UserListArg {
+  int64 pos = 1;
+  int32 size = 2;
+  string account = 3;
+}
+
+message UserListItem {
+  User user = 1;
+  bool isFriend = 3;
+  int64 timestamp = 4;
+}
+
+message UserList {
+  repeated UserListItem items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+  int64 total = 4;
+}
+
+message FollowArg {
+  int64 userId = 1;
+}
+
+message UnfollowArg {
+  int64 userId = 1;
+}
+
+message IntimacyUserListArg {
+  int64 pos = 1;
+  int32 size = 2;
+  int32 type = 3; //1. 7天内 2. 90天内
+}
+
+message IntimacyUserList {
+  repeated IntimacyUserListItem items = 1;
+  bool hasNext = 2;
+  int64 nextPos = 3;
+}
+
+message IntimacyUserListItem {
+  User user = 1;
+  IntimacyLevel intimacy = 2;
+  bool isFriend = 3;
+  int64 relationTime = 4;
+}

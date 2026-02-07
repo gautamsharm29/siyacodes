@@ -1,0 +1,297 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum Gender{
+  unknown = 0; // 未设置
+  male = 1; // 男
+  female = 11; // 女
+  unlimited = 21; // 不限
+}
+enum SignUpWay {
+  none = 0;
+  phone = 1;
+  //  wechat = 2;
+  //  qq = 3;
+  apple = 4;
+  facebook = 5;
+  google = 6;
+  email = 7;
+}
+enum LoginType {
+  cellphoneCode = 0; // 短信验证码
+  //  localCellphone = 1; // 本机号码一键登录
+  //  oauthByWX = 2; // 微信登录
+  //  oauthByQQ = 3; // QQ登录
+  oauthByApple = 4; // iOS苹果账号登录
+  password = 5; // 密码登录
+  //  resetPassword = 6; // 重置密码的登录
+  oauthByFacebook = 7; // facebook授权登录
+  oauthByGoogle = 8; // 谷歌账号授权登录
+  oauthByHuawei = 9; // 华为账号授权登录
+  registerByEmail = 10; // 邮箱注册
+  emailPassword = 11; // 邮箱密码登录
+  oauthByFacebookLimit = 12; // facebook受限登录
+}
+
+enum SMSCodeType {
+  codeLoginOrRegister = 0;
+  codeSetOrResetPwd = 1;//第一次设置密码、重置密码
+  codeCancelAccount = 2;//注销账号
+  codeChangeOrBindCellPhone = 3;//绑定或者更换手机号
+}
+
+enum EmailCodeType {
+  ect_none = 0;
+  ect_register = 1; //注册
+  ect_restPwd = 2; //重置密码
+  ect_bindEmail = 3; //绑定邮箱
+  ect_unbindEmail = 4; //解绑邮箱
+  ect_forgetPass = 5; //忘记币商交易密码
+  ect_tradingPass = 6; //设置币商交易密码
+}
+
+enum BindType {
+  bind_none = 0;
+  bind_apple = 1;
+  bind_google = 2;
+  bind_facebook = 3;
+  bind_email = 4;
+  bind_phone = 5;
+}
+
+enum UserType {
+  ut_none = 0;
+  ut_normal = 1; // 普通账号
+  ut_member = 30; // 成员
+  ut_guildOwner = 50; // 工会长
+}
+
+enum UserCmType {
+  ucmt_none = 0;
+  ucmt_normal = 1; // 普通客服
+  ucmt_admin = 30; // 客服管理
+}
+enum CmStealth {
+  stealth_none = 0;
+  stealth_open = 1;
+}
+
+enum AccountStatus {
+  as_none = 0;
+  as_active = 1; // // 正常可用
+  as_all_ban = 11; // // 全部封禁
+  as_part_ban = 12; // // 部分封禁
+}
+enum AccountRiskStatus {
+  ars_none = 0;
+  ars_normal = 1; // 正常
+}
+enum AccountMuteStatus {
+  ams_none = 0;
+  ams_normal = 1; // 正常可用
+  ams_ban = 2;// 禁言
+}
+enum AccountMuteRoomStatus {
+  amrs_none = 0;
+  amrs_normal = 1; // 正常可用
+  amrs_ban = 2;// 禁言
+}
+enum AccountPlayStatus {
+  aps_none = 0;
+  aps_normal = 1; // 正常可用
+  aps_ban = 2;// 禁播
+}
+enum AccountChatStatus {
+  acs_none = 0;
+  acs_normal = 1; // 正常可用
+  acs_ban = 2;// 禁聊
+}
+enum AccountMicStatus {
+  amis_none = 0;
+  amis_normal = 1; // 正常可用
+  amis_ban = 2;// 禁聊
+}
+enum AccountRevokedStatus {
+  arks_none = 0;
+  arks_normal = 1; // 正常
+  arks_revoking = 2; // 注销中
+  arks_revoked = 3; // 已注销
+}
+enum SetPasswordType {
+  spt_none = 0;
+  spt_byPwd = 1;  // 通过旧密码修改密码
+  spt_byEmailCode = 2; // 通过邮箱修改密码
+  spt_direct = 3; // 直接修改
+}
+
+enum UserChangeType {
+  uct_none = 0;
+  uct_password = 1;
+  uct_phone = 2;
+  uct_complete = 3;
+  uct_profileEdit = 4;
+  uct_location = 5;
+}
+
+enum DefinedField {
+  FIELD_UNDEFINED = 0;
+  FIELD_ID = 1; // 唯一id
+  FIELD_ACCOUNT = 2; // 账号
+  FIELD_USERTYPE = 3; // 账号类型
+  FIELD_NICKNAME = 4; // 昵称
+  FIELD_GENDER = 5; // 性别
+  FIELD_AVATAR = 6; // 头像
+  FIELD_ACCOUNT_STATUS = 7; // 账号状态
+  FIELD_RISK_STATUS = 8; // 风控状态
+  FIELD_MUTE_STATUS = 9; // 禁言状态
+  FIELD_BIRTHDAY = 10; // 生日
+  FIELD_COUNTRY = 11; // 注册国家代码
+  FIELD_PHONE = 12; // 手机号
+  FIELD_INTRODUCTION = 13; // 个人介绍
+  FIELD_COMPLETE = 14; // 是否完善
+  FIELD_REMARK_NAME = 15; // 备注名
+  FIELD_SET_PWD = 16; // 是否密码
+  FIELD_NOBLE = 17; // VIP等级
+  FIELD_WEALTHY = 18; // 财富等级
+  FIELD_CHARM = 19; // 魅力等级
+  FIELD_REVOKED_STATUS = 20; // 注销状态
+  FIELD_REGISTER_TIME = 21; //  注册时间
+  FIELD_NO_NEW = 22; // 不是新人的时间点
+  FIELD_ITEM = 23; //  装扮列表
+  FIELD_PRETTY_ACCOUNT = 24; //  靓号
+  FIELD_CM_TYPE = 25; //  客服类型
+  FIELD_CM_STEALTH = 26; //  是否隐身
+  FIELD_FOLLOW = 27; //  是否关注
+  FIELD_BLOCK = 28; // 是否拉黑
+  FIELD_FOLLOW_ME = 29; // 对方是否关注我
+  FIELD_INTIMACY_LV = 30; // 亲密度等级进度
+  FIELD_PRIVACY = 31; // 对方隐身权限设置
+  FIELD_STATICS = 32; // 统计信息
+  FIELD_COUPLE = 33; // CP信息
+  FIELD_HEAD_FRAME = 34; // 个人头像框
+  FIELD_VEHICLE = 35; // 个人座驾
+  FIELD_SET_INVITE_CODE = 36; // 设置邀请码
+  FIELD_Family = 37; // 家族信息
+  FIELD_Medal = 38; // 勋章
+  FIELD_Email = 39; // 邮箱
+  FIELD_NOBLE_SETTING = 40; //vip特权设置
+  FIELD_Game_pk = 41; //pk信息
+  FIELD_GameLevel = 42; //游戏等级
+  FIELD_multiplayer_pk = 43; //多人pk信息
+  FIELD_gameStandings = 44; //游戏战绩
+  FIELD_INVITE_CODE = 45; //邀请码
+  FIELD_GoldMedal = 46; // 金勋章
+  FIELD_voiceSign = 47; //语音签名
+  FIELD_album = 48; //相册
+  FIELD_greeting = 49; //招呼语标题
+  FIELD_NOW_COUNTRY = 50; // 当前国家代码
+  FIELD_Profession = 51; //职业
+  FIELD_Hobby = 52; //爱好
+  FIELD_Gender_Auth = 53; //性别认证
+  FIELD_Avatar_Auth = 54; //头像认证
+  FIELD_LastLogin = 55; //最后在线时间
+  FIELD_Distance = 56; //距离
+  FIELD_Accost = 57; //是否搭讪过
+  FIELD_Height = 58; //身高
+  FIELD_Weight = 59; //体重
+  FIELD_Emotion = 60; //情感状态
+  FIELD_PrivateAlbum = 61; //私密相册
+  FIELD_Vip = 62; //vip
+  FIELD_RoomNewUser = 63; //房间新人
+  FIELD_UserRoomInfo = 64; //用户当前房间信息
+  FIELD_Play = 65; //禁播状态
+  FIELD_Audit = 66; //是否审核模式
+  FIELD_Official = 67; //是否官方账号
+  FIELD_Chat = 68; //禁聊状态
+  FIELD_GuildMemberType = 69; //公会成员类型
+  FIELD_GuildMember = 70; //是否是公会成员
+  FIELD_Recharge = 71; //是否有过充值
+  FIELD_UUID = 72; //Uuid
+  FIELD_CountryInfo = 73; //注册国家信息
+  FIELD_CoinAgent = 74; //是否币商身份
+  FIELD_Mic = 75; //禁麦状态
+  FIELD_RechargeCoin = 76; //是否充值过金币
+  FIELD_CoinAgentBadgeLevel = 77; //币商勋章等级
+  FIELD_VideoShow = 78; //视频秀
+  FIELD_TitleDress = 79; //称号
+  FIELD_MedalDress = 80; //勋章
+  FIELD_CoinAgentAcquisition = 81; //币商引流开关
+  FIELD_NewLabel = 82; //萌新标签
+  FIELD_CoinAgentSession = 83; //币商会话
+  FIELD_PrivacySetting = 84; //隐私设置
+  FIELD_CharmMonth = 85; //月度魅力等级
+  FIELD_NOW_COUNTRY_INFO = 86; //当前国家信息
+  FIELD_UserSelfRoom = 87; // 这个人自己的房间信息
+  FIELD_RoomAvatar = 88; //用户聊天室头像
+  FIELD_LoveCruise = 89; // 恋爱邮轮-特效信息
+  FIELD_FancyAccount = 90; // 靓号
+  FIELD_NOBLE_INFO = 91; // 贵族信息
+  FIELD_USER_ROLE = 92; // 官方角色
+  FIELD_LIVE_INFO = 94; // 直播信息
+  FIELD_LUCKY_LEVEL = 96; // 幸运等级
+  FIELD_liveGuildInfo = 97; // 直播公会信息
+}
+
+enum ApplyType {
+  alty_none = 0;
+  alty_mic = 1; // 麦位申请
+}
+
+enum LogoutReason {
+  logoutReason_none = 0;
+  logoutReason_muchMsg = 1; //收到过多通知
+  logoutReason_changeAccount = 2; //切换账号
+  logoutReason_doneShow = 3; //不想让别人看到我的信息
+  logoutReason_leave = 4; //就想离开
+}
+
+//用户归因来源
+enum AccountChannel {
+  ac_none = 0; //自然量
+}
+
+//币商身份
+enum CoinAgent {
+    ca_none = 0; // 非币商
+    ca_active = 1; // 币商
+}
+
+//币商勋章等级
+enum CoinAgentBadgeLevel {
+    bl_default = 0; // 默认值
+    bl_basic = 1; // 默认佩戴
+}
+
+// 币商状态
+enum CoinAgentStatus {
+  cam_none = 0; // 默认值
+  cam_enabled = 1; // 启用
+  cam_paused = 2; // 暂停
+  cam_disabled = 3; // 停用
+}
+
+enum AccountAVMatchStatus {
+  aams_none = 0;
+  aams_normal = 1; // 正常可用
+  aams_ban = 2;// 禁聊
+}
+
+// 邀请活动类型
+enum InviteType {
+  it_none = 0; // 默认值
+  it_viralityCampaign = 1; // 裂变邀请
+  it_fromRoom = 2; // 来自房间
+  it_activity = 3; // 来自活动
+  it_subGuild = 4; // 子公会
+}
+
+// 账户聚合状态
+enum AccountState {
+  asa_none = 0; // 默认值
+  asa_notActivated = 1; // 未激活
+  asa_normal = 2; // 正常
+  asa_banned = 3; // 封号
+  asa_deregister = 4; // 注销
+}
+

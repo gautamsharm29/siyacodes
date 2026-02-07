@@ -1,0 +1,135 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "account_enum.proto";
+import "noble.proto";
+import "item.proto";
+import "user.proto";
+import "album.proto";
+import "intimacy.proto";
+import "voice_room_country.proto";
+
+message IndexItemInfo {
+  repeated ItemListDetail items = 1;
+  int32 size = 2;
+}
+message ProfileByDefined {
+  int64 id = 1;
+  string account = 2;
+  UserType ut = 3; // 账号类型
+  string nickname = 4;
+  Gender gender = 5;
+  string avatar = 6;
+  AccountStatus status = 7; // 账号状态
+  AccountRiskStatus riskStatus = 8; // 风控状态 保留字段
+  AccountMuteStatus mute = 9; // 禁言状态
+  int64 birthDay = 10; // 秒级时间戳
+  string countryCode = 11; //国家代码
+  int64 phone = 12;
+  string introduction = 13; // 个人介绍-Introduction
+  bool complete = 14; // 是否完善
+  string remarkName = 15; //备注名
+  bool setPwd = 16; // 是否设置密码
+  NobleSimple noble = 17; //贵族信息
+  WealthLevel wealth = 18; //财富等级
+  CharmLevel charm = 19; //魅力等级
+  AccountRevokedStatus revoked = 20; // 注销状态
+  int64 registerTime = 21;// 注册时间
+  int64 noNew = 22; // 不是新人的时间点
+  UserUseItem item = 23; // 装扮列表
+  string prettyAccount = 24; // 靓号
+  UserCmType cm = 25; // 客服类型 1:普通客服 30:客服管理
+  CmStealth stealth = 26; // 是否隐身
+  bool follow = 27; // 是否关注
+  bool block = 28; // 是否已拉黑
+  bool followMe = 29; // 是否关注我
+  IntimacyLevel intiLevel = 30; // 总亲密度等级进度
+  IndexItemInfo headFrame = 34; // 头像框
+  IndexItemInfo vehicle = 35; // 座驾
+  bool setInviteCode = 36;//是否设置了邀请码
+  UserFamily family = 37;//家族
+  string email = 39; //邮箱
+  string inviteCode = 46;//邀请码
+  VoiceSign voiceSign = 47;//语音签名
+  repeated AlbumItem album = 48; //个人相册
+  repeated string greeting = 49; //招呼语标题
+  string nowCountry = 50; //当前ip所在国家
+  Profession profession = 51;//职业
+  repeated Hobby hobby = 52;//爱好
+  int32 genderAuth = 53;//性别认证
+  int32 avatarAuth = 54;//头像认证
+  LastLogin lastLogin = 55;
+  string distance = 56;//距离
+  bool accost = 57;//是否搭讪过
+  int32 height = 58; //身高
+  int32 weight = 59; //体重
+  EmotionType emotion = 60; //情感状态
+  ProfilePrivateAlbum privateAlbum = 61; //私密相册
+  Vip vip = 62;//vip
+  bool roomNewUser = 63; //房间新人
+  UserRoomInfo userRoomInfo = 64 ;//用户当前房间信息
+  AccountPlayStatus play = 65;//禁播状态
+  bool audit = 66; //用户审核状态
+  bool official = 67; //用是否官方账号
+  AccountChatStatus chat = 68; //用户禁聊状态
+  int64 guildMemberType = 69; //公会成员类型
+  bool guildMember = 70; //是否是公会成员
+  bool recharge = 71; //是否有过充值
+  string uuid = 72; //
+  Country countryInfo = 73; //注册国家信息
+  bool coinAgent = 74; //是否币商身份
+  AccountMicStatus mic = 75;//用户禁麦状态
+  bool rechargeCoin = 76; //是否充值过金币
+  CoinAgentBadgeLevel coinAgentBadgeLevel = 77; //币商勋章等级
+  VideoShow videoShow = 78; //视频秀
+  repeated TitleShow titles = 79; //封面
+  repeated string medals = 80;//勋章
+}
+
+
+
+message OtherInfo {
+  int64 id = 1;//用户id
+  string avatar = 2;//头像
+  string nickname = 3;//昵称
+  string remarkName = 4;//备注名
+  int64 intimacy = 5;//亲密度
+  bool isVip = 6;//是否vip
+  int64 vipExpiredTime = 7;//vip过期时间戳
+  bool isOnline = 8;//是否在线
+  bool follow = 9;//我关注的
+  bool coinAgent = 10;//是否是币商用户
+  int32 coinAgentBadgeLevel = 11;//币商等级
+}
+
+message UserRoomInfo {
+  int64 roomId = 1;
+  string roomCover = 2;
+  bool onMic = 3;
+}
+
+message VoiceSign {
+  string url = 1;
+  int32 duration = 2;
+}
+
+message ProfileByDefinedArg {
+  string source = 1; // 查询来源 index/room/social/session ...
+  bool all = 2; // true:查询全部字段
+  repeated DefinedField field = 3; // 需要返回的字段
+  int64 id = 4; // 查询的用户id
+}
+
+message BatchOtherInfoArg {
+  repeated int64 otherIds = 1; // 用户id列表
+}
+
+message BatchOtherInfoReply {
+  repeated OtherInfo otherInfos = 1; // 用户信息列表
+}
+
+message ProfilePrivateAlbum {
+  bool show = 1; //是否展示
+  int64 value = 2; //展示阈值
+  repeated AlbumItem album = 3;
+}

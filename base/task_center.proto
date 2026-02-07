@@ -1,0 +1,208 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "signin.proto";
+
+
+enum UserTaskAction {
+  // newer
+  compAvatarAuth = 0; // 完成头像认证
+  compGenderAuth = 1; // 完成性别认证
+  uploadPhoto = 2; // 上传照片
+  recordVoiceIntro = 3; // 录制语音介绍
+  commandMomentOnOppoSex = 4; // 给异性动态评论
+  personInfo100Rate = 5; // 个人资料完成度完成
+  followFemale = 6; // 关注女生
+  replyOppoSex = 7; // 回复异性消息
+  // daily
+  pulishMoment = 10; // 发布动态
+  replyFemale = 11; //  与美女聊天
+  reachIntimacyWithNewFriend = 12; // 和新朋友达到亲密度 
+  voiceWithOppoSex = 13; // 和异性语音聊天
+  videoWithOppoSex = 14; // 和异性视频聊天
+  acceptVoice = 15; // 接受语音
+  acceptVideo = 16; // 接受视频
+
+}
+
+enum TaskNormalStatus {
+  tns_none = 0;
+  tns_yesTrue = 1;
+  tns_noFalse = 2;
+
+}
+
+enum TaskAwardMethod {
+  tam_none = 0;
+  tam_auto = 1;
+  tam_manual = 2;
+}
+
+// 任务信息
+message TaskInfo {
+  int32   id =1;
+  string  taskName=2;//任务名称
+  string  taskSpecification=3;// 任务说明
+  string  jumpPath =4;//跳转路径
+  int32   associatedDevice=5; // 是否关联设备
+  int32   isNumeric=6;  // 是否数值行任务
+  int32   num=7; // 占位符预留字段
+  repeated  RespRewards taskRewards=8;
+  TaskType taskType =9; // 任务类型
+}
+
+enum TaskNumericType {
+  tnType_none = 0;
+  tnType_isNumberic = 1;
+  tnType_notNumberic = 2;
+}
+
+message TaskListInfo {
+  int32   id =1;
+  string  taskName=2;//任务名称
+  string taskProg=3; //任务进度
+  TaskProgressStatus status =4;  // 任务状态 1完成 2未完成
+  repeated RespRewards taskRewards=5;
+  string jumpPath =6;// 任务未完成点击跳转路径
+  TaskType taskType =7; // 任务类型
+}
+
+enum TaskProgressStatus {
+  tps_none = 0;
+  tps_done = 1;
+  tps_not_done = 2;
+}
+
+
+
+// 任务列表
+message   taskList {
+  repeated  TaskListInfo taskInfos =1;
+  string taskGuideText = 2; // 任务引导文案
+  
+}
+// 任务类型
+enum TaskType {
+    none_task=0;
+    novice_task=1;  // 新手任务
+    daily_task =2;  // 每日任务
+}
+enum Receiving{
+    none_pickup=0;
+    auto_pickup= 1;// 自动领取
+    manual_pickup=2;//手动领取
+}
+
+enum TaskStatus {
+  none_Status  =0;
+  show_Status  =1;  // 展示
+  forbid_Status=2;  // 禁用
+  hide_Status  =11; // 隐藏
+}
+
+message GetTask {
+    TaskType  type =1;
+}
+message getTaskId{
+  uint64 taskId=1;
+  TaskType  type =2;
+}
+message TaskRewardDesc{
+  string title=1;
+  repeated RespRewards taskRewards=2;
+}
+
+message GetTaskToDay{
+  TaskType  type =1;
+}
+
+message RestOfTodayArg{
+  string time =1;
+  int64 endTimestamp = 2;
+}
+
+
+service TaskCenter {
+  rpc GetTaskList     (GetTask)   returns(taskList);
+  rpc TaskRewardsDesc (getTaskId) returns (TaskRewardDesc);
+}
+
+enum TaskChainCircle {
+  tcc_none = 0;
+  tcc_day = 1;
+  tcc_week = 2;
+  tcc_month = 3;
+}
+
+
+message TaskChainArg {
+  
+}
+
+message TaskChainReply {
+  repeated TaskChain taskChainInfos = 1;
+}
+
+message TaskChain {
+  TaskChainCircle taskCycle = 1;  // 任务周期 1日 2周 3月
+  int64  endTimestamp = 2; // 任务结束时间戳
+  string taskTitle = 3; // 任务标题
+  int32  current = 4; // 当前进度
+  int32  progressTarget = 5; // 目标进度
+  repeated TaskProgress taskProgress = 6;  // 任务链条进度全部内容
+  TaskChainStatus taskStatus  = 7; // 任务状态 暂定
+  string taskTips = 8; // 任务提示
+  int32 nextTarget = 9; // 下一个任务目标
+  string jumpPath = 11; // 任务跳转路径
+  int32 currentProgress = 12; // 当前进度阶段
+  int32 rewardProgress = 13; // 奖励进度
+  int32 taskId = 14; // 任务id
+  int32 Sort = 15; // 排序
+  
+}
+
+enum TaskChainStatus {
+  tcs_none = 0;
+  tcs_to_deal = 1; // 去完成
+  tcs_to_get = 2; // 去领取
+  tce_done = 3; // 已完成
+}
+
+
+message TaskProgress {
+  int32 progressTarget = 1; // 任务目标
+  int32 diff = 2; // 任务进度差值
+  int32 rewardCount = 3; // 奖励数量
+}
+
+
+enum TaskChainPrint {
+  tcp_none = 0;
+  tcp_male = 1;
+  tcp_female = 11;
+  tcp_male_female = 21;
+  // 往后的画像, 添加画像后，在GetUserPaintDraw方法中添加
+
+}
+
+message PreGetTaskChainArg {
+
+}
+
+message PreGetTaskChainReply {
+  int64 newerTaskNum = 1;
+  int64 dailyTaskNum  = 2;
+  int64 officailTaskNum = 3;
+}
+
+message TaskChainRewardArg {
+  int64 taskId = 1;
+}
+
+message TaskChainRewardReply {
+  string context = 1;
+  string title = 2;
+  repeated RespRewards rewards=3;
+  int32 rewardProgress = 4; // 奖励进度
+}

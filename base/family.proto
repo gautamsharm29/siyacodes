@@ -1,0 +1,309 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "user.proto";
+import "audit.proto";
+import "account_enum.proto";
+import "enum.proto";
+import "message.proto";
+
+
+
+enum FamilyAliveStatus {
+  family_none = 0;
+  family_alive = 1; // familiy alive, it can work
+  family_leader_dissolution = 2; // leader_dissolution
+  family_office_dissolution = 3; // office_dissolution
+
+}
+
+
+message GetFamilyWealthCharmConditionReply {
+  int32 wealthLevel = 1; // 财富等级
+  int32 charmLevel = 2; // 魅力等级
+  int32 familyMemberMaxCnt = 3; // 家族成员数量
+}
+
+
+message PreCreateCheckReply {
+  LimitType limitType = 1; // 1成功2已有3官方解散4族长解散5财富未达标
+  string toast = 2; // 提示语
+
+}
+
+// 当前的限制状态
+enum LimitType {
+  lt_none = 0;
+  lt_succ = 1; // 成功
+  lt_mult = 2; // 已有家族
+  lt_office_dissolu = 3; // 官方解散
+  lt_leader_dissolu = 4; // 族长解散
+  lt_wealth_charm_not = 5; // 未达标
+
+}
+
+message CreateFamilyArg {
+  string coverUrl = 2; // 家族封面
+  string name = 3;    // 家族名称
+  string notice = 4; // 家族公告
+  int32 type = 5;//家族类型
+  string nameplate = 6;    // 家族铭牌
+}
+message CreateFamilyReply {
+  CreateReplyCode code = 1; // 0 名称公告审核通过， 1 名称no 2公告no 3 coverno
+  UserFamily family = 2; // 家族item
+  string toast = 3; // 根据不同的code返回不同的toast
+  string defultCoverUrl = 4; // 默认的封面
+
+}
+
+enum CreateReplyCode {
+  crc_pass = 0;
+  cpr_name_reject = 1; // 家族名被拒绝
+  cpr_notice_reject = 2; // 家族公告被拒绝
+  cpr_cover_reject = 3; // 家族封面被拒绝
+}
+
+
+
+message GetFamilyListArg {
+  int64 pos = 1;  // 分页位置
+  int64 size = 2; // 分页大小
+}
+
+message GetFamilyListReply {
+  bool hasNext = 1;   // 是否有下一页
+  int64 nextPos = 2; // 下一页位置
+  repeated FamilyItem items = 3; // 家族列表
+  UserFamilyStatus status = 4; // 用户在家族状态，这里就0/1
+}
+
+message JoinFamilyArg {
+  int64 familyId = 1; // 家族id
+}
+
+enum JoinCode {
+  succ = 0; //
+  multi = 1; // 已加入其他家族
+  full = 2; // 满员
+  audit = 3;// 审核
+  other = 4;// 其他条件
+}
+
+message JoinFamilyReply {
+  JoinCode code = 1; // 0success 1,2,3,4对应需求描述的点
+  string toast = 2;   // 提示语
+}
+
+message GetFamilyPageDetailArg {
+  int64 familyId = 2;
+}
+
+message MemberBrief {
+  string avatar = 1; // 头像
+  string nickname = 2; // 昵称
+  Gender gender = 3; // 性别
+  int64 age = 4; // 年龄
+  int64 wealthLevel = 5; // 财富
+  int64 charmLevel = 6;// 魅力
+  FamilyRole familyRole = 7;  // 1 族长 2 副族长 3 长老 100 普通成员
+
+}
+
+enum FamilyAuditContent {
+  fac_node = 0; // 无
+  fac_name = 1; // 家族名称
+  fac_notice = 2; // 家族公告
+  fac_cover = 3; // 家族封面
+}
+
+
+message DissolutionFamilyArg {
+  int64 familyId = 1;
+}
+
+message DissolutionFamilyReply {
+
+}
+
+message QuitFamilyArg {
+  int64 familyId = 1;
+}
+
+message QuitFamilyReply {
+
+}
+
+message FamilyCoverUploadArg {
+  int64 familyId = 1;
+  string coverUrl = 2;
+}
+
+message FamilyCoverUploadReply {
+  FamilyUploadCode code = 1; // 0通过 1不通过
+  string toast = 2; // toast
+  AuditStatus auditStatus = 3; // 审核状态, 1审核中
+  string defultCoverUrl = 4; // 默认的封面
+}
+
+message FamilyNameUpgradeArg {
+  int64 familyId = 1; // 家族id
+  string name = 2; // 家族名称
+}
+
+message FamilyNameUpgradeReply {
+  FamilyUploadCode code = 1; // 0通过 1不通过
+  string toast = 2;
+}
+
+message FamilyNoticeUpgradeArg {
+  int64 familyId = 1; // 家族id
+  string notice = 2;  // 家族公告
+}
+
+message FamilyNoticeUpgradeReply {
+  FamilyUploadCode code = 1; // 0通过 1不通过 2因为审核不通过
+  string toast = 2; // toast
+}
+
+enum FamilyUploadCode {
+  fus_pass = 0; // 上传成功
+  fus_not_pass = 1; // 上传不成功
+  fus_audit_not_pass = 2; // 审核不通过
+  fus_cnt_not_pass = 3; // 数量不足
+}
+
+message GetMemberListArg {
+  int64 pos = 1; // 分页位置
+  int64 size = 2; // 分页大小
+  int64 familyId = 3; // 家族id
+  string nickname = 4;//昵称
+  bool filtrationSelf = 5; // 是否过滤自己
+}
+
+
+message MemberListItem {
+  User user = 1;
+}
+
+
+message GetMemberListReply {
+  bool hasNext = 1;   // 是否有下一页
+  int64 nextPos = 2;  // 下一页位置
+  int64 memberCnt = 3;    // 成员数量
+  repeated MemberListItem members = 4; // 成员列表
+  // repeated MemberBrief members = 4; // 前十成员
+
+}
+
+enum FamilyChangeType {
+  fct_none = 0;
+  fct_cover = 1; // change family cover
+  fct_name = 2; // change family name
+  fct_notice = 3; // change family notice
+}
+
+// 家族房间列表
+message getFamilyRoomListArg {
+  int64 pos = 1;
+  int64 size = 2;
+  int64 familyId = 3;
+}
+
+message FamilySearchArg {
+  string account = 1;
+}
+
+message getFamilyRoomListReply {
+  bool hasNext = 1;
+  int64 nextPos = 2;
+  repeated FamilyRoom familyRooms = 4; // 家族房间
+}
+
+message FamilyRoom {
+  int64 roomId = 1;   // 房间id
+  string roomCover = 2;    // 房间封面
+  int64 onlineCnt = 3;    // 在线人数
+  int64 sameFamilyCnt = 4;    // 同家族人数
+  string roomName = 5;    // 房间名称
+}
+
+message FamilyMsgReply {
+  Message msg = 1;    // 消息内容
+
+}
+
+message FamilyMsgHistoryArg {
+  int64 targetId = 1;    // 目标id
+  int64 startPos = 2;    // 开始位置
+  int64 endPos = 4;    // 结束位置
+  int32 size = 3;    // 数量
+  Order order = 5;    // 排序
+
+}
+
+message FamilyMsgHistoryReply {
+  repeated Message items = 1;
+  bool hasNext = 2;
+}
+
+message SendFamilyMessageArg {
+  Message msg = 1;
+
+}
+
+message FamilyNtyArg {
+  int32 MsgNty = 1; // 是开启，2是关闭
+  int64 familyId = 2; // 家族id
+  FamilySettingType type = 3; // 类型
+  int64 T = 4;
+}
+
+enum FamilySettingType {
+  fst_none = 0;
+  fst_msgNty = 1; // 消息通知
+  fst_noAudit = 2; // 免审核
+}
+
+enum FamilyJoinAuditStatus {
+  fjas_audit = 0; // 审核中
+  fjas_pass = 1; // 审核通过
+  fjas_refuse = 2; // 审核不通过
+}
+
+message JoinAuditUser {
+  string avatar = 1; // 头像
+  string nickname = 2; // 昵称
+  Gender gender = 3; // 性别
+  int64 age = 4; // 年龄
+  WealthLevel wealth = 5; //财富等级
+  CharmLevel charm = 6; //魅力等级
+  string requestTime = 7; // 申请时间
+  int64 userId = 8; // 用户id
+  int64 recordId = 9; // 审核记录id
+
+}
+
+
+// 家族加入审核列表
+message FamilyJoinAuditListArg {
+  int64 familyId = 1; // 家族id
+}
+
+message FamilyJoinAuditListReply {
+  repeated JoinAuditUser user = 1; // 家族加入审核列表
+}
+
+
+// 家族加入审核处理
+message FamilyJoinAuditHandleArg {
+  int64 familyId = 1; // 家族id
+  int64 userId = 2; // 用户id
+  FamilyJoinAuditStatus status = 3; // 审核状态
+  int64 recordId = 4; // 审核记录id
+}
+
+
+message FamilyJoinAuditHandleReply {
+}

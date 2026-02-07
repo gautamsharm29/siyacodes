@@ -1,0 +1,34 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum Os {
+  os_none = 0;
+  os_android = 1;
+  os_iOS = 2;
+  os_web = 3;
+}
+
+enum Order {
+  ob_none = 0;
+  asc = 1; //升序
+  desc = -1; //降序
+}
+
+enum ResourceStatus {
+  rs_none = 0;
+  rs_normal = 1;//正常
+  rs_hide = 2;//隐藏
+  rs_deleted = 3; //删除
+  rs_auditing = 4; //审核中(审核不通过直接隐藏)
+}
+
+enum UserRewardType {
+  urt_none = 0;
+}
+
+enum ErrorCode {
+  ec_none = 0;
+  
+  ec_dissolution = 633; // 解散家族
+}

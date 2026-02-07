@@ -1,0 +1,40 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+
+message MemeGroupItem {
+  int64 id = 1;
+  string pic = 2; // 麦位表情分组静态图
+}
+
+message VoiceRoomMemeGroupListReply {
+  repeated MemeGroupItem items = 1; // 麦位表情分组集
+}
+
+message VoiceRoomMemeListArg {
+  int64 groupId = 1; // 麦位表情分组id
+}
+
+message MemeItem {
+  int64 id = 1;
+  VoiceRoomMemeType type = 2; // 麦位表情类型
+  string name = 3; // 麦位表情名称
+  string pic = 4; // 麦位表情静态图
+  string dynamicResource = 5; // 动态资源
+}
+
+//message VoiceRoomMemeNotify {
+//  MemeItem meme = 1; // 表情信息
+//  repeated string randomResult = 2; // 随机表情结果
+//}
+
+message VoiceRoomMemeListReply {
+  repeated MemeItem items = 1; // 麦位表情集
+}
+
+enum VoiceRoomMemeType {
+  vrmt_none = 0;
+  vrmt_normal = 1; // 普通表情
+  vrmt_random = 2; // 随机表情
+}

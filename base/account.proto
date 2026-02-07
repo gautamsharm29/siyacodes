@@ -1,0 +1,175 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "account_enum.proto";
+import "device_info.proto";
+import "user.proto";
+
+//api:3 SendCode 发送短信验证码
+message SendCodeArg {
+  SMSCodeType codeType = 1;
+  string key = 2; // 手机号或者账号
+}
+
+message SendEmailCodeArg {
+  EmailCodeType codeType = 1;
+  string key = 2; // 邮箱
+}
+
+//api:4 Login 登录注册
+message LoginArg {
+  LoginType loginType = 1;// 登录类型
+  int64 cellphone = 2;      // 手机号, 第三方授权登录时也参数也要带上
+  string code = 3;      // 验证码
+  string source = 4;  // 客户端来源
+  string threeAuthCode = 6; // 第三方账号登录的code
+  DeviceInfo deviceInfo = 7; // 设备信息
+  string password = 8; // 密码
+  string account = 9; // 账号
+  string email = 10; //邮箱
+  string longitude = 11; //经度
+  string latitude = 12; //纬度
+  string countryCode = 13;
+}
+message LoginReply {
+  User user = 1;
+  int64  authKey = 2;
+  bool register = 3;
+  int64 offlineTime = 4; // 上次离线时间
+  DeviceInfo deviceInfo = 5; // 上次登录的设备信息
+  int64 loginTime = 6; // 登录时间
+  string token = 7;//jwt token 作为刷新token接口op:6的参数传过来
+  bool defaultAvatar = 8;
+}
+
+//api:6 RefreshToken 登录token验证
+message RefreshTokenArg {
+  DeviceInfo deviceInfo = 1; // 设备信息
+  bool reconnect = 2; // 是否为重连
+  string token = 3;
+  string longitude = 4; //经度
+  string latitude = 5; //纬度
+}
+
+message RefreshTokenReply {
+  int64 userID = 1;
+  int64 offlineTime = 2; // 上次离线时间
+  DeviceInfo deviceInfo = 3; // 上次登录的设备信息
+  User user = 4;
+}
+
+// 绑定第三方账号参数
+message BindThreeAccountArg {
+  LoginType bindType = 1; // 三方账号类型
+  string authCode = 2; // 授权code
+}
+message BindThreeAccountReply {
+
+}
+
+//api:8 SetPassword 修改、重置密码
+message SetPasswordArg {
+  SetPasswordType spt = 1;
+  string oldPwd = 2;
+  string newPwd = 3;
+  int64 phone = 4;
+  string code = 5;
+}
+message SetPasswordReply {
+
+}
+//api:42 BindPhone 绑定手机号
+message BindPhoneArg {
+  int64 cellphone = 1; // 手机号
+  string code = 2;     // 验证码
+}
+message BindPhoneReply {
+  int64 phone = 1; // 绑定成功的手机号
+}
+
+//api:24 AccountExist 账号是否存在
+message AccountExistArg {
+  string keyword = 1; // 手机号 或者 账号 或者 邮箱
+}
+message AccountExistReply {
+  bool exist = 1;
+  bool isAccount = 2; // 是否为siya账号
+  bool setPwd = 3; // 是否设置过密码
+  LoginType loginType = 4; //登录类型
+}
+
+//api:25 ValidateCode 提前验证验证码
+message ValidateCodeArg {
+  SMSCodeType codeType = 1;
+  string key = 2;      // 手机号或者账号
+  string code = 3;      // 验证码
+}
+message ValidateCodeReply {
+  bool pass = 1;
+}
+
+message ErrorLogArg {
+  string url = 1; //错误报告的文件地址
+}
+
+message SetInviteCodeArg {
+  string inviteCode = 1; //邀请码
+}
+
+//取消注销账号参数
+message CancelCancelAccountArg {
+  int64 userId = 1;
+}
+
+message LogoutArg {
+  LogoutReason reason = 1;
+}
+
+message CancelContentCfgReply {
+  repeated CancelReason reason = 1;
+  string agreement = 2; //应该是个富文本
+  int64 duration = 3; //协议浏览时间 单位秒
+}
+
+message CancelReason {
+  int32 id = 1;
+  string reason = 2;
+}
+
+message CancelFeedbackArg {
+  int32 reasonId = 1;
+  string reasonContent = 2;//其他原因内容
+}
+
+message BindListReply {
+  message Item {
+    BindType bt = 1;
+    bool bind = 2; //是否已绑定
+    string name = 3; //展示的账号
+  }
+
+  repeated Item items = 1;
+}
+
+message BindArg {
+  BindType t = 1; // 绑定类型
+  string code = 2; // 授权code
+  string email = 3; //仅绑定邮箱时使用
+  string password = 4;//仅绑定邮箱时使用
+  int64 phone = 5; //仅绑定手机使用
+  int32 areaCode = 6; //区号 绑定手机使用
+  bool changeBind = 7;//换绑
+  string oldKey = 8;//旧的邮箱
+}
+
+message BindReply {
+  message BindUserInfo {
+    int64 id = 1;
+    string account = 2;
+    string nickname = 6;
+    string avatar = 3;
+  }
+
+  bool success = 1; //是否绑定成功
+  repeated BindUserInfo users = 2; //要绑定的第三方账号已经有人绑定了，返回自己和那个账号的信息
+}

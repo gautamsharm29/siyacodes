@@ -1,0 +1,54 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "abridged.proto";
+import "logic.proto";
+
+message AuthKeys {
+  repeated int64 authKey = 1;
+}
+
+message HubArg {
+  // 推送类型
+  enum PushType {
+    Single = 0;
+    Room = 1;
+    Broadcast = 2;
+    SysNty = 3;
+    Group = 4;
+  }
+  PushType pushType = 1;
+  int64 frontID = 2;
+  AuthKeys authKey = 3;
+  int32 os = 4;
+  bytes data = 5;
+  map<int64, AuthKeys> authKeys = 6;
+}
+
+message FrontPushArg {
+  AuthKeys authKey = 1;
+  bytes data = 3;
+  Op op = 5;
+  int64 receiver = 6; // 接收者或发送者
+  int64 sender = 7; // 发送者
+
+  // 通知front channel更新使用
+  RiskInfo riskInfo = 8;
+  UserBase userBase = 9;
+  int64 expired = 10; // 通知过期时间
+
+  string osC = 11; // 系统条件
+  string verC = 12; // 版本条件
+}
+
+message FrontPushReply {
+
+}
+
+service Front {
+  rpc Single(FrontPushArg) returns (FrontPushReply);
+  rpc Room(FrontPushArg) returns (FrontPushReply);
+  rpc Broadcast(FrontPushArg) returns (FrontPushReply);
+}
+
+

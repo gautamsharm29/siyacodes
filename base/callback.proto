@@ -1,0 +1,23 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+
+message TextCbArg {
+    string appId = 1;
+    string taskId = 2;
+    string result = 3;
+}
+
+message ImageCbArg {
+    string appId = 1;
+    string taskId = 2;
+    string result = 3; 
+    string checkType = 4;
+}
+
+
+message CbReply {
+    int64 code = 1;
+    string message = 2;
+}

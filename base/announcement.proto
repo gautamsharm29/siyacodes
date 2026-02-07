@@ -1,0 +1,43 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum AnnouncementType {
+  annt_none = 0;
+  annt_normal = 1; // 普通
+  annt_activity = 2; // 活动
+  annt_pic = 3; // 纯图片
+}
+
+enum AnnouncementLinkType {
+  annlt_none = 0;
+  annlt_native = 1; // 原生
+  annlt_h5 = 2; // h5
+  annlt_define = 3; // 自定义
+  annlt_proto = 4; // 协议
+}
+
+enum AnnouncementStatus {
+  anns_none = 0;
+  anns_create = 1; // 未发送
+  anns_send = 2; // 已发送
+  anns_recall = 3; // 召回
+}
+
+message Announcement {
+  int64 id = 1; // id
+  AnnouncementType type = 2; // 1:普通 2:活动
+  string title = 3; // 标题
+  string subTitle = 4; // 子标题
+  string coverImg = 5; // 封面图
+  AnnouncementLinkType linkType = 6; // 跳转类型1:原生 2:h5 3:自定义页面 4:协议
+  string linkUrl = 7; // 跳转地址
+  string btnText = 8; // 按钮文本
+  string content = 9; // 内容
+  int64 sendTime = 10; // 发送时间
+  AnnouncementStatus status = 11; // 1:未发送 2:已发送 3:已召回
+}
+
+message AnnouncementList {
+  repeated Announcement list=1;
+}

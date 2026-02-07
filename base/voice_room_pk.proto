@@ -1,0 +1,74 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+// pk团队类型
+enum VoiceRoomPkTeamType {
+  vrptt_none = 0;
+  vrptt_oneself = 1;
+  vrptt_red = 2;
+  vrptt_blue = 3;
+}
+
+// pk类型
+enum VoiceRoomPkType {
+  vrpt_none = 0;
+  vrpt_oneself = 1; // 全麦
+  vrpt_team = 2; // 团队
+}
+
+// pk状态
+enum VoiceRoomPkStatus {
+  vrps_none = 0;
+  vrps_start = 1;
+  vrps_end = 2;
+}
+
+message VoiceRoomPkArg {
+  bool isEnd = 1; // 是否结束
+  int64 roomId = 2; // 房间id
+  VoiceRoomPkType type = 3; // pk方式（1:全麦；2:团队；）
+  int32 duration = 4; // 持续时间（分钟）
+}
+
+message VoiceRoomPkCfgArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomPkCfgReply {
+  repeated VoiceRoomPkCfgItem items = 1;
+}
+
+message VoiceRoomPkCfgItem {
+  int32 minValue = 1; // 最小值
+  int32 maxValue = 2; // 最大值
+  VoiceRoomPkWeapon redWeapon = 3; // 红队武器
+  VoiceRoomPkWeapon blueWeapon = 4; // 蓝队武器
+}
+
+message VoiceRoomPkWeapon {
+  string pic = 1; // 缩略图地址
+  string resource = 2; // 特效资源地址
+}
+
+message PkMemberItem {
+  int64 uid = 1;
+  string avatar = 2;
+  string nickname = 3;
+  int64 score = 4;
+  int64 updateTime = 5;
+}
+
+message VoiceRoomPkInfoArg {
+  int64 roomId = 1;
+}
+
+message VoiceRoomPkInfoReply {
+  repeated PkMemberItem micMemberList = 1; // 麦上成员
+  int64 redScoreTotal = 2; // 红队总分
+  int64 blueScoreTotal = 3; // 蓝队总分
+  repeated PkMemberItem redTopMemberList = 4; // 红队top
+  repeated PkMemberItem blueTopMemberList = 5; // 蓝队top
+  int64 endTime = 6; // 结束时间（时间戳：毫秒）
+  VoiceRoomPkType pkType = 7; // pk方式（1:全麦；2:团队；）
+}

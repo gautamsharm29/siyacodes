@@ -1,0 +1,16 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+
+
+// 国家列表返回
+message RoomCountryListReply{
+    repeated Country countryList = 1; // 国家列表
+}
+
+message Country{
+    string countryCode = 1; // 国家code
+    string countryName = 2; // 国家名称
+    string flagUrl = 3; // 国旗url
+}

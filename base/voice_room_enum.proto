@@ -1,0 +1,254 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+enum VoiceRoomRole {
+  orr_normal = 0; //游客
+  orr_owner = 1000; //房主
+  orr_manager = 101; //管理员
+  orr_member = 10; //成员
+}
+
+enum VoiceRoomJoinPerm {
+  vjp_none = 0;
+  vjp_public = 1; //公开
+  vjp_pwd = 2; //需要密码
+}
+
+enum VoiceRoomMicPerm {
+  vrp_none = 0;
+  vrp_free = 1; // 自由上麦
+  vrp_notFree = 2; //游客禁止
+}
+
+enum VoiceRoomChatPerm {
+  vrc_none = 0;
+  vrc_free = 1; // 自由发言
+  vrc_notFree = 2; //游客禁止
+}
+
+enum VoiceRoomServiceType {
+  vrst_none = 0; //无
+  vrst_zego = 1; //即构
+}
+
+enum VoiceRoomStatus {
+  vrs_none = 0; //未创建
+  vrs_normal = 1; //正常
+  vrs_close = 2; //关播
+  vrs_ban = 11; //封禁中
+}
+
+enum VoiceRoomMicStatus {
+  ms_down = 0; //下麦
+  ms_speak = 1; //开麦
+  ms_mute = 2; //闭麦(静音)
+}
+
+enum VoiceRoomType {
+  vrt_none = 0;
+  vrt_normal = 1; //普通房
+}
+
+enum VoiceRoomTabType {
+  vrtt_none = 0;
+  vrtt_myJoin = 1; //我加入的
+  vrtt_myAttention = 2; //我关注的
+}
+
+enum VoiceRoomInfoChangeField {
+  vf_none = 0;
+  vf_name = 1; //房间名
+  vf_bg = 2; //背景
+  vf_announcement = 3; //公告
+  vf_joinPerm = 4;// 加入权限
+  vf_micPerm = 5;// 麦位权限 (1:自由上麦；2:游客禁止；)
+  vf_type = 6;// 房间类型
+  vf_introduction = 7; //房间介绍
+  vf_cover = 8; //房间封面
+  vf_pwd = 9; //房间密码
+  vf_micNum = 10; //麦位数量
+  vf_chatPerm = 11; //发言权限 (1:自由发言；2:游客禁止；)
+  vf_tag = 12;//标签
+  vf_theme = 13;//主题
+}
+
+enum VoiceRoomMsgType {
+  vrm_none = 0;
+  vrm_joinRoom = 70000; //加入房间
+  vrm_openRoom = 70001; //房间开播
+  vrm_offline = 70010; //用户掉线
+  vrm_reconnect = 70020; //用户掉线重连
+  vrm_exitRoom = 70030; //离开房间
+  vrm_kickOut = 70040; //踢出房间
+  vrm_kickOutV2 = 70041; //踢出房间
+  vrm_roomOwnerChange = 70100; //房主变化
+  vrm_upMic = 70200; //上麦
+  vrm_downMic = 70210; //下麦
+  vrm_refreshMicList = 70211; //刷新麦位列表
+  vrm_leaveMic = 70220; //暂离麦位
+  vrm_returnMic = 70221; //回归麦位
+  vrm_rejectMicInvite = 70230; //拒绝麦位邀请
+  vrm_micApply = 70240; //麦位申请
+  vrm_handleMicApply = 70241; //处理麦位申请
+  vrm_apply = 70242; //创建游戏桌申请
+  vrm_handleApply = 70243;// 处理创建游戏桌申请
+  vrm_applySuccess = 70244;// 申请通过
+  vrm_muteMic = 70300; //麦位静音
+  vrm_unmuteMic = 70310; //麦位取消静音
+  vrm_lockMic = 70400; //麦位上锁
+  vrm_unlockMic = 70410; //麦位解锁
+  vrm_micInvite = 70500; //邀请上麦
+  vrm_micMove = 70600; //麦位移动
+  vrm_micNumUpdate = 70601; //麦位数量变更
+  vrm_micNumCanUpdate = 70602; //麦位数量可以变更
+  vrm_seatChange = 70700; //观众席变更
+  vrm_seatChangeNew = 70701; //观众席变更(新)
+  vrm_infoUpdate = 71100; //房间信息更新
+  vrm_addManager = 71200; //添加管理员
+  vrm_removeManager = 71201; //移除管理员
+  vrm_clearScreen = 71210; // 清屏
+  vrm_sticker = 72100;//麦上表情
+  vrm_roomClose = 73000; //房间关闭
+  vrm_rankTopThree = 74000;//更新送礼榜前三
+  vrm_updateHot = 75000; //更新房间热度
+  vrm_clearHot = 75010; //清空热度
+  vrm_background = 75070; // 背景更换
+  vrm_noOneInMic = 75071; //无人在麦
+  vrm_noOneInMicCloseRoom = 75072; //无人在麦关闭房间
+  vrm_userChangeItem = 75100;//用户更换道具
+  vrm_screenText = 76000;//系统公屏纯文本消息通知
+  vrm_screenUser = 76001;//系统公屏带用户消息通知
+  vrm_inviteMember = 76002;//邀请加入房间成员/管理员
+  vrm_updateRoomRole = 76003; // 用户房间角色更新
+  vrm_luckyGiftBanner = 76004; // 幸运礼物banner状态推送
+  vrm_luckyPublicScreen = 76005; // 幸运礼物公屏
+  vrm_luckyBroadcast = 76006; // 播报
+  vrm_redPacketPublic = 76007; // 红包发送公屏消息
+  vrm_redPacketFloat = 76008; // 红包发送浮窗消息
+  vrm_redPacketRes = 76009; // 红包领取结果公屏消息
+  vrm_updateTop3 = 76010; // 更新贡献榜top3
+  vrm_redPacketExpire = 76011; // 红包过期消息
+  vrm_pkStart = 76012; // 房间pk开始消息
+  vrm_pkEnd = 76013; // 房间pk结束消息
+  vrm_pkIng = 76014; // 房间pk进行中消息
+  vrm_joinRoomPartyShow = 76015; // 进房房间派对公屏信息
+  vrm_partyEndTip = 76016; // 派对结束公屏
+  vrm_newLuckyBroadcast = 76020; // 全房和全麦送礼播报
+  vrm_backGiftGuide = 76021; // 回礼引导
+  vrm_smallBroadcast = 76022; // 小播报
+  vrm_cruiseEnable = 76023; // 恋爱邮轮-邮轮开启
+  vrm_cruiseDisable = 76024; // 恋爱邮轮-邮轮关闭
+  vrm_cruiseEffectGrant = 76025; // 恋爱邮轮-邮轮特效发放
+  vrm_cruiseAttackInfo = 76026; // 恋爱邮轮-邮轮进攻消息
+  vrm_joinRoomWelcome = 76027;// 房主欢迎文案公屏
+  vrm_joinRoomGiftWelcome = 76028;// 房主欢迎送礼公屏
+  vrm_joinRoomInviteWelcome = 76029;// 房间承接邀请公屏
+  vrm_cruiseReceiveUpLevelInfo = 76030; // 恋爱邮轮-麦上主播升级消息
+  vrm_cruiseReceiveUpMicInfo = 76031; // 恋爱邮轮-麦上收礼主播上麦消息
+  vrm_roomLevelChange = 77000; // 房主任务房间等级变动
+  vrm_roomRocketLaunch = 77001; //火箭发射
+  vrm_roomRocketProgress = 77002; //火箭进度
+  vrm_roomThirdGameCreate = 77003; //三方游戏开启
+  vrm_roomThirdGameClose = 77004; //三方游戏关闭
+  vrm_roomThirdGameSeat = 77005; //三方游戏上下座
+}
+
+
+enum VoiceRoomMicApplyOp {
+  vrmao_none = 0;
+  vrmao_agree = 1; //同意
+  vrmao_reject = 2; //拒绝
+  vrmao_cancel = 3; //取消
+  vrmao_empty = 4; //清空
+}
+
+enum VoiceRoomVoteSignalType {
+  vrvst_none = 0;
+  vrvst_begin = 1;
+  vrvst_end = 2;
+}
+
+enum VoiceSeatType {
+  vst_none = 0;
+  vst_up = 1; //up seat
+  vst_down = 2; //down seat
+}
+
+enum RoomArgType {
+  rat_none = 0;
+  rat_roomName = 1; //房间名
+  rat_roomNotice = 2; //房间公告
+  rat_roomCover = 3; //房间封面
+}
+
+enum RoomBlockType {
+  rbt_none = 0;
+  rbt_kick_out = 1; //房间
+  rbt_block = 2; //用户
+  rbt_ban_msg = 3; //封禁
+}
+
+
+enum VoiceRoomActiveDescType {
+  vradt_none = 0;
+  vradt_inRoom = 1;
+  vradt_justNow = 2;
+  vradt_minsAgo = 3;
+  vradt_hAgo = 4;
+  vradt_dayAgo = 5;
+}
+
+enum VoiceRoomNotifyType {
+  vrnt_none = 0;
+  vrnt_follow = 1; // 关注
+  vrnt_share = 2; // 分享
+  vrnt_kickOut = 3; // 踢出
+  vrnt_banChat = 4; // 禁言
+  vrnt_banChatCancel = 5; // 取消禁言
+  vrnt_role = 6; // 角色
+  vrnt_redPacket = 7; // 红包
+}
+
+enum RoleNotifyType {
+  rnt_none = 0;
+  rnt_low = 1; // 设置低等级角色
+  rnt_initiative = 2; // 主动加入房间
+  rnt_passive = 3; // 被邀请成为房间成员/管理员
+}
+
+
+enum RoomLevel {
+  rll_none = 0;
+  gold = 1; // 金
+  silver = 2; // 银
+  copper = 3; // 铜
+}
+
+enum RoomTaskStatus {
+  tss_none = 0;
+  tss_working = 1; // 进行中
+  tss_done = 2; // 已完成
+}
+
+// 下麦类型
+enum RoomMicDrop {
+  rmd_none = 0;
+  rmd_active = 1; // 主动下麦
+  rmd_forced = 2; // 强制下麦
+  rmd_exitRoom = 3; // 退出房间
+  rmd_queueEnd = 4; // 排队结束
+  rmd_muted = 5; // 被禁言
+}
+
+enum RoomTopType {
+  rtt_none = 0;
+  rtt_fixed = 1; // 固定
+  rtt_everyday = 2; // 每天
+}
+
+enum RoomTopScopeType {
+  rtst_none = 0;
+  rtst_region = 1; // 大区
+  rtst_country = 2; // 国家
+}

@@ -1,0 +1,110 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "item.proto";
+
+enum RewardType {
+  crt_none = 0;
+  crt_coin = 1; // 金币
+  crt_point = 2; // 钻石
+  crt_item = 3; // 道具
+  crt_noble = 4; // noble
+  crt_gift = 5; // 礼物
+  // rt_medal = 6; // 勋章
+  rt_pic = 7; // 自定义图片
+  rt_crystal = 8; // 水晶
+  rt_gold_medal = 9;//金勋章
+
+  rt_thank = 100; //谢谢无奖励 抽奖用
+  // 不要定义[1000, 2999]的类型
+  // 道具的细分类型在后台转换时会填充！！！
+  // 如果要用的话，请不要和itemtype2的数值重复！！！！ 应该可以从3000开始
+
+}
+
+message Reward {
+  RewardType type = 1;
+  int64 objectId = 2; //type为道具时表示道具id
+  int64 timeLimited = 3; //是否时效 1是 2否
+  int64 duration = 4; //时长，单位:天
+  int64 num = 5; // 数量(道具不使用此字段，金币钻石不用/100)
+  int64 rank = 6;
+  string ext = 7; //
+  double pointNum = 8; // 钻石
+  CoinType coinType = 9; // coin类型
+  ItemType2 itemType = 10; // 道具类型
+}
+
+message Reward2FRank {
+  RewardType type = 1;
+  int64 objectId = 2; //type为道具时表示道具id
+  int64 timeLimited = 3; //是否时效 1是 2否
+  int64 duration = 4; //时长，单位:天
+  int64 num = 5; // 数量(道具不使用此字段，金币钻石不用/100)
+  int64 rank = 6;
+  string ext = 7; //
+  double pointNum = 8; // 钻石
+  CoinType coinType = 9; // coin类型
+  ItemType2 itemType = 10; // 道具类型
+  string icon = 11; // icon url
+  string name = 12; // name
+  string intr = 13; // intr
+}
+
+message ActivityRewardConfig {
+  string color = 1;
+  repeated Reward2FRank rewardInfo = 2;
+}
+
+enum CoinType {
+  crt_coin_none = 0;
+  crt_coin_pay = 1;
+  crt_coin_send = 2;
+}
+
+message ProcessItemLogModel {
+  int64 userId = 1;
+  int64 type = 2;
+  ItemGetPath changeType = 3;
+  ItemType2 propType = 4;
+  int64 itemId = 5;
+  int64 timeLimit = 6;
+  int64 day = 7;
+  int64 recordId = 8;
+  string extName = 9;
+  string operator = 10;
+  int64 expireAt = 11;
+  int64 num = 12;
+  int64 receiver = 13;
+  int64 targetId = 14;
+  int64 coin = 15;
+}
+
+enum NewRewardType {
+  nrt_none = 0;
+  nrt_coin = 1;
+  nrt_diamond = 2;
+  nrt_prop = 3;
+  nrt_dress = 4;
+  nrt_gift = 5;
+}
+
+enum RewardUnit {
+  ru_none = 0;
+  ru_day = 1; //天
+  ru_num = 2;//数量
+}
+
+message NewReward {
+  NewRewardType type = 1;
+  ItemType2 detailType = 2; //有二级分类的类型 道具 装扮
+  int64 objectId = 3; //装扮 礼物具体的对象id
+  int64 timeLimited = 4; //是否时效 1是 2否
+  int64 duration = 5; //时长，单位:天
+  int64 num = 6; // 数量(道具不使用此字段，金币钻石不用/100)
+  string ext = 7; //拓展字段
+  string name = 8;
+  string url = 9;
+  int64 showCoin = 10;//展示的金币价值
+}

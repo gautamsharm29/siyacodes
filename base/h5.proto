@@ -1,0 +1,39 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+message CountryInfo {
+  string name = 1; //名字
+  string flag = 2; //国旗emoji
+  string countryCode = 3; //国家代码
+  int32 dialCode = 4;//区号
+  bool haveSmsCode = 5; //是否支持短信验证码
+  bool recommend = 6;//是否推荐
+  int32 length = 7;//号码长度
+}
+
+message CountryListReply {
+  repeated CountryInfo country = 1;
+  CountryInfo nowCountry = 2;
+  int64 lastSyncTime = 3;
+}
+
+message LevelColorCfg {
+  repeated LevelColorItem items = 1;
+  int64 lastSyncTime = 2; // 保存此值, 下次同步传此参数
+}
+
+message LevelColorItem {
+  int32 id = 1;
+  int32 type = 2; //1财富 2魅力
+  int32 level = 3; //10,20,30,40,50,60
+  string background = 4; //背景资源
+  string wordColorStart = 5; //等级字渐变
+  string wordColorEnd = 6;
+  string sideColorStart = 7; //等级描边渐变
+  string sideColorEnd = 8;
+  string squareIcon = 9; //方形小图标
+  string rectangleIcon = 10; //矩形小图标
+  string progressColor = 11; //进度条颜色
+  string titleColor = 12; //标题颜色
+}

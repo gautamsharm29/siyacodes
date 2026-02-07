@@ -1,0 +1,71 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+import "voice_room_enum.proto";
+//服务端使用，于客户端无关
+
+enum CrontabNtyType {
+  nt_none = 0;
+  nt_call = 1; //音视频通话
+}
+
+enum DoneVia {
+  dv_normal = 0; //正常结束
+  dv_nsf = 1; //余额不足结束
+  dv_violate = 2; //违规结束
+  dv_ping = 3; //ping超时结束
+  dv_walletTip = 4;//余额提示
+}
+
+enum CallOp {
+  callOp_none = 0;
+  callOp_ping = 1;
+  callOp_start = 2;
+  callOp_done = 3;
+}
+
+message CrontabNtyCall {
+  int64 recordId = 1;
+  CallOp op = 2;
+  int64 opUser = 3;
+  string channel = 4; //声网channel名，callOp_start 时存在
+  int64 opTime = 5; //操作时间
+  DoneVia doneVia = 6;
+  int64 triggerDoneUser = 7; //触发结束的用户
+  int32 errCode = 8;//异常code
+}
+
+
+enum RoomEvent {
+  re_none = 0;
+  re_join = 1;
+  re_exit = 2;
+}
+
+message CrontabNtyRoomEvent {
+  RoomEvent event = 1;
+  int64 userId = 2;
+  int64 roomId = 3;
+}
+
+message CrontabNtyLuckyBag {
+  int64 Id = 1;
+  int64 ExpireTime = 2;
+}
+
+message CrontabNtyMicCheck {
+  int64 roomId = 1; // 房间id
+  VoiceRoomServiceType serviceType = 2; // 语音服务类型
+  bool immediate = 3; // 马上检查一次
+}
+
+message CrontabNtyRoomPk {
+  int64 id = 1;
+  int64 roomId = 2; // 房间id
+  int64 expectEndTime = 3; //期望的结束时间
+}
+
+message CrontabNtyRoomActivity {
+  int64 id = 1;
+  int64 expectEndTime = 3; //期望的结束时间
+}

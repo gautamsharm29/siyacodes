@@ -1,0 +1,31 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "item.proto";
+
+message UserBagArg {
+  int32 type = 1;//1礼物 2道具
+  ItemType2 itemType = 2; //如果是道具 道具的类型
+  int64 pos = 3;
+  int64 size = 4;
+}
+
+message UserBagReply {
+  bool hasNext = 1;
+  int64 nextPos = 2;
+  repeated BagItem items = 3;
+  int64 total = 4;
+}
+
+message BagItem {
+  int64 id = 1;
+  string name = 2; //名称
+  string pic = 3; // 静态图
+  bool inUse = 4; //使用中
+  int64 expireTime = 5; //过期时间
+  int32 timeLimited = 6;//1:有时效 2:无时效
+  int32 num = 7; //数量
+  int64 coin = 8; //价值金币
+  int64 itemId = 9; // 道具类型
+}

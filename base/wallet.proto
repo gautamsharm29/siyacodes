@@ -1,0 +1,723 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "pay.proto";
+import "account_enum.proto";
+
+enum PayClientType {
+  pay_none = 0;
+  pay_google = 1; // 谷歌支付
+  pay_ios = 2; // 苹果支付
+
+  pay_huawei = 5; // 华为支付
+
+  pay_cko_client = 4; // cko client内支付 visa
+  pay_cko_client_AMEX = 6; // cko client内支付 AMEX
+  pay_cko_client_MADA = 7; // cko client内支付 MADA
+
+  pay_cko_hpp = 8; // cko hpp visa
+
+  pay_cko_web = 3; // cko web支付
+  pay_cko_web_AMEX = 9; // cko web支付 AMEX
+  pay_cko_web_MADA = 10; // cko web支付 MADA
+  pay_merchant = 11; // 币商
+
+  pay_toppay_client = 12; // visa/master
+  pay_toppay_client_payby = 13; // payby
+
+  pay_toppay_web = 14; // visa/master
+  pay_toppay_web_payby = 15; // payby
+
+  pay_gccpay_web = 16; // gcc stc pay
+  pay_gccpay = 17; // gcc stc pay client
+
+  pay_gccpay_mada_web = 18;
+  pay_gccpay_mada = 19;
+
+  pay_gccpay_apple_web = 20;
+  pay_gccpay_apple = 21;
+
+  pay_gccpay_knet_web = 22;
+  pay_gccpay_knet = 23;
+}
+
+// 钱包状态
+enum WalletStatus {
+  wst_none = 0;
+  wst_normal = 1; // 钱包状态正常
+  wst_freeze = 2; // 钱包状态冻结
+}
+
+// WithdrawWay 提现方式开关
+message WithdrawWay {
+  bool ali = 1;
+  bool wx = 2;
+  bool card = 3;
+}
+
+// 钱包信息
+message Wallet {
+  WalletStatus status = 1; // 钱包状态
+  int64 coin = 2; // 金币
+  int64 sendCoin = 3; //赠送金币
+  string point = 4; //钻石
+}
+enum RechargeOrderStatus {
+  ros_none = 0;
+  ros_pending = 1; // 待支付
+  ros_timeout = 11; // 超时关闭
+  ros_failed = 21; // 支付失败
+  ros_success = 201; // 支付成功
+}
+
+// 支付方式
+enum RechargeMethod {
+  rhm_none = 0;
+  rhm_google = 1; // 谷歌支付
+  rhm_iap = 2; // 苹果支付
+}
+
+// 金币变动类型
+enum CoinChangeType {
+  wct_none = 0;
+  wct_sendMsg = 1;//付费私信金币消费 减少
+  wct_accost = 2;//主动搭讪消费 减少
+  wct_msgRefund = 3;//发送付费私信（未回复退回）私信未回复退回 增加
+  wct_accostRefund = 4;//发送搭讪（未回复退回） 主动搭讪未回复退回 增加
+  wct_sendSingleGift = 5;//私信面板礼物消费 私信面板礼物消费 减少
+  wct_video = 6;//私聊视频通话 私聊视频通话消费 减少
+  wct_audio = 7;//私聊语音通话 减少
+  wct_videoGift = 9;//私聊视频赠送礼物 私聊视频通话礼物面板消费 减少
+  wct_audioGift = 10;//私聊语音赠送礼物 减少
+  wct_recharge = 11; // 充值 用户平台充值金币 增加
+  wct_rechargeSend = 12;//充值赠送 用户平台充值赠送体验金币 增加
+  wct_rechargeRefund = 13;//退款扣除 系统扣减-用户退款扣除(充值部分) 减少
+  wct_rechargeSendRefund = 14;//退款赠送扣除 系统扣减-用户退款扣除(赠送部分) 减少
+  wct_point2Coin = 15; //钻石兑换成金币 钻石兑换金币 增加
+  wct_sysDecr = 16;//人工扣减充值金币 减少
+  wct_sysDecrSend = 17;//人工扣减赠送金币 减少
+  wct_syaGiveStaff = 18;//赠送员工金币 增加
+  wct_syaGiveStaffSend = 19;//赠送员工赠送金币 增加
+  wct_syaTest = 20;//研测功能测试充值金币 增加
+  wct_syaTestSend = 21;//研测功能测试赠送金币 增加
+  wct_dailyTask = 22;//每日任务奖励 增加
+  wct_newUserTask = 23;//新人任务奖励 增加
+  wct_signTask = 24;//签到任务奖励 增加
+  wct_register = 25;//注册奖励 增加
+  wct_newer = 27; // 新人承接奖励 增加
+  wct_voiceRoomGift = 26;//房间赠送礼物 减少
+  wct_activityReward = 28;//活动奖励充值金币 增加
+  wct_activityRewardSend = 29;//活动奖励赠送金币 增加
+  wct_offline = 30;//线下收款 人工充值_线下收款_充值金币 增加
+  wct_lightGiftWall = 31;// 点亮礼物墙 减少
+  wct_rechargeFriend = 42; //币商个人充值
+  wct_sendMsg2Audit = 46; // 与审核账号付费私信消费 减少
+  wct_accost2Audit = 47; // 与审核账号主动搭讪消费 减少
+  wct_video2Audit = 48; // 与审核账号私聊视频通话消费 减少
+  wct_audio2Audit = 49;//私聊语音通话 与审核账号私聊语音通话消费 减少
+  wct_rechargeUserShop = 54; // 用户币商充值金币
+
+  wct_wealthRank = 55; // 榜单活动(财富榜)
+  wct_charmRank = 56; // 榜单活动(魅力榜)
+  wct_roomRank = 57; // 榜单活动(房间榜)
+  wct_cpRank = 58; // 榜单活动(cp榜)
+  wct_rechargeAddCoin = 59;//充值赠送 用户平台充值 加赠充值金币 增加
+
+
+  wct_videoMatch = 62; // 视频匹配消费
+  wct_voiceMatch = 63; // 语音匹配消费
+  wct_avMatchGift = 64; // 匹配礼物面板消费
+  wct_gameCoin = 65; //游戏获得
+  wct_gameSpend = 66; //游戏减少
+
+
+  wct_bagSendSingleGift = 20001;// 私信礼物背包消费  减少
+  wct_bagVoiceRoomGift = 20002;// 聊天室礼物背包消费  减少
+  wct_bagVideoGift = 20003;// 视频通话礼物背包消费  减少
+  wct_bagAudioGift = 20004;// 语音通话礼物背包消费  减少
+  wct_bagExpired = 20005;// 背包礼物过期 增加
+  wct_bagSignReward = 20007;// 签到任务奖励 增加
+  wct_bagDailyTask = 20008;// 每日任务奖励 增加
+  wct_bagNewerTask = 20009;// 新手任务奖励 增加
+  wct_bagPlatformActivityRewards = 20010;// 后台发放-平台活动奖励 增加
+  wct_bagInternalEmployeeTesting = 20011;// 后台发放-内部员工测试 增加
+  wct_bagMissionRewards = 20012;// 后台发放-任务奖励 增加
+  wct_bagRoomActivityRewards = 20013;// 后台发放-房间活动奖励 增加
+
+}
+
+// 钻石变动类型
+enum PointChangeType {
+  pct_none = 0;
+  pct_singleMsg = 1; // 付费私信金币收益 增加
+  pct_singleVipChatCard = 2; // 会员私信卡收益 增加
+  pct_singleChatCard = 3; // 私信卡收益 增加
+  pct_pickUp = 4; // 主动搭讪收益 增加
+  pct_matchMaking = 5; // 心动牵线收益 增加
+  pct_singleGift = 6; // 私信礼物面板收益 增加
+  pct_singleBagGift = 7; // 私信背包礼物收益 增加
+  pct_singleVideoCall = 8; // 私聊视频通话 增加
+  pct_singleVoiceCall = 9; // 私聊语音通话 增加
+  pct_singleVideoCallGift = 10; // 私聊视频通话礼物面板 增加
+  pct_singleVoiceCallGift = 11; // 私聊语音通话礼物面板收益 增加
+  pct_withdrawals = 12; // 用户端内发起提现 减少
+  pct_withdrawalsFail = 13; // 提现关闭退回 增加
+  pct_withdrawalsTransferAccounts = 14; // 线下转账扣除 减少
+  pct_signInTask = 15; // 签到任务奖励 增加
+  pct_dailyTask = 16; // 每日任务奖励 增加
+  pct_newUserTask = 17; // 新人任务奖励 增加
+  pct_point2Coin = 18; // 钻石兑换金币 减少
+  pct_fissionRegister = 19; // 裂变注册奖励 增加
+  pct_fissionRecharge = 20; // 裂变充值奖励 增加
+  pct_fissionIncomeSharing = 21; // 裂变收益分成 增加
+  pct_fission_BackCancellation = 22; // 裂变 注销 减少
+  pct_officeReissue = 23; // 运营补发 增加
+  pct_officeTest = 24; // 运营测试 增加
+  pct_fissionBackBanned = 25; // 裂变 封号 减少
+  pct_singleVideoCallBagGift = 27; // 视频通话背包礼物 增加
+  pct_singleVoiceCallBagGift = 28; // 语音通话背包礼物 增加
+  pct_fissionBackRefund = 29; // 裂变 退款 减少
+  pct_fissionBackChangeBinding = 30; // 裂变 换绑 减少
+  pct_roomGift = 31; //  语聊房礼物面板 增加
+  pct_roomBagGift = 32; //  语聊房背包礼物 增加
+  pct_newerRegister = 33; //  注册奖励 注册 增加
+  pct_newerChengjie = 34; // 新人承接 增加
+  pct_platform = 35; //   平台回收
+  pct_pick_up_card = 36; //  搭讪卡 搭讪卡收益 增加
+  pct_call_card = 37; //  通话卡收益 增加
+  pct_gift_wall = 38; //  礼物墙 点亮礼物墙礼物收益 增加
+  pct_office_task = 39; // 官方任务奖励 增加
+  pct_roomWeekStreamer = 40; // 聊天室周结(主播底薪)
+  pct_roomWeekGuild = 41; // 聊天室周结(公会佣金)
+  pct_transferBreakRule = 42;// 转账扣除
+  pct_deductBreakRule = 43;// 违规扣除
+  pct_funMsgWeek = 44;// 趣聊周结(主播底薪)
+  pct_roomActivityReward = 46;// 聊天室活动奖励(公会)
+  pct_one2OnePocy = 48;// 1v1政策分成
+  pct_singleChatCardEarningsReissue = 49; // 私信卡补收益策略
+
+  pct_wealthRank = 50;  // 榜单活动(财富榜)
+  pct_charmRank = 51;  // 榜单活动(魅力榜)
+  pct_roomRank = 52;  // 榜单活动(房间榜)
+  pct_cpRank = 53;  // 榜单活动(cp榜)
+  pct_videoMatch = 54; // 视频匹配收益
+  pct_voiceMatch = 55; // 语音匹配收益
+  pct_avMatchGift = 56; // 匹配礼物面板收益
+
+  // pct_orderRefund = 500; // 订单退款 减少
+
+}
+
+// 简单的用户信息
+message RecordUserInfo {
+  int64 id = 1;
+  string nickname = 2;
+  string account = 3;
+  string prettyAccount = 4;
+}
+
+// 金币变动记录
+message CoinRecord {
+  CoinChangeType ct = 1; // 变动类型
+  int64 time = 2; // 变动时间
+  RecordUserInfo receiver = 3; // 用户信息
+  int64 recordId = 4; // 对应id(订单或礼物id)
+  int32 num = 5;
+  string extName = 6; // 扩展名称
+  int64 coin = 7; // 变动金币
+  int64 coinBl = 8; // 金币余额
+  string detail = 9; // 展示详情
+}
+// 积分收益记录
+message PointRecord {
+  PointChangeType pt = 6; // 变动类型
+  int64 time = 1; // 变动时间
+
+  string point = 11; // 变动积分
+
+  string balance = 12; // 当前余额
+
+  RecordUserInfo receiver = 5; // 用户信息
+  int64 recordId = 7; // 对应id(订单或礼物id)
+  int32 recordStatus = 13; // 对应记录状态(提现的 1:等待处理(刚发起) 2:待打款(已存在定时器) 10:打款失败 11:后台拒绝 21:成功)
+  int32 num = 10;// 个数
+  string extName = 9; // 扩展名称(任务名/空投名)
+  string detail = 14; // 展示详情 2.2 大礼包以及以后的由服务端维护
+}
+
+message RechargeInfoArg{
+  string country = 1; // country code
+}
+
+message RechargeInfoReply {
+  int64 balance = 1; //用户当前余额
+  repeated string lamp = 2;//跑马灯内容
+  RechargeMethod lastMethod = 3;//上次使用的支付方式
+  bool selectCountry = 4;//是否允许选择国家
+  repeated RechargeProductWay rechargeWay = 5; //充值项
+}
+
+message RechargeProduct {
+  int64 id = 1;
+  int64 coin = 2;
+  int64 sendCoin = 3;
+  string icon = 4;//小图标
+  string content = 5;//优惠文案
+  string contentColor = 6;//优惠文案颜色
+  string bgColor = 7;//背景颜色
+  int64 updateTime = 8; //更新时间
+  string minPrice = 9;
+  string maxPrice = 10;
+  string discounts = 11; //优惠
+  string googleProductId = 12;
+  string iapProductId = 13;
+  string price = 14;
+}
+
+message RechargeProductWay {
+  int64 id = 1;
+  RechargeMethod method = 2;
+  string channelName = 3;
+  string channelLogo = 4;
+  repeated RechargeProduct product = 5;
+}
+
+// 微信支付所需参数
+message WechatPayParam {
+  string appID = 1;
+  string partnerID = 2;
+  string prepayID = 3;
+  string package = 4;
+  string nonce = 5;
+  string timestamp = 6;
+  string sign = 7;
+  string outTradeNO = 8;
+}
+
+// 预下单参数
+message OrderPreArg{
+  RechargeMethod method = 1; // 购买方式
+  int64 productId = 2; // 套餐ID
+  int64 wayId = 3;//支付方式id
+  int64 productUpdateTime = 4;// 该套餐的更新时间
+}
+
+// 预下单返回值
+message OrderPreReply {
+  RechargeMethod method = 1; // 购买方式
+  string orderNo = 2; // iap购买需要的订单号
+}
+
+// 金币变动记录
+message CoinRecordArg {
+  int64 pos = 1;
+  int64 size = 2;
+  string month = 3; // 2022-11,限定月份
+}
+message CoinRecordReply {
+  bool hasNext = 1;
+  int64 nextPos = 2;
+  repeated CoinRecord records = 3;
+}
+
+// 积分收益记录
+message PointRecordArg {
+  int64 pos = 1;
+  int64 size = 2;
+  string month = 3;
+}
+message PointRecordReply {
+  bool hasNext = 1;
+  int64 nextPos = 2;
+  repeated PointRecord records = 3;
+}
+
+// iap 调用服务端验证订单
+message IAPVerifyArg {
+  string receiptData = 1;
+  string orderNo = 2;// 第一步预下单的单号
+  string transactionID = 3; // 苹果支付完成的单号
+}
+message IAPVerifyReply {
+  int64 coin = 1;
+  int64 sendCoin = 2;
+  string orderNo = 3;
+  int64 payTime = 4;
+}
+
+// 谷歌支付 调用服务端验证订单
+message GoogleVerifyArg {
+  string token = 1;
+  string orderNo = 2;// 第一步预下单的单号
+}
+message GoogleVerifyReply {
+  int64 coin = 1;
+  int64 sendCoin = 2;
+  string orderNo = 3;
+  int64 payTime = 4;
+  int64 balance = 5;
+}
+
+message RechargeEvent {
+  int64 userId = 1;
+  int64 coin = 2;
+}
+
+message BuyVipByCoinArg{
+  int64 product = 1;
+}
+message BuyVipByCoinReply {
+
+}
+message HuaweiVerifyArg{
+  string token = 1;
+  string orderNo = 2;// 第一步预下单的单号
+}
+message HuaweiVerifyReply{
+
+}
+
+message CheckRechargeTimeArg {
+  string dollar = 1; //本次充值金额
+}
+
+message CheckRechargeTimeReply {
+  int64 count = 1;//充值次数
+  string dollar = 2; //充值金额
+}
+
+message VipProductReply {
+  repeated VipProductItem products = 1;
+  repeated VipAuthorityItem authority = 2;
+  RechargeMethod lastMethod = 3;
+}
+
+message VipProductItem {
+  int64 id = 1;
+  int32 durationType = 2;//1天 2月
+  int32 durationNum = 3; //时长
+  string price = 4;
+  string originalPrice = 5;//原价
+  string discountsIcon = 6;//优惠小图标
+  string discountsContentColor = 7;//优惠文案颜色
+  string discountsBgColor = 8;//优惠背景色
+  string discountsContent = 9;//优惠文案
+  string privilegePrice = 10; //权益价值
+  int32 rank = 11;
+  bool isDefault = 12; //是否默认
+  VipAuthorityItem cardAuthority = 13;
+  repeated VipProductWay way = 14;
+}
+
+message VipAuthorityItem {
+  int32 id = 1;
+  string title = 2;
+  string icon = 3;
+  string desc = 4;
+  int64 rank = 5;
+}
+
+message VipProductWay {
+  int64 id = 1;
+  int64 productId = 2;
+  RechargeMethod method = 3;
+  int32 buyType = 4; //1购买 2订阅
+  string googleProductId = 5;
+  string iapProductId = 6;
+  string price = 7;
+  string discounts = 8; //与最高价格相比的优惠
+  string channelName = 9;
+  string channelLogo = 10;
+}
+
+enum BackendRechargeReasonType {
+  brrt_none = 0;
+  brrt_employeeBenefits = 1;//员工福利
+  brrt_test = 2;//研测功能测试
+  brrt_rechargeNotReceived = 3;//充值未到账
+  brrt_offlineRecharge = 4;//线下充值
+  brrt_operationReward = 5; //运营奖励发放
+  brrt_coinAgentBackendRecharge = 6; //币商后台充值
+}
+
+enum CoinDecrType {
+  brrt_refund = 0;  //退款自动扣减
+  brrt_artificial = 1;  //人工扣减
+}
+
+enum OperationRewardType {
+  ort_none = 0;
+  ort_platformActivities = 1;  //平台活动奖励
+  ort_areaActivities = 2; //区域活动奖励
+  ort_roomActivities = 3; //房间活动奖励
+  ort_privateActivities = 4;  //私聊活动奖励
+  ort_accountChatActivities = 5;  //趣聊活动奖励
+  ort_familyActivities = 6; //家族活动奖励
+  ort_guildLeader = 7;//公会长奖励
+  ort_RPackage = 8; //大R礼包
+  ort_reissue = 9;  //奖励补发
+  ort_other = 10; //其他
+}
+
+message UserBalance {
+  int64 total = 1;
+  int64 coin = 2;
+  int64 sendCoin = 3;
+}
+
+message RechargeListArg{
+  string country = 1; // country code
+}
+
+message RechargeListReply{
+  repeated RechargeListReplyItem items = 1;
+  UserBalance balance = 2;//用户余额
+}
+
+message RechargeListReplyItem{
+  int64 id = 1;
+  int64 coin = 2;//金币
+  int64 sendCoin = 3;//体验金币
+  string amount = 4;//金额
+  string currency = 5;
+  int64 updateTime = 6;
+  string commodityId = 7;//商品id 谷歌苹果支付使用
+}
+
+// 原生充值预下单参数
+message RechargePreArg{
+  PayPlatform platform = 1; //支付平台
+  int64 id = 2; // 充值项id
+  int64 productUpdateTime = 3;// 商品更新时间
+}
+
+// 原生充值预下单返回值
+message RechargePreReply {
+  string orderNo = 1; // 我们自己的订单号
+}
+
+message RechargeWayListArg{
+  string country = 1; // country code
+}
+
+message RechargeWayListReply{
+  repeated RechargeWayItem items = 1;
+  UserBalance balance = 2;//用户余额
+}
+
+message RechargeWayItem{
+  int64 id = 1;//该充值渠道id
+  string name = 2;//充值渠道名称
+  string logo = 3;//充值渠道logo
+  PayPlatform platform = 4; //充值平台
+  string cornerMark = 5; //角标
+}
+
+//充值渠道对应商品商品参数
+message RechargeWayProductListArg {
+  int64 id = 1;
+  bool isDialog = 2; //是否半屏
+}
+
+message RechargeWayProductListReply {
+  repeated RechargeWayProductItem items = 1;
+  bool dialogJump = 2;
+  FistRecharge rewards = 3;
+}
+
+message RechargeWayProductItem{
+  int64 id = 1;
+  int64 coin = 2;//金币
+  int64 sendCoin = 3;//体验金币
+  string amount = 4;//金额
+  string cur = 5; //币种代码
+  int64 updateTime = 6;
+  string commodityId = 7;//商品id 谷歌苹果支付使用
+  string icon = 8;//金币icon
+  string cornerMark = 9; //角标
+}
+
+message ThirdRechargePreArg {
+  PayPlatform platform = 1; //支付平台
+  int64 id = 2;
+  int64 productUpdateTime = 3;// 商品更新时间
+}
+
+message ThirdRechargePreReply {
+  string jumpUrl = 1;
+}
+
+message VipProductArgNew {
+  string cur = 1; //币种
+}
+
+message VipProductReplyNew {
+  repeated VipProductReplyItem items = 1;
+  repeated VipAuthority authority = 2;
+  string oldPurchaseToken = 3;
+}
+
+message VipProductReplyItem {
+  int64 id = 1;
+  int32 durationType = 2;
+  int32 durationNum = 3;
+  string price = 4;
+  string originalPrice = 5;
+  string privilegePrice = 6;
+  string cur = 7; //币种
+  bool upgrade = 8; //升级
+  bool sub = 9;//订阅了当前档位
+  VipAuthority  fistAuthority = 10;
+}
+
+message VipAuthority {
+  int32 id = 1;
+  string title = 2;
+  string icon = 3;
+  string desc = 4;
+  int64 rank = 5;
+}
+
+message VipProductPreArg {
+  PayPlatform platform = 1; //支付平台
+  int64 id = 2; // 充值项id
+  int64 productUpdateTime = 3;// 商品更新时间
+}
+
+// 原生充值预下单返回值
+message VipProductPreReply {
+  string orderNo = 1; // 我们自己的订单号
+}
+
+message VipWayListArg{
+  int64 id = 1; //product id
+}
+
+message VipWayListReply{
+  repeated VipWayItem items = 1;
+}
+
+message VipWayItem {
+  int64 id = 1;//该充值渠道id
+  string name = 2;//充值渠道名称
+  string logo = 3;//充值渠道logo
+  PayPlatform platform = 4; //充值平台
+  string amount = 5;//金额
+  string cur = 6; //币种代码
+  bool sub = 7; //是否订阅
+  string basePlantId = 8;//基础方案id
+  string commodityId = 9;//商品id 谷歌苹果支付使用
+}
+
+// iap 调用服务端验证订单
+message IAPVerifyV2Arg {
+  string orderNo = 1;// 第一步预下单的单号
+  string transactionId = 2; // 苹果支付完成的单号
+}
+
+message IAPVerifyV2Reply {
+  int64 coin = 1;
+  int64 sendCoin = 2;
+  string orderNo = 3;
+  int64 payTime = 4;
+}
+
+message IAPVipVerifyV2Reply {
+
+}
+
+//api:10800 CoinAgentQueryPay 支付查询
+message CoinAgentQueryPayReply {
+  bool hasSetEmail = 1; //是否绑定邮箱
+  bool hasSetPayPass = 2; //是否设置支付密码
+  string email = 3; // 已绑定邮箱
+}
+
+//api:10801 CoinAgentPaySettings 支付设置
+message CoinAgentPaySettingsArg {
+  string email = 1; // 绑定邮箱
+  string password = 2; // 交易密码
+}
+
+//api:10802 CoinAgentForgetPass 忘记密码
+message CoinAgentForgetPassArg {
+  string password = 1; // 交易密码
+}
+
+//api:10803 CoinAgentResetPass 重置密码
+message CoinAgentResetPassArg {
+  string oldPassword = 1; // 旧交易密码
+  string newPassword = 2; // 新交易密码
+}
+
+//api:10804 CoinAgentVerifyPass 校验密码
+message CoinAgentVerifyPassArg {
+  string password = 1; // 交易密码
+}
+
+//api:10805 CoinAgentVerifyEmail 校验邮箱验证码
+message CoinAgentVerifyEmailArg {
+  string email = 1; // 邮箱
+  string code = 2; // 验证码
+  EmailCodeType codeType = 3; // 验证码类型 account_enum.proto 币商类
+}
+
+//api:10806 BatchQueryCoinAgent 批量币商信息查询
+message BatchQueryCoinAgentArg {
+  repeated int64 userId = 1; // 用户id
+}
+
+// 账号不存在, 不返回记录
+message BatchQueryCoinAgentReply {
+  repeated CoinAgentDetail list = 1; // 币商信息
+}
+
+message CoinAgentDetail {
+  int64 userId = 1; // 用户id
+  bool coinAgent = 2; //是否币商身份
+  CoinAgentBadgeLevel coinAgentBadgeLevel = 3; //币商勋章等级
+  CoinAgentStatus coinAgentStatus = 4; // 币商状态
+  AccountStatus accountStatus = 5; // 账号状态
+}
+
+message FistRecharge {
+  int32 normalRate = 1;//普通金币比率
+  int32 newRate = 2;//新用户金币比率
+  repeated ClientReward rewards = 3;
+}
+
+message ClientReward {
+  int64  id = 1;
+  string name = 2;
+  string url = 3; //图片
+  int64 duration = 4; //天数
+  int64 num = 5; //数量
+  int64 coin = 6; //金币
+  int64 diamond = 7;//钻石
+  string cornerMark = 8; //角标
+}
+
+// 币商钱包状态
+enum CoinAgentWalletStatus {
+  caw_none = 0; // 默认值
+  caw_enabled = 1; // 激活
+  caw_unactivated = 2; // 未激活
+  caw_disabled = 3; // 禁用
+}
+
+message RechargeWithdrawLampArg {
+  int32 Scene = 1; //场景 1充值菜单 2提现菜单
+}
+
+message RechargeWithdrawLampReply {
+  repeated RechargeWithdrawLampItem items = 1;
+}
+
+message RechargeWithdrawLampItem {
+  int64 id = 1;
+  string content = 2;
+  int32 circulation = 3; //循环次数
+  int64 startTime = 4;
+  int64 endTime = 5;
+}

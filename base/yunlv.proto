@@ -1,0 +1,43 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+// source 1昵称2介绍3评论4家族名称5家族公告
+enum TextSource {
+  textSr_none = 0;
+  // 昵称
+  textSr_nickname = 1; // 昵称
+  textSr_creat_room = 6; // 房间名称
+  textSr_family_name = 4; // 家族名称
+
+  // 群聊
+  textSt_room_notice = 10; // 房间公告
+  textSt_room_msg = 11;  // 聊天室公屏消息
+  textSr_family_notice = 5; // 家族公告
+  textSt_family_msg = 8;  // 家族群聊消息
+
+  // 私聊
+  textSt_hello_msg = 9; // 私信招呼语
+  textSt_msg = 7;  // 私信文字消息
+
+  // 动态
+  textSt_dynamic = 12; // 动态文字消息
+
+  // 签名
+  textSr_introduce = 2; // 个人介绍
+  // 评论
+  textSr_comment = 3; // 动态评论
+  
+  
+}
+
+enum ImageSource {
+  isrc_none = 0;
+  isrc_create_room = 6; // 房间封面
+  isrc_family_cover = 2; // 家族封面
+  isrc_msg = 7; // 私聊图片信息
+  isrc_normal_album = 5; // 普通相册
+  isrc_moment = 1; // 用户动态
+  isrc_privacy_album = 4; // 私密相册
+  isrc_avatar = 3; // 头像
+}

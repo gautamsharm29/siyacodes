@@ -1,0 +1,218 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "voice_room_enum.proto";
+
+// 礼物状态
+enum GiftStatus {
+  gs_none = 0;
+  gs_normal = 1; // 上架状态
+  gs_off = 2; // 下架
+}
+
+// 礼物格式
+enum GiftFormat {
+  gf_none = 0;
+  gf_static = 1; // 仅静态图
+  gf_mp4 = 2; // mp4动画
+}
+
+enum GiftType {
+  gt_none = 0;
+  gt_normal = 1;// 普通礼物
+}
+
+// 送礼类型
+enum GiveGiftType {
+  ggt_none = 0; // 无
+  ggt_single = 1; // 单聊送礼
+  ggt_room = 2; // 语聊房送礼
+}
+
+enum GiftComboSrcType {
+  gcse_none = 0;
+  gcse_json = 1;
+  gcse_mp4 = 2;
+}
+// 礼物连击动画资源
+message GiftComboSrc {
+  int64 id = 1; // 档位
+  int64 combo = 2; // 连击数
+  GiftComboSrcType type = 3; // 1:json 2:mp4
+  string src = 4; // 文件资源地址
+  string color = 5; // 颜色
+}
+
+// 礼物连击资源配置
+message GiftComboCfg {
+  bool has = 1;
+  repeated GiftComboSrc list = 2;
+}
+// 礼物信息
+message Gift {
+  GiftType type = 13; //礼物类型
+  int64 bagId = 8; // 所属背包id,客户端无用
+  int64 id = 1;
+  string name = 2; // 名称
+  string staticSrc = 3; // 静态图
+  int64 dynamicId = 4; // 动态资源id
+  int64 coin = 5; // 金币
+  int64 intimacy = 11;// 亲密度,客户端无用
+  string badgeSrc = 6;  // 角标图片
+  bool soundEffect = 7; //是否有音效
+  bool float = 18; //是否飘屏
+  string bannerCfg = 9; // json字符串，盲盒礼物和幸运金币的banner配置
+  int64 rank = 10; // 排序值
+  GiftFormat format = 12; // 礼物格式
+  GiftStatus status = 15; // 1:上架 2:下架
+  int32 bagNum = 17; // 背包中拥有的个数
+  int64 updateTime = 19; // 更新时间
+  int32 count = 20; // 送礼个数,客户端无用
+  GiftComboCfg comboCfg = 21;// 礼物连击资源配置
+  //int64 giveNum = 22; // 上周送出送出个数
+  int64 createAt = 23; // 创建时间
+  int64 OwnerId = 24; // 专属礼物所有者
+  bool wall = 25; //是否展示礼物墙
+  string keyName = 26; //多语言keyName
+}
+// 送礼的参数配置
+message GiftSendConfig{
+  int32 num = 1; // 个数
+  string name = 2; // 名称
+  int32 rank = 3; // 排序
+}
+
+// 礼物墙礼物信息
+message GiftWallInfo {
+  int64 giftId = 1; // 礼物信息
+  int64 count = 2; // 个数
+  string name = 3;
+  string url = 4; //礼物静态图
+  GiftStatus status = 5;
+  int64 coin = 6;
+}
+
+// 房间麦位用户
+message MicPosUser {
+  int32 pos = 1;
+  int64 userId = 2;
+  string nickname = 3;
+  int32 nobleId = 6;
+  int64 nobleExtraValue = 7; //贵族额外获得的财富值
+  int64 combo = 8; // 连击数
+  int64 comboId = 9; // 客户端自个使用
+  string avatar = 10; // 用户头像
+}
+
+//房间送礼参数
+message GiveGiftArg{
+  GiveGiftType giveType = 1; // 单聊、语聊房
+  Gift gift = 2; // 礼物信息(用于对比)
+  int32 num = 3; // 送的个数
+  string comment = 4; // 留言,如果需要的话
+  int32 combo = 5; // 当前连击次数
+  int32 rank = 6; // 礼物排序值
+  int64 bagId = 7; // 所属背包类型
+  string order = 8; // 唯一标识
+  repeated MicPosUser micUsers = 9; // 接收者用户
+  int64 roomId = 10; // 房间id
+  VoiceRoomType voiceRoomType = 11;
+}
+message GiveGiftReply{
+  int64 msgId = 1;
+  int64 costCoin = 2;
+}
+
+
+// 异步处理送礼逻辑参数
+message GiveGiftNSQNty {
+  int64 bagId = 1; // 所属背包类型
+  repeated Gift gifts = 2;// 得到的礼物列表
+  int64 receiver = 3; // 接收方
+  int64 costCoin = 4; // 总花费
+  string addPoint = 5; // 总获得积分
+  int64 sender = 6; // 发送者
+  int64 roomId = 7;
+  VoiceRoomType voiceRoomType = 8;
+  GiftType giftType = 9;
+  Gift sendGift = 10; // 送出的礼物
+  int32 num = 12;//数量
+  int32 combo = 13; // 当前连击次数
+  repeated MicPosUser micUsers = 14; // 接收者用户
+  GiveGiftType giveType = 15; // 单聊、语聊房
+  int64 tableId = 16; // 游戏桌id
+}
+
+//api:156 UserGiftWall 用户礼物墙
+message UserGiftWallArg{
+  int64 userId = 1;
+  int64 pos = 2;
+  int64 size = 3;
+  int32 type = 4;//1已点亮 2未点亮
+}
+message UserGiftWallReply {
+  bool hasNext = 1;
+  int64 nextPos = 2;
+  int32 nextType = 3;//1已点亮 2未点亮
+  repeated GiftWallInfo gifts = 4; // 每个礼物信息
+  int64 total = 5; // 总得到的礼物个数
+  int64 giftTotal = 6; //礼物墙的礼物个数
+}
+
+//SyncGift 同步所有礼物信息
+message SyncArg {
+  // @gotags: form:"lastSyncTime"
+  int64 lastSyncTime = 1; // 上一次同步的时间(毫秒级时间戳)
+  // @gotags: form:"giftId"
+  int64 giftId = 2;//查询单个礼物
+}
+message SyncGiftReply{
+  repeated Gift gift = 1; // 有变动的礼物列表
+  int64 lastSyncTime = 3; // 保存此值, 下次同步传此参数
+  repeated GiftSendConfig sendConfig = 4; // 送礼个数配置
+}
+
+// 获取不同背包类型的礼物
+message GiftListByBagArg {
+  // @gotags: form:"pos"
+  int32 pos = 1;
+  // @gotags: form:"size"
+  int32 size = 2;
+  // @gotags: form:"lastSyncTime"
+  int64 lastSyncTime = 3; // 同步礼物信息
+  // @gotags: form:"userId"
+  int64 userId = 4;
+  // @gotags: form:"bagId"
+  int64 bagId = 5; // 所属背包id, -1为自己背包
+}
+
+message GiftListByBagReply {
+  repeated Gift gift = 1; // 有变动的礼物列表,只有id 与 rank
+  bool hasNext = 2;
+  int32 nextPos = 3;
+  SyncGiftReply syncReply = 4; // 同步信息
+}
+
+// 礼物送礼的tab
+message GiftBagType {
+  int64 id = 1; // -1
+  string name = 2;
+  int32 rank = 3;
+}
+
+message GiftBagGift {
+  GiftBagType bagType = 1;
+  repeated Gift gifts = 2;
+}
+
+message GiftBagGiftArg {
+  int32 bt = 1; // 1:私聊 2:语聊房
+  int64 lastSyncTime = 4; // 同步礼物信息
+}
+
+// 送礼面板返回值
+message GiftBagGiftReply {
+  repeated GiftBagGift bagGift = 1;
+  SyncGiftReply syncReply = 4; // 同步信息
+}

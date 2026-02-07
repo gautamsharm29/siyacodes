@@ -1,0 +1,29 @@
+syntax = "proto3";
+package api;
+option go_package = ".;api";
+
+import "obs_config.proto";
+
+//api:100 OssConfig oss配置
+message OssConfigArg {
+
+}
+message OssConfigReply {
+  OssConfig ossConfig = 1;
+  int64 serverTime = 2;// 服务器时间，毫秒级时间戳
+  string endpoint = 3;
+}
+
+// 各类型对应的域名/bucket
+message OssConfig {
+  string domain = 2;
+  repeated Bucket buckets = 3;
+  OssToken token = 4;
+}
+// 上传凭证
+message OssToken {
+  string accessKeyID = 1;
+  string accessKeySecret = 2;
+  string token = 3;
+  int64  expireIn = 4;
+}
